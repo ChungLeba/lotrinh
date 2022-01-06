@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> ADMIN | Dữ liệu địa điểm</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
+  <!-- Moment -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+</head>
+<body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+<%- include('../1.topmenu.admin.ejs'); %>
+<%- include('../2.leftmenu.admin.ejs'); %>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Dữ liệu điểm
+            </h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Location</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Đếm -->
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-info"><i class="fas fa-map-marker-alt"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Số điểm</span>
+              <span class="info-box-number"><%- totalLocation %></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-success"><i class="far fa-images"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Hình ảnh</span>
+              <span class="info-box-number">410</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-warning"><i class="fas fa-comments"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Comment</span>
+              <span class="info-box-number">13,648</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-danger"><i class="fas fa-heart"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Likes</span>
+              <span class="info-box-number">93,139</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- Thao tác -->
+      <div class="row">
+        <!-- Xem nhiều nhất -->
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Địa điểm xem nhiều nhất</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Tên địa điểm</th>
+                    <th>Phong phú</th>
+                    <th style="width: 40px">Lượt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for( let index = 0; index < 9; index++ ) { %>
+                    <tr>
+                      <td><%- index+1 %> </td>
+                      <td> 
+                        <p style="margin-bottom: 0%; font-weight: bold;"><%- bestView[index].ten %></p>
+                        <p style="margin-bottom: 0%; font-weight: lighter;"><%- bestView[index].duong %>, <%- bestView[index].phuong %>, <%- bestView[index].quan %>, <%- bestView[index].tinh %></p>
+                      </td>
+                      <td>
+                        <div class="progress progress-xs">
+                          <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-danger"><%- bestView[index].totalviews %></span></td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+        <!-- Thao tác -->
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Thao tác dữ liệu địa điểm</h3>
+            </div>
+            <div class="card-body">
+              <a href="/admin/addlocation" class="btn btn-app">
+                <i class="fas fa-edit"></i> Thêm điểm
+              </a>
+              <a class="btn btn-app">
+                <i class="fas fa-play"></i> Quản lý địa điểm
+              </a>
+              <a class="btn btn-app">
+                <i class="fas fa-pause"></i> Truyền thông
+              </a>
+              <!-- <a class="btn btn-app">
+                <i class="fas fa-save"></i> Save
+              </a>
+              <a class="btn btn-app">
+                <span class="badge bg-warning">3</span>
+                <i class="fas fa-bullhorn"></i> Notifications
+              </a>
+              <a class="btn btn-app">
+                <span class="badge bg-success">300</span>
+                <i class="fas fa-barcode"></i> Products
+              </a>
+              <a class="btn btn-app">
+                <span class="badge bg-purple">891</span>
+                <i class="fas fa-users"></i> Users
+              </a>
+              <a class="btn btn-app">
+                <span class="badge bg-teal">67</span>
+                <i class="fas fa-inbox"></i> Orders
+              </a>
+              <a class="btn btn-app">
+                <span class="badge bg-info">12</span>
+                <i class="fas fa-envelope"></i> Inbox
+              </a>
+              <a class="btn btn-app">
+                <span class="badge bg-danger">531</span>
+                <i class="fas fa-heart"></i> Likes
+              </a> -->
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+      </div>
+      <!-- Đia điểm lộ trình Build -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"><span class="badge bg-danger">55</span> <strong> LỘ TRÌNH</strong> XÂY DỰNG</h3>
+
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0" style="height: 300px;">
+              <table class="table table-head-fixed text-nowrap">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Thời gian</th>
+                    <th>Bởi</th>
+                    <th>Nước</th>
+                    <th>Tỉnh/thành</th>
+                    <th>Quận/huyện</th>
+                    <th>Phường/xã</th>
+                    <th>Đường</th>
+                    <th>Tên điểm</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for( let index = 0; index < lotrinhLocation.length; index++ ) { %>
+                    <tr>
+                      <td><%- index+1 %></td>
+                      <td><%-moment(lotrinhLocation[index].timecreate).format("HH:mm:ss, DD/MM/YYYY") %></td>
+                      <td><%- lotrinhLocation[index].by %></td>
+                      <td><%- lotrinhLocation[index].nuoc %></td>
+                      <td><%- lotrinhLocation[index].tinh %></td>
+                      <td><%- lotrinhLocation[index].quan %></td>
+                      <td><%- lotrinhLocation[index].phuong %></td>
+                      <td><%- lotrinhLocation[index].duong %></td>
+                      <td><%- lotrinhLocation[index].ten %></td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+      <!-- Đia điểm lộ trình Build -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"><span class="badge bg-warning">70</span> <strong> ĐỐI TÁC</strong> XÂY DỰNG</h3>
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0" style="height: 300px;">
+              <table class="table table-head-fixed text-nowrap">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Thời gian</th>
+                    <th>Đối tác</th>
+                    <th>Nước</th>
+                    <th>Tỉnh/thành</th>
+                    <th>Quận/huyện</th>
+                    <th>Phường/xã</th>
+                    <th>Đường</th>
+                    <th>Tên điểm</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for( let index = 0; index < partnerLocation.length; index++ ) { %>
+                    <tr>
+                      <td><%- index+1 %></td>
+                      <td><%- moment(lotrinhLocation[index].timecreate).format("HH:mm:ss, DD/MM/YYYY") %></td>
+                      <td><%- partnerLocation[index].by %></td>
+                      <td><%- partnerLocation[index].nuoc %></td>
+                      <td><%- partnerLocation[index].tinh %></td>
+                      <td><%- partnerLocation[index].quan %></td>
+                      <td><%- partnerLocation[index].phuong %></td>
+                      <td><%- partnerLocation[index].duong %></td>
+                      <td><%- partnerLocation[index].ten %></td>
+                    </tr>
+                  <% } %>
+                 
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <%- include('../3.footer.admin.ejs'); %>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../admin/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../admin/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../admin/dist/js/demo.js"></script>
+</body>
+</html>
