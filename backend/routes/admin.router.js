@@ -37,7 +37,8 @@ var checklogin = function(req,res,next){
                     userModel.findById({_id:data.id})
                     .then(data=>{
                         req.permis = parseInt(data.phanquyen)
-                        console.log('Quyền user này: '+req.permis)
+                        req.nickname = data.nickname
+                        console.log('Quyền user này: '+req.permis+" Nickname: "+ req.nickname)
                         return next()
                     })
                     
@@ -49,7 +50,7 @@ var checklogin = function(req,res,next){
     })
 }
 
-//LOGIN TO ADMIN
+//LOGIN TO ADMIN SAVE TOKEN
 router.get('/', function(req, res, next) {
     res.render('admin/pages/0.login.admin.ejs',{hi:"Administrator"});
 });
@@ -69,9 +70,8 @@ router.post('/',urlencodedParser, function(req, res, next) {
                 res.json("Mật khẩu không chính xác")
             }
             else if(hash_check==data.hash){
-                
-
-                tokenSatime = jwt.sign({id:data._id}, process.env.LOGINJWT, {expiresIn: '24h'});
+                tokenSatime = jwt.sign({id:data._id,
+                                        nickname:data.nickname}, process.env.LOGINJWT, {expiresIn: '24h'});
                 res.cookie("tokenSatime", tokenSatime)
                 res.json({fw:"/admin/home"})
             }
@@ -117,10 +117,10 @@ router.get('/exit', function(req, res, next) {
 
 //HOME
 router.get('/home',checklogin, function(req, res, next) {
-  res.render('admin/pages/1.home.admin.ejs');
+  res.render('admin/pages/1.home.admin.ejs',{user:req.nickname});
 });
 //LOCATION MANAGER
-router.get('/location',checklogin, function(req, res, next) {
+router.get('/locationmanager',checklogin, function(req, res, next) {
 async function locationView() {
     //Tổng địa điểm
     var totalLocation = await diadiemchitietModel.countDocuments();
@@ -131,11 +131,11 @@ async function locationView() {
     //Thống kê 50 điểm mới nhất bởi Lộ Trình xây dựng
     var lotrinhLocation = await diadiemchitietModel.find({by:"administrator"})
                         .limit(50)
-                        .sort({timecreate:'desc'})
+                        .sort({timecreate:'asc'})
     //Thống kê 50 điểm mới nhất bởi Partner xây dựng
     var partnerLocation = await diadiemchitietModel.find({by:"partner"})
                         .limit(50)
-                        .sort({timeedit:'desc'})               
+                        .sort({timeedit:'asc'})               
     //console.log(totalLocation)                          
     return {
         totalLocation,
@@ -148,11 +148,12 @@ async function locationView() {
 locationView()
 .then(data=>{
     console.log(data)
-    res.render('admin/pages/2.location.admin.ejs',{
+    res.render('admin/pages/2.locationmana.admin.ejs',{
         totalLocation: data.totalLocation,
         bestView: data.bestView,
         lotrinhLocation: data.lotrinhLocation,
-        partnerLocation: data.partnerLocation
+        partnerLocation: data.partnerLocation,
+        user:req.nickname
     });
 })
     
@@ -164,12 +165,74 @@ router.get('/addlocation',checklogin, function(req, res, next) {
     .limit(50)
     .sort({timecreate:'desc'})
     .then(data=>{
-        res.render('admin/pages/2A.addlocation.admin.ejs',{data:data});
+        res.render('admin/pages/2A.addlocation.admin.ejs',{user:req.nickname,
+            data:data});
     })
 });
 
 router.post('/addlocation',urlencodedParser,checklogin, function(req, res, next) {
     console.log(req.body)
+    let date = new Date();
+    diadiemchitietModel.create({
+        ten: req.body.ten,
+        duong: req.body.duong,
+        phuong: req.body.phuong,
+        quan: req.body.quan,
+        tinh: req.body.tinh,
+        nuoc: req.body.nuoc,
+        timecreate: date,
+        todayviews: "1",
+        totalviews: "1",
+        by: req.body.by,
+    })
+    .then(data=>{
+        console.log(data)
+        res.send(data)
+        
+            
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+});
+
+//GET ALL LOCATION
+router.get('/location',urlencodedParser,checklogin, function(req, res, next) {
+    console.log(req.query)
+    let page = req.query.page;
+    console.log(req.query)
+    const PAGE_SIZE =50;
+    if(page){
+        page = parseInt(page);
+        if (page <1){
+            page = 1;
+        }
+        var slboqua = (page - 1)*PAGE_SIZE;
+        diadiemchitietModel.find({})
+        .skip(slboqua)
+        .limit(PAGE_SIZE)
+        .sort({timecreate:'desc'})
+        .then(data=>{
+            console.log(data)
+            res.json(data)
+        })
+    } else {
+        //MẶC ĐỊNH
+        diadiemchitietModel.find({})
+        .limit(PAGE_SIZE)
+        .sort({timecreate:'desc'})
+        .then(data=>{
+            res.render('admin/pages/2B.locationall.admin.ejs',{user:req.nickname,data:data})
+        })
+    }
+});
+
+
+router.get('/location/:locationId',urlencodedParser,checklogin, function(req, res, next) {
+    //res.send(req.params)
+    res.render('admin/pages/2C.viewareview.admin.ejs',{user:req.nickname});
+    
+    /* console.log(req.body)
     let date = new Date();
     diadiemchitietModel.create({
         ten: req.body.ten,
@@ -186,6 +249,47 @@ router.post('/addlocation',urlencodedParser,checklogin, function(req, res, next)
         res.send(data)
         
             
+    })
+    .catch(err=>{
+        console.log(err)
+    }) */
+});
+
+
+
+
+//PUT
+router.put('/location/:locationId',urlencodedParser,/* checklogin, */ function(req, res, next) {
+    console.log(req.params)
+    let date = new Date();
+    diadiemchitietModel.findByIdAndUpdate({_id: req.params.locationId},
+        {
+        ten: req.body.ten,
+        duong: req.body.duong,
+        phuong: req.body.phuong,
+        quan: req.body.quan,
+        tinh: req.body.tinh,
+        nuoc: req.body.nuoc,
+        timeedit: date,
+        by: req.body.by,
+    })
+    .then(data=>{
+        console.log(data)
+        res.send(data)
+        
+            
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+});
+//DELETE
+router.delete('/location/:locationId',urlencodedParser,/* checklogin, */ function(req, res, next) {
+    console.log(req.params)
+    diadiemchitietModel.findByIdAndDelete({_id: req.params.locationId})
+    .then(data=>{
+        console.log(data)
+        res.send(data)
     })
     .catch(err=>{
         console.log(err)

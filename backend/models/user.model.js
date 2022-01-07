@@ -15,6 +15,7 @@ var userSchema = new mongoose.Schema({
     email: String,
     /* matkhau: String, */
     hoten: String,
+    nickname: String,
     sodienthoai: String,
     diachi: String,
     hash: String,

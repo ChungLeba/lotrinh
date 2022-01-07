@@ -30,7 +30,9 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Thêm địa điểm</h1>
+            <a href="/admin/addlocation">
+              <h1>Thêm địa điểm</h1>
+            </a>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -46,10 +48,12 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div id="divthem" class="card card-primary">
                         <div class="card-header">
-                          <h3 id="tieudethem" class="card-title">Thêm địa điểm</h3>
+                          <a href="/admin/addlocation">
+                            <h3 id="tieudethem" class="card-title">Thêm địa điểm</h3>
+                          </a>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
@@ -97,7 +101,7 @@
                         </form>
                       </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <div class="card card-warning">
                         <div class="card-header">
                             <h3 class="card-title">Danh sách địa điểm mới thêm</h3>
@@ -133,6 +137,14 @@
                                 </table>
                               </div>
                               <!-- /.card-body -->
+                              <div class="card-footer">
+                                <div class="col text-center">
+                                  <a href="/admin/location">
+                                    <button id="bt_xemtatca" type="button" class="btn btn-block bg-gradient-warning btn-sm"> Xem tất cả</button>
+                                  </a>
+                                </div>
+                                
+                              </div>
                     </div>
                 </div>
             </div>
@@ -253,7 +265,7 @@
                         quan: quanthem,
                         tinh: tinhthem,
                         nuoc: nuocthem,
-                        by: 'administrator'
+                        by: '<%- user %>'
                         }
                       })
                       .then(data=>{
@@ -266,6 +278,7 @@
                       )
                 }
           })
+          
           //SỬA
           for (let index = 1; index <= 50; index++) {
 
@@ -277,11 +290,13 @@
 
             //Xử lý dữ liệu
             //Tìm ID
+            let locationId =[]
             $("#tr"+index).find("a").each(function name(params) {
               console.log("link:",$(this).attr("href").replace("/location/",""))
-              $("#tieudethem").text("Sửa địa điểm: "+ $(this).attr("href").replace("/location/",""))
+              locationId.push($(this).attr("href").replace("/location/",""))
+              
             })
-            
+            $("#tieudethem").text("Sửa địa điểm: "+ locationId[0])
             let diadiemsua = []
             $("#tr"+index).find("p").each(function name(params) {
               
@@ -382,11 +397,74 @@
               //Thay đổi đường, tên
               $("#input_duong").val(diadiemsua[diadiemsua.length-5])
               $("#input_diadiemthem").val(diadiemsua[diadiemsua.length-6])
+              $("#bt_luu").click(function () {
+                //Tim va put du lieu
+                let tendiadiemsua = $("#input_diadiemthem").val()
+                let duongsua = $("#input_duong").val()
+                let phuongsua = $("#select_phuong"+" option:selected").text();
+                let quansua = $("#select_quan"+" option:selected").text();
+                let tinhsua = $("#select_tinh"+" option:selected").text();
+                let nuocsua = $("#select_nuoc"+" option:selected").text()
+                //PUT
+                $.ajax({
+                          url:'/admin/location/'+locationId[0],
+                          type:'PUT',
+                          dataType: 'json',
+                          data: {
+                          ten: tendiadiemsua,
+                          duong: duongsua,
+                          phuong: phuongsua,
+                          quan: quansua,
+                          tinh: tinhsua,
+                          nuoc: nuocsua,
+                          by: '<%- user %>'
+                          }
+                        })
+                        .then(data=>{
+                          alert(data.ten + " Đã được sua")
+                          location.reload()
+                        })
+                        .catch(err=>{
+                          console.log(err)
+                        })
+              })
+              
           })
-  
-            
           }
-         
+        //DELETE
+        for (let index = 1; index <= 50; index++) {
+          
+          
+          $("#bt_xoa"+index).click(function () {
+          //Tìm ID
+          let locationId =[]
+          $("#tr"+index).find("a").each(function name(params) {
+            console.log("link:",$(this).attr("href").replace("/location/",""))
+            locationId.push($(this).attr("href").replace("/location/",""))
+          })
+          //DELETE
+          let ok = confirm("Bạn chắc chắn muốn xóa địa điểm này?")
+          if (ok==true){
+            $.ajax({
+                          url:'/admin/location/'+locationId[0],
+                          type:'DELETE',
+                          dataType: 'json',
+                          data: {
+                          IDxoa: locationId[0]
+                          }
+                        })
+                        .then(data=>{
+                          alert(data.ten + " Đã được xóa")
+                          location.reload()
+                        })
+                        .catch(err=>{
+                          console.log(err)
+                        })
+          }
+          
+          })
+        }
+        
   
   
   })

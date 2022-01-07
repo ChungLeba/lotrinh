@@ -38,15 +38,15 @@ function between(min, max) {
 }
 random = between(100,9000)
 
-/* diadiemchitietModel.updateMany({},{$set: {totalviews: random}},{upsert:true,
+/* diadiemchitietModel.updateMany({},{$set: {todayviews: random}},{upsert:true,
     multi:true})
 .then(data=>{
     console.log(data)
 })
 .catch(err=>{
     console.log(err)
-})
- */
+}) */
+
 
 
 

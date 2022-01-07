@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ADMIN | Tất cả địa điểm</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
+  <!-- Moment -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <!-- Dữ liệu tỉnh thành -->
+  <script src="../javascripts/dvhcvn.js"></script>
+
+</head>
+<body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+<%- include('../1.topmenu.admin.ejs'); %>
+<%- include('../2.leftmenu.admin.ejs'); %>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Tất cả địa điểm</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Tất cả địa điểm</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                
+                <div class="col-md-12">
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">Danh sách địa điểm mới thêm</h3>
+                          </div>
+                            <div class="card-body table-responsive p-0" style="height: auto;">
+                                <table class="table table-head-fixed text-nowrap">
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      <th>Thời gian</th>
+                                      <th>Thêm bởi</th>
+                                      <th>Tên địa điểm</th>
+                                      <th>Địa chỉ</th>
+                                      <th>Trend today</th>
+                                      <th>Cập nhật</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="tbody">
+                                    <% for( var index = 0; index < data.length; index++ ) { %>
+                                        <tr id="tr<%- index +1 %>">
+                                            <td><%- index +1 %> </td>
+                                            <td><%- moment(data[index].timecreate).format("HH:mm:ss, DD/MM/YYYY") %></td>
+                                            <td><%- data[index].by %> </td>
+                                            <td> <a href="/admin/location/<%- data[index].id %>"> <p><%- data[index].ten %></p></a></td>
+                                            <td>
+                                                <p style="font-weight: bold;"><%- data[index].duong %></p>
+                                                <p><%- data[index].phuong %>, <%- data[index].quan %>, <%- data[index].tinh %>, <%- data[index].nuoc %></p>
+                                            </td>
+                                            <td><i class="fas fa-poll"></i> <%-data[index].todayviews%></td>
+                                            <td>
+                                                <a href="/admin/location/update/<%- data[index].id %>">
+                                                  <button type="button" class="btn btn-outline-danger btn-block btn-sm"><i class="fas fa-edit"></i> Cập nhật</button>
+                                                </a>
+                                            </td>
+                                          </tr>
+                                    <% } %>
+                                    <!-- Loader -->
+                                  </tbody>
+                                </table>
+                              </div>
+                              <!-- /.card-body -->
+                              <div class="card-footer">
+                                <div class="col text-center">
+                                    <button id="bt_more" type="button" class="btn btn-block bg-gradient-warning"> Xem thêm 50 điểm</button>
+                                </div>
+                                
+                              </div>
+                                
+                                
+                              
+                    </div>
+                </div>
+
+                
+            </div>
+            
+        </div>
+        
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <%- include('../3.footer.admin.ejs'); %>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../admin/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../admin/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../admin/dist/js/demo.js"></script>
+
+<!-- Xử lý dữ liệu -->
+<script>
+  var index = '<%-index%>'
+  numbrows = parseInt(index)
+  console.log("index:",index)
+ $(document).ready(function(){
+    var page = 1
+    $("#bt_more").click(function(){
+        page = page +1
+        //alert("ok")
+        $.ajax({
+        url:"/admin/location?page="+page,
+        type:'GET'
+        })
+        .then(data=>{
+            console.log(data)
+            console.log(data.length)
+            if(data.length==0){
+              alert("Đã hết dữ liệu !")
+            } else {
+              for (let t = 0; t < data.length; t++) {
+                numbrows++
+                $('#tbody').append(
+                `<tr>
+                    <td>`+numbrows+`</td>
+                    <td>`+moment(data[t].timecreate).format("HH:mm:ss, DD/MM/YYYY")+`</td>
+                    <td>`+data[t].by+` </td>
+                    <td><a href="/location/`+data[t]._id+`"> <p>`+data[t].ten+`</p></a></td>
+                    <td>
+                        <p style="font-weight: bold;">`+data[t].duong+`</p>
+                        <p>`+data[t].phuong+", "+data[t].quan+", "+data[t].tinh+", "+data[t].nuoc+`</p>
+                    </td>
+                    <td><i class="fas fa-poll"></i>`+data[t].todayviews+`</td>
+                    <td>
+                      <a href="/admin/location/update/`+data[t]._id+`">
+                        <button type="button" class="btn btn-outline-danger btn-block btn-sm"><i class="fas fa-edit"></i> Cập nhật</button>
+                      </a>
+                    </td>
+                </tr>
+                `
+                ); 
+              }
+            }
+
+            
+            
+        })
+        .catch(err=>{
+            console.log("Lỗi: "+err)
+        })
+        
+
+    })      
+    
+}) 
+</script>
+</body>
+</html>
