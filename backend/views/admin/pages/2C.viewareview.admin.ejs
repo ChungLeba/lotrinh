@@ -39,18 +39,22 @@
 
     <!-- Main content -->
     <section class="content">
-
       <div class="container-fluid">
+        <!-- Địa điểm và hình ảnh -->
         <div class="row">
           <!-- Ảnh -->
           <div class="col-md-8">
-            <div class="card card-primary">
+            <!-- Địa điểm -->
+            <div class="card card-primary shadow">
               <div class="card-body">
-                <h1 class="fw-light text-center text-lg-start mt-4 mb-0">2000</h1>
-                <h2 class="fw-light text-center text-lg-start mt-4 mb-0">SATIME SOFTWARE JSC</h2>
-                <h3 class="fw-light text-center text-lg-start mt-4 mb-0">77 Lê Văn Thịnh, Hòa Minh, Liên Chiểu, Đà Nẵng</h3>
-
-                <hr class="mt-2 mb-5">
+                <img src="../../admin/dist/img/lotrinh-AxA.png" width="80px" style="display: block;margin-left: auto;border-radius:15px; margin-right: auto;">
+                <h1 class="fw-light text-center text-lg-start mt-4 mb-0">SATIME SOFTWARE JSC</h1>
+                <h2 class="fw-light text-center text-lg-start mt-4 mb-0">77 Lê Văn Thịnh, Hòa Minh, Liên Chiểu, Đà Nẵng</h2>
+              </div>
+            </div>
+            <div class="card card-primary shadow">
+              <div class="card-body">
+                
 
                 <div class="row text-center text-lg-start">
 
@@ -115,10 +119,66 @@
                     </a>
                   </div>
                 </div>
-
+                <div class="card-footer p-0">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Chọn hình ảnh</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text bg-success">Upload</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="card card-widget">
+          </div>
+          <!-- Người dùng và thao tác -->
+          <div class="col-md-4">
+
+            <div class="card card-widget widget-user shadow">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username">Alexander Pierce</h3>
+                <h5 class="widget-user-desc">Freedoom</h5>
+              </div>
+              <div class="widget-user-image">
+                <img class="img-circle elevation-2" src="../dist/img/user1-128x128.jpg" alt="User Avatar">
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">3,200</h5>
+                      <span class="description-text">Views</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">13,000</h5>
+                      <span class="description-text">Like</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4">
+                    <div class="description-block">
+                      <h5 class="description-header">35</h5>
+                      <span class="description-text">Comment</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+
+            <div class="card card-widget shadow">
               <div class="card-header">
                 <div class="user-block">
                   <img class="img-circle" src="../dist/img/user1-128x128.jpg" alt="User Image">
@@ -220,60 +280,65 @@
               </div>
               <!-- /.card-footer -->
             </div>
-          </div>
-          <!-- Người dùng và thao tác -->
-          <div class="col-md-4">
 
-            <div class="card card-widget widget-user shadow">
-              <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header bg-info">
-                <h3 class="widget-user-username">Alexander Pierce</h3>
-                <h5 class="widget-user-desc">Freedoom</h5>
-              </div>
-              <div class="widget-user-image">
-                <img class="img-circle elevation-2" src="../dist/img/user1-128x128.jpg" alt="User Avatar">
-              </div>
-              <div class="card-footer">
-                <div class="row">
-                  <div class="col-sm-4 border-right">
-                    <div class="description-block">
-                      <h5 class="description-header">3,200</h5>
-                      <span class="description-text">Views</span>
-                    </div>
-                    <!-- /.description-block -->
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-sm-4 border-right">
-                    <div class="description-block">
-                      <h5 class="description-header">13,000</h5>
-                      <span class="description-text">Like</span>
-                    </div>
-                    <!-- /.description-block -->
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-sm-4">
-                    <div class="description-block">
-                      <h5 class="description-header">35</h5>
-                      <span class="description-text">Comment</span>
-                    </div>
-                    <!-- /.description-block -->
-                  </div>
-                  <!-- /.col -->
+            
+            
+          </div> 
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+                        <!-- Tuyến đường đi qua-->
+                        <div class="card card-outline card-primary shadow">
+                          <div class="card-header">
+                            <h3 class="card-title">Những tuyến đường đi qua</h3>
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                              </button>
+                            </div>
+                            <!-- /.card-tools -->
+                          </div>
+                          
+                          <div class="card-footer p-0">
+                            <ul class="nav flex-column">
+                              <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                  Hà Nội - Hồ Chí Minh <span class="float-right badge bg-primary">31</span>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                  Hà Nội - Đà Nẵng <span class="float-right badge bg-info">5</span>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                  Hà Nội - Nha Trang <span class="float-right badge bg-success">12</span>
+                                </a>
+                              </li>
+                              <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                  Hà Nội - Cà Mau <span class="float-right badge bg-danger">842</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+          </div>
+          <div class="col-md-4">
+            <!-- Phương tiện đi qua -->
+            <div class="card card-outline card-success shadow">
+              <div class="card-header">
+                <h3 class="card-title">Những phương tiện đi qua</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
                 </div>
-                <!-- /.row -->
+                <!-- /.card-tools -->
               </div>
-            </div>
-            <!-- Phương tiện và đối tác -->
-            <div class="card card-widget widget-user-2 shadow-sm">
-              <!-- Tuyến đường đi qua -->
-              <div class="widget-user-header bg-warning">
-                <div class="widget-user-image">
-                  <img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
-                </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">Thuộc các tuyến đường</h3>
-                <h5 class="widget-user-desc">1000 tuyến</h5>
-              </div>
+              
               <div class="card-footer p-0">
                 <ul class="nav flex-column">
                   <li class="nav-item">
@@ -299,50 +364,52 @@
                 </ul>
               </div>
             </div>
-            <div class="card card-widget widget-user-2 shadow-sm">
-              <!-- Đối tác vận chuyển -->
-              <div class="widget-user-header bg-success">
-                <div class="widget-user-image">
-                  <img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
+          </div>
+          <div class="col-md-4">
+              <!-- Nhà cung cấp dịch vụ -->
+            <div class="card card-outline card-warning shadow">
+              <div class="card-header">
+                <h3 class="card-title">Nhà cung cấp dịch vụ</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
                 </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">Đơn vị cung cấp dịch vụ</h3>
-                <h5 class="widget-user-desc">1000 Đơn vị</h5>
+                <!-- /.card-tools -->
               </div>
+              
               <div class="card-footer p-0">
                 <ul class="nav flex-column">
                   <li class="nav-item">
                     <a href="#" class="nav-link">
-                      Nhà xe Lộ trình Việt <span class="float-right badge bg-primary">31</span>
+                      Hà Nội - Hồ Chí Minh <span class="float-right badge bg-primary">31</span>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="#" class="nav-link">
-                      Nhà xe Lộ trình Việt <span class="float-right badge bg-info">5</span>
+                      Hà Nội - Đà Nẵng <span class="float-right badge bg-info">5</span>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="#" class="nav-link">
-                      Nhà xe Lộ trình Việt <span class="float-right badge bg-success">12</span>
+                      Hà Nội - Nha Trang <span class="float-right badge bg-success">12</span>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="#" class="nav-link">
-                      Nhà xe Lộ trình Việt <span class="float-right badge bg-danger">842</span>
+                      Hà Nội - Cà Mau <span class="float-right badge bg-danger">842</span>
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
-            
           </div>
-          
-          
         </div>
       </div>
 
     </section>
     <!-- /.content -->
+    
   </div>
   <!-- /.content-wrapper -->
 
