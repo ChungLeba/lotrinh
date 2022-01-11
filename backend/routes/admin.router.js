@@ -246,7 +246,7 @@ router.get('/location/:locationId',urlencodedParser,checklogin, function(req, re
         //Lấy hình ảnh
         let imgLocation = await imglocationModel.findOne({locationID: req.params.locationId})
                             .limit(16)
-                            .sort({totalviews:'desc'});                             
+                            .sort({totalviews:'desc'});                            
         return {
             location,
             imgLocation
@@ -261,7 +261,7 @@ router.get('/location/:locationId',urlencodedParser,checklogin, function(req, re
         res.render('admin/pages/2C.viewareview.admin.ejs',{
                                                             user:req.nickname,
                                                             data:data.location,
-                                                            imgsData: data.imgLocation
+                                                            imgsData: JSON.stringify(data.imgLocation)//khong string thi client loi
         });
     })
     .catch(err=>{

@@ -77,9 +77,9 @@
               <div class="card-body">
                 
 
-                <div class="row text-center text-lg-start">
+                <div class="row text-center text-lg-start" id="album">
 
-                  <div class="col-lg-3 col-md-4 col-6" id="album">
+                  <div class="col-lg-3 col-md-4 col-6">
                     <a href="#" class="d-block mb-4 h-100">
                       <img class="img-fluid img-thumbnail" src="/images/chonloc/phu-quoc.jpg" alt="">
                     </a>
@@ -99,7 +99,6 @@
                       <img class="img-fluid img-thumbnail" src="/images/chonloc/da-nang.jpg" alt="">
                     </a>
                   </div>
-                  <p><%= imgsData%></p>
                   
                 </div>
                 <div class="card-footer p-0">
@@ -658,6 +657,21 @@
                         })
           }
     })
+    /* Load hinh */
+    var imgurls = '<%-imgsData%>'
+
+    imgurls = JSON.parse(imgurls)
+    console.log(imgurls)
+    for( let index = 0; index < imgurls.imgs.length; index++ ) {
+      $("#album").append(
+        `<div class="col-lg-3 col-md-4 col-6">
+                      <a href="#" class="d-block mb-4 h-100">
+                        <img class="img-fluid img-thumbnail" src="/images/imglocation/`+imgurls.imgs[index].filename+`" alt="`+imgurls.imgs[index].originname+`">
+                      </a>
+        </div>`
+      )
+
+    }
     /* Upload hình */
     $("#bt_upload").click(function(){
       console.log($("#input_upload"))
