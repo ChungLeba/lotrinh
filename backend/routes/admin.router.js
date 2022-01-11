@@ -244,7 +244,7 @@ router.get('/location/:locationId',urlencodedParser,checklogin, function(req, re
         //Lấy địa điểm
         let location = await diadiemchitietModel.findById({_id: req.params.locationId})
         //Lấy hình ảnh
-        let imgLocation = await imglocationModel.find({locationID: req.params.locationId})
+        let imgLocation = await imglocationModel.findOne({locationID: req.params.locationId})
                             .limit(16)
                             .sort({totalviews:'desc'});                             
         return {
