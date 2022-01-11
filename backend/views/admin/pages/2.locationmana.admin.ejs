@@ -125,7 +125,9 @@
                     <tr>
                       <td><%- index+1 %> </td>
                       <td> 
-                        <p style="margin-bottom: 0%; font-weight: bold;"><%- bestView[index].ten %></p>
+                        <a href="/admin/location/<%- bestView[index]._id %>">
+                          <p style="margin-bottom: 0%; font-weight: bold;"><%- bestView[index].ten %></p>
+                        </a>
                         <p style="margin-bottom: 0%; font-weight: lighter;"><%- bestView[index].duong %>, <%- bestView[index].phuong %>, <%- bestView[index].quan %>, <%- bestView[index].tinh %></p>
                       </td>
                       <td>

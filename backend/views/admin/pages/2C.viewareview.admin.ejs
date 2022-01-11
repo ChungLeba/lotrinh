@@ -11,6 +11,10 @@
   <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
+  <!-- Moment -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <!-- Dữ liệu tỉnh thành -->
+  <script src="../../javascripts/dvhcvn.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -46,10 +50,27 @@
           <div class="col-md-8">
             <!-- Địa điểm -->
             <div class="card card-primary shadow">
-              <div class="card-body">
+              <div class="card-body" id="div_diadiem">
                 <img src="../../admin/dist/img/lotrinh-AxA.png" width="80px" style="display: block;margin-left: auto;border-radius:15px; margin-right: auto;">
-                <h1 class="fw-light text-center text-lg-start mt-4 mb-0">SATIME SOFTWARE JSC</h1>
-                <h2 class="fw-light text-center text-lg-start mt-4 mb-0">77 Lê Văn Thịnh, Hòa Minh, Liên Chiểu, Đà Nẵng</h2>
+                <h1 id="hientendiem" class="fw-light text-center text-lg-start mt-4 mb-0"><%- data.ten %> </h1>
+                <h2 id="hiendiachi" class="fw-light text-center text-lg-start mt-4 mb-0"><%- data.duong %>, <%- data.phuong %>, <%- data.quan %>, <%- data.tinh %></h2>
+              </div>
+            </div>
+            <!--  Sua, xoa, tam an -->
+            <div class="card card-widget shadow">
+              <div class="card-body text-center">
+                <button id="bt_sua" class="btn btn-app bg-success">
+                  <i class="fas fa-edit"></i> Sửa
+                </button>
+                <button id="bt_xoa" class="btn btn-app bg-danger">
+                  <i class="fas fa-trash-alt"></i> Xóa               
+                </button>
+                <button id="bt_an" class="btn btn-app bg-warning">
+                  <i class="fas fa-lock"></i> Ẩn
+                </button>
+                <button id="bt_luu" type="button" class="btn btn-block btn-info btn-lg">Lưu lại
+
+                </button>
               </div>
             </div>
             <div class="card card-primary shadow">
@@ -58,76 +79,38 @@
 
                 <div class="row text-center text-lg-start">
 
-                  <div class="col-lg-3 col-md-4 col-6">
+                  <div class="col-lg-3 col-md-4 col-6" id="album">
                     <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/pWkk7iiCoDM/400x300" alt="">
+                      <img class="img-fluid img-thumbnail" src="/images/chonloc/phu-quoc.jpg" alt="">
                     </a>
                   </div>
                   <div class="col-lg-3 col-md-4 col-6">
                     <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/aob0ukAYfuI/400x300" alt="">
+                      <img class="img-fluid img-thumbnail" src="/images/chonloc/ha-noi.jpg" alt="">
                     </a>
                   </div>
                   <div class="col-lg-3 col-md-4 col-6">
                     <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/EUfxH-pze7s/400x300" alt="">
+                      <img class="img-fluid img-thumbnail" src="/images/chonloc/ho-chi-minh.jpg" alt="">
                     </a>
                   </div>
                   <div class="col-lg-3 col-md-4 col-6">
                     <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/M185_qYH8vg/400x300" alt="">
+                      <img class="img-fluid img-thumbnail" src="/images/chonloc/da-nang.jpg" alt="">
                     </a>
                   </div>
-                  <div class="col-lg-3 col-md-4 col-6">
-                    <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/sesveuG_rNo/400x300" alt="">
-                    </a>
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-6">
-                    <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/AvhMzHwiE_0/400x300" alt="">
-                    </a>
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-6">
-                    <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/2gYsZUmockw/400x300" alt="">
-                    </a>
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-6">
-                    <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/EMSDtjVHdQ8/400x300" alt="">
-                    </a>
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-6">
-                    <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/8mUEy0ABdNE/400x300" alt="">
-                    </a>
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-6">
-                    <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/G9Rfc1qccH4/400x300" alt="">
-                    </a>
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-6">
-                    <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/aJeH0KcFkuc/400x300" alt="">
-                    </a>
-                  </div>
-                  <div class="col-lg-3 col-md-4 col-6">
-                    <a href="#" class="d-block mb-4 h-100">
-                      <img class="img-fluid img-thumbnail" src="https://source.unsplash.com/p2TQ-3Bh3Oo/400x300" alt="">
-                    </a>
-                  </div>
+                  <p><%= JSON.parse(imgsData)%></p>
+                  
                 </div>
                 <div class="card-footer p-0">
                   <div class="form-group">
                     <div class="input-group">
+                      
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Chọn hình ảnh</label>
+                        <input class="form-control" type="file" id="input_upload" multiple>
                       </div>
                       <div class="input-group-append">
-                        <span class="input-group-text bg-success">Upload</span>
+                        <button class="btn btn-block btn-success" id="bt_upload">Thêm hình ảnh</button>
                       </div>
                     </div>
                   </div>
@@ -177,7 +160,7 @@
                 <!-- /.row -->
               </div>
             </div>
-
+            
             <div class="card card-widget shadow">
               <div class="card-header">
                 <div class="user-block">
@@ -425,6 +408,289 @@
 
 <!-- jQuery -->
 <script src="../../admin/plugins/jquery/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+    var locationId = '<%-data._id%>'
+    $("#bt_luu").hide()
+    /* Sửa */
+    $('#bt_sua').click(function(){
+      var tendiem = $("#hientendiem").text();
+      var tachdiem = $("#hiendiachi").text();
+      console.log("a:",tendiem,tachdiem)
+      $("#hientendiem").hide()
+      $("#hiendiachi").hide()
+      $("#bt_sua").hide()
+      $("#bt_xoa").hide()
+      $("#bt_an").hide()
+      $("#bt_luu").show()
+      
+      $("#div_diadiem").append(
+        `<div class="form-group">
+            <select id="select_nuoc" class="form-control" aria-label="Default select example">
+                <option selected>Việt Nam</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <select id="select_tinh" class="form-control is-invalid" aria-label="Default select example">
+              <option selected>Vui lòng chọn Tỉnh</option>
+            </select>
+          
+        </div>
+        <div class="form-group">
+            <select id="select_quan" class="form-control is-invalid" aria-label="Default select example">
+              <option selected>Vui lòng chọn Quận/huyện</option>
+            </select>
+          
+        </div>
+        <div class="form-group">
+            <select id="select_phuong" class="form-control is-invalid" aria-label="Default select example">
+                <option selected>Vui lòng chọn Phường/xã</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input id="input_duong" class="form-control is-invalid" type="text" placeholder="77 Lê Văn Thịnh, Ngã tư..." aria-label=".form-control-sm example">
+        </div>
+        <div class="form-group">
+            <input id="input_diadiemthem" class="form-control is-invalid" type="text" placeholder="Công ty CP Phần Mềm Satime" aria-label=".form-control-sm example">
+        </div>
+        `
+      )
+      //
+      //Chọn theo cấu trúc
+      //Chọn tỉnh
+      var cactinh =['<option value="NA">Chọn Tỉnh/thành phố</option>',];
+      for (var key in diachi.data){
+          //console.log(`${key}: ${diachi.data[key].name}`)
+          var idtinh = parseInt(key)+1;
+          //console.log(typeof key)
+          tinh=`${diachi.data[key].name}`
+          cactinh.push('<option value='+key+'>'+tinh+'</option>')
+          
+      }
+      var kqtinh = '<select id="select_tinh" class="form-control is-invalid" aria-label="Default select example">'+cactinh+'</select>';
+      $("#select_tinh").replaceWith(kqtinh)
+      //Tinh to Quan/huyen
+      
+      $("#select_tinh").change(function(){
+        
+        var idTinh = $('#select_tinh').val()
+        console.log(idTinh)
+        console.log(diachi.data[idTinh].level2s)
+        var cacHuyen = diachi.data[idTinh].level2s
+        var luachonchuyen=['<option value="NA">Chọn Quận/huyện</option>',]
+        let i = 0;
+        for (var element of cacHuyen){
+            huyen = element.name
+            //console.log('- '+huyen)
+            luachonchuyen.push('<option value='+i+'>'+huyen+'</option>')
+            i++
+        }
+        //console.log(luachonchuyen)
+        var kqhuyen = '<select id="select_quan" class="form-control is-invalid" aria-label="Default select example">'+luachonchuyen+'</select>';
+        $("#select_quan").replaceWith(kqhuyen)
+
+        //Quan to xa/phuong
+        $("#select_quan").change(function(){
+          var idTinh = $('#select_tinh').val()
+          var idHuyen = $('#select_quan').val()
+          var cacHuyen = diachi.data[idTinh].level2s
+          let cacXa = diachi.data[idTinh].level2s[idHuyen].level3s;
+          console.log(cacXa)
+          var luachonxa=[]
+          let i = 0;
+          for (let element of cacXa){
+              xa = element.name
+              console.log('- '+xa)
+              luachonxa.push('<option value='+i+'>'+xa+'</option>')
+              i++
+          }
+          //console.log(luachonchuyen)
+          var kqxa = '<select id="select_phuong" class="form-control is-invalid" aria-label="Default select example">'+luachonxa+'</select>';
+          $("#select_phuong").replaceWith(kqxa)
+        })
+        
+      })
+      //Tìm dữ liệu
+      tachdiem = tachdiem.split(",")
+      tachdiemok = []
+      tachdiem.forEach(element => {
+        tachdiemok.push(element.trim())
+      });
+      var diadiemsua = tachdiemok
+      console.log(diadiemsua)
+      //điền dữ liệu cũ
+      //Thay đổi Select
+      $("#select_tinh").find("option").each(function name(params) {
+              
+              if($(this).text()==diadiemsua[diadiemsua.length-1]) {
+                console.log($(this).text(), $(this).val())
+                $("#select_tinh").val($(this).val())
+              }
+
+      })
+      //Tinh to Huyen            
+      var idTinh = $('#select_tinh').val()
+      console.log(idTinh)
+      console.log(diachi.data[idTinh].level2s)
+      var cacHuyen = diachi.data[idTinh].level2s
+      var luachonchuyen=['<option value="NA">Chọn Quận/huyện</option>',]
+      let i = 0;
+      for (var element of cacHuyen){
+          huyen = element.name
+          //console.log('- '+huyen)
+          luachonchuyen.push('<option value='+i+'>'+huyen+'</option>')
+          i++
+      }
+      //console.log(luachonchuyen)
+      var kqhuyen = '<select id="select_quan" class="form-control is-invalid" aria-label="Default select example">'+luachonchuyen+'</select>';
+      $("#select_quan").replaceWith(kqhuyen)
+
+      //Thay đổi huyện
+      $("#select_quan").find("option").each(function name(params) {
+        
+        if($(this).text()==diadiemsua[diadiemsua.length-2]) {
+          console.log("quan:",$(this).text(), $(this).val())
+          $("#select_quan").val($(this).val())
+        }
+        
+      })
+      //Quan to xa/phuong
+        let idTinhsua = $('#select_tinh').val()
+        let idHuyensua = $('#select_quan').val()
+        let cacHuyensua = diachi.data[idTinhsua].level2s
+        let cacXasua = diachi.data[idTinhsua].level2s[idHuyensua].level3s;
+        console.log(cacXasua)
+        let luachonxasua=[]
+        let t = 0;
+        for (let element of cacXasua){
+            let xa = element.name
+            console.log('- '+xa)
+            luachonxasua.push('<option value='+t+'>'+xa+'</option>')
+            t++
+        }
+        //console.log(luachonchuyen)
+        let kqxasua = '<select id="select_phuong" class="form-control is-invalid" aria-label="Default select example">'+luachonxasua+'</select>';
+        $("#select_phuong").replaceWith(kqxasua)
+        //Thay đổi xã
+        $("#select_phuong").find("option").each(function name(params) {
+          if($(this).text()==diadiemsua[diadiemsua.length-3]) {
+            console.log("phuong:",$(this).text(), $(this).val())
+            $("#select_phuong").val($(this).val())
+          }
+        })
+        //Quan to xa/phuong - change
+        $("#select_quan").change(function(){
+          var idTinh = $('#select_tinh').val()
+          var idHuyen = $('#select_quan').val()
+          var cacHuyen = diachi.data[idTinh].level2s
+          let cacXa = diachi.data[idTinh].level2s[idHuyen].level3s;
+          console.log(cacXa)
+          var luachonxa=[]
+          let i = 0;
+          for (let element of cacXa){
+              xa = element.name
+              console.log('- '+xa)
+              luachonxa.push('<option value='+i+'>'+xa+'</option>')
+              i++
+          }
+          //console.log(luachonchuyen)
+          var kqxa = '<select id="select_phuong" class="form-control is-invalid" aria-label="Default select example">'+luachonxa+'</select>';
+          $("#select_phuong").replaceWith(kqxa)
+        })
+        //Thay đổi đường, tên
+        $("#input_duong").val(diadiemsua[diadiemsua.length-4])
+        $("#input_diadiemthem").val(tendiem)
+
+
+        $("#bt_luu").click(function(){
+          //Tim va put du lieu
+          let tendiadiemsua = $("#input_diadiemthem").val()
+          let duongsua = $("#input_duong").val()
+          let phuongsua = $("#select_phuong"+" option:selected").text();
+          let quansua = $("#select_quan"+" option:selected").text();
+          let tinhsua = $("#select_tinh"+" option:selected").text();
+          let nuocsua = $("#select_nuoc"+" option:selected").text()
+          //PUT
+          $.ajax({
+          url:'/admin/location/'+locationId,
+          type:'PUT',
+          dataType: 'json',
+          data: {
+          ten: tendiadiemsua,
+          duong: duongsua,
+          phuong: phuongsua,
+          quan: quansua,
+          tinh: tinhsua,
+          nuoc: nuocsua,
+          by: '<%- user %>'
+          }
+        })
+        .then(data=>{
+          alert(data.ten + " Đã được sua")
+          location.reload()
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+
+        })
+          
+    })
+    /* Xóa */
+    $("#bt_xoa").click(function () {
+          //DELETE
+          let ok = confirm("Bạn chắc chắn muốn xóa địa điểm này?")
+          if (ok==true){
+            $.ajax({
+                          url:'/admin/location/'+locationId,
+                          type:'DELETE',
+                          dataType: 'json',
+                          data: {
+                          IDxoa: locationId
+                          }
+                        })
+                        .then(data=>{
+                          alert(data.ten + " Đã được xóa")
+                          window.location.href = "/admin/location"
+                        })
+                        .catch(err=>{
+                          console.log(err)
+                        })
+          }
+    })
+    /* Upload hình */
+    $("#bt_upload").click(function(){
+      console.log($("#input_upload"))
+      var data = new FormData()
+      data.append("locationID",locationId)
+      for (let index = 0; index < $("#input_upload")[0].files.length; index++) {
+        data.append("imgurl",$("#input_upload")[0].files[index])
+      }
+      console.log(data)
+
+      //POST
+      if($("#input_upload")[0].files.length >= 1){
+        $.ajax({
+        url:'/admin/location/img/'+locationId,
+        type:'POST',
+        data:data,
+        contentType: false,
+        processData: false,
+        success: function(res){
+            console.log(res)
+            alert(res.mes)
+            location.reload()
+        }
+        })
+      } else {
+        alert("Bạn chưa chọn hình ảnh để tải lên")
+      }
+      
+
+    })
+          
+  })
+</script>
 <!-- Bootstrap 4 -->
 <script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->

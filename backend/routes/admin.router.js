@@ -5,8 +5,15 @@ var bodyParser = require('body-parser')
 var crypto = require("crypto")
 
 var jwt = require('jsonwebtoken');
+var multer = require('multer')
+
 var userModel = require('../models/user.model')
 var diadiemchitietModel = require('../models/location.model')
+var userModel = require('../models/user.model')
+var imglocationModel = require('../models/img.location.model');
+const { json } = require('express');
+
+
 
 // create application/json parser
 var jsonParser = bodyParser.json()
@@ -38,7 +45,9 @@ var checklogin = function(req,res,next){
                     .then(data=>{
                         req.permis = parseInt(data.phanquyen)
                         req.nickname = data.nickname
-                        console.log('Quyền user này: '+req.permis+" Nickname: "+ req.nickname)
+                        req.userID = data.id
+
+                        console.log('Quyền user này: '+req.permis+" Nickname: "+ req.nickname+" userID:" + req.userID)
                         return next()
                     })
                     
@@ -121,7 +130,7 @@ router.get('/home',checklogin, function(req, res, next) {
 });
 //LOCATION MANAGER
 router.get('/locationmanager',checklogin, function(req, res, next) {
-async function locationView() {
+async function locationManage() {
     //Tổng địa điểm
     var totalLocation = await diadiemchitietModel.countDocuments();
     //Lấy 10 kết quả địa điểm xem nhiều nhất để có phương án xây dựng dữ liệu
@@ -145,7 +154,7 @@ async function locationView() {
     }
 }
 
-locationView()
+locationManage()
 .then(data=>{
     console.log(data)
     res.render('admin/pages/2.locationmana.admin.ejs',{
@@ -211,7 +220,7 @@ router.get('/location',urlencodedParser,checklogin, function(req, res, next) {
         diadiemchitietModel.find({})
         .skip(slboqua)
         .limit(PAGE_SIZE)
-        .sort({timecreate:'desc'})
+        .sort({timecreate:'asc'})
         .then(data=>{
             console.log(data)
             res.json(data)
@@ -227,39 +236,44 @@ router.get('/location',urlencodedParser,checklogin, function(req, res, next) {
     }
 });
 
-
+//GET 1 LOCATION
 router.get('/location/:locationId',urlencodedParser,checklogin, function(req, res, next) {
     //res.send(req.params)
-    res.render('admin/pages/2C.viewareview.admin.ejs',{user:req.nickname});
-    
-    /* console.log(req.body)
-    let date = new Date();
-    diadiemchitietModel.create({
-        ten: req.body.ten,
-        duong: req.body.duong,
-        phuong: req.body.phuong,
-        quan: req.body.quan,
-        tinh: req.body.tinh,
-        nuoc: req.body.nuoc,
-        timecreate: date,
-        by: req.body.by,
-    })
+    //console.log(req.params.locationId)
+    async function locationReview() {
+        //Lấy địa điểm
+        let location = await diadiemchitietModel.findById({_id: req.params.locationId})
+        //Lấy hình ảnh
+        let imgLocation = await imglocationModel.find({locationID: req.params.locationId})
+                            .limit(16)
+                            .sort({totalviews:'desc'});                             
+        return {
+            location,
+            imgLocation
+        }
+    }
+    locationReview()
+    /* diadiemchitietModel.findById({
+        _id: req.params.locationId
+    }) */
     .then(data=>{
-        console.log(data)
-        res.send(data)
-        
-            
+        console.log(data.imgLocation)
+        res.render('admin/pages/2C.viewareview.admin.ejs',{
+                                                            user:req.nickname,
+                                                            data:data.location,
+                                                            imgsData: data.imgLocation
+        });
     })
     .catch(err=>{
         console.log(err)
-    }) */
+    })
 });
 
 
 
 
 //PUT
-router.put('/location/:locationId',urlencodedParser,/* checklogin, */ function(req, res, next) {
+router.put('/location/:locationId',urlencodedParser,checklogin, function(req, res, next) {
     console.log(req.params)
     let date = new Date();
     diadiemchitietModel.findByIdAndUpdate({_id: req.params.locationId},
@@ -284,7 +298,7 @@ router.put('/location/:locationId',urlencodedParser,/* checklogin, */ function(r
     })
 });
 //DELETE
-router.delete('/location/:locationId',urlencodedParser,/* checklogin, */ function(req, res, next) {
+router.delete('/location/:locationId',urlencodedParser,checklogin, function(req, res, next) {
     console.log(req.params)
     diadiemchitietModel.findByIdAndDelete({_id: req.params.locationId})
     .then(data=>{
@@ -296,6 +310,78 @@ router.delete('/location/:locationId',urlencodedParser,/* checklogin, */ functio
     })
 });
 
+
+//UPLOAD HÌNH ẢNH
+//CONFIG UPLOAD
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/images/imglocation')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, uniqueSuffix + '-' + file.originalname.replace(' ','-'))
+    }
+  })
+const upload = multer({ storage: storage })
+
+//PUT LINK UPLOAD IMG - WORKING
+router.post('/location/img/:locationId',urlencodedParser,checklogin,upload.array('imgurl', 10), function(req, res, next) {
+    console.log(req.files)
+    console.log("data:",req.body.locationID)
+
+    console.log("by:",req.userID)
+    //Neu Location ID chua co anh thi POST
+    imglocationModel.findOne({
+        locationID: req.body.locationID
+    })
+    .then(data=>{
+        console.log(data)
+        imgurls =[]
+            for (let index = 0; index < req.files.length; index++) {
+                imgurl = {}
+                imgurl.originalname = req.files[index].originalname
+                imgurl.filename = req.files[index].filename
+                imgurl.size = req.files[index].size
+                imgurl.by = req.userID
+                imgurl.timecreate = new Date()
+                imgurl.totalviews = 1
+                imgurls.push(imgurl)
+            }
+        console.log(imgurls)
+        if(data){
+            //PUT
+            imglocationModel.findOneAndUpdate({
+                locationID: req.body.locationID
+            }, {
+                $push:{imgs:imgurls}
+            })
+            .then(data=>{
+                res.json({mes:"Hình ảnh đã được thêm"})
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+
+        } else {
+            //CREAT
+            
+            imglocationModel.create({
+            locationID: req.body.locationID,
+            imgs: imgurls
+            })
+            .then(data=>{
+                res.json({mes:"Hình ảnh đã được tải lên"})
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+        }
+    })
+    
+    
+
+
+});
 
 module.exports = router;
 
