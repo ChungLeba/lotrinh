@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Log in (v2)</title>
+  <title>PARTNER | Đăng ký</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -17,6 +17,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <!-- /.login-logo -->
+  
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
         <img src="../../admin/dist/img/LOGO_black-Whiter.gif" alt="satime software jsc" height="50px" style="align-items: center;">
@@ -33,7 +34,15 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" id="pass">
+          <input type="text" class="form-control" placeholder="Họ và tên" id="name">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user-tag"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Nhập password lần 1" id="pass1">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -41,23 +50,27 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <!-- <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                Remember Me
-              </label>
+          <input type="password" class="form-control" placeholder="Nhập password lần 2" id="pass2">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
             </div>
-          </div> -->
-          <!-- /.col -->
-        <button type="submit" class="btn btn-primary btn-block" id="login">Sign In</button>
-          <!-- /.col -->
+          </div>
         </div>
+        <div class="row">
+            <div class="col-8">
+              <button type="submit" class="btn btn-primary btn-block" id="reg">Đăng ký</button>
+            </div>
+            <!-- /.col -->
+            <div class="col-4">
+              <a href="/partner/dang-nhap">
+                <button class="btn btn-secondary" id="login">Đăngnhập</button>
+              </a>
+              
+            </div>
+            <!-- /.col -->
+          </div>
       <!-- /.social-auth-links -->
-
-      <p class="mb-1">
-        <a href="#">Lose password?</a>
-      </p>
     </div>
     <!-- /.card-body -->
   </div>
@@ -69,28 +82,35 @@
 <script src="../../admin/plugins/jquery/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
-        $('#login').click(function(){
+        $('#reg').click(function(){
             //alert('ok')
-            if($('#email').val()==''||$('#pass').val()==''){
+            console.log($('#pass1').val(),$('#pass2').val())
+            if ($('#email').val()==''||$('#name').val()==''||$('#pass1').val()==''||$('#pass2').val()==''){
                 alert("Vui lòng nhập đầy đủ thông tin")
-            } else{
+            } else if ($('#pass1').val()!==$('#pass2').val()){
+                alert("Mật khẩu 1 và mật khẩu 2 không giống nhau")
+            } 
+            else{
                 $.ajax({
-                url:'/admin/',
+                url:'/partner/dang-ky',
                 type:'POST',
                 dataType:'json',
                 data:{
                     email: $('#email').val().toLowerCase(),
-                    pass: $('#pass').val()
+                    hoten: $('#name').val(),
+                    pass: $('#pass1').val()
                 },
                 success:function(res){
                   //xử lý res.redirect không hoạt động khi post = ajax
-                  if(res.fw) {
-                    console.log(res.fw)
-                    window.location.href=res.fw
-                  } else
-                  alert(res)
+                  if(res.mes) {
+                    alert(res.mes)
+                  } else if(res.ok){
+                    //console.log(res)
+                    alert(res.ok)
+                    window.location.href="/partner/"
+                  }
                 }
-            })
+                })
             }
             
         })

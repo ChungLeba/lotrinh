@@ -15,7 +15,7 @@ var imglocationSchema = new mongoose.Schema({
             filename: String,
             originalname: String,
             size: Number,
-            by: {type: String, ref:"users"},
+            by: {type: String, ref:"userModel"},
             timecreate: Date,
             totalviews: Number
         }]    

@@ -98,6 +98,7 @@
                     <a href="#" class="d-block mb-4 h-100">
                       <img class="img-fluid img-thumbnail" src="/images/chonloc/da-nang.jpg" alt="">
                     </a>
+                    
                   </div>
                   
                 </div>
@@ -111,7 +112,9 @@
                       <div class="input-group-append">
                         <button class="btn btn-block btn-success" id="bt_upload">Thêm hình ảnh</button>
                       </div>
+                      
                     </div>
+                    <p style="font-style: italic; color: #78838e; background-color: #f8f9fa;">Thêm tối đa 10 hình ảnh</p>
                   </div>
                 </div>
               </div>
@@ -666,8 +669,10 @@
       $("#album").append(
         `<div class="col-lg-3 col-md-4 col-6">
                       <a href="#" class="d-block mb-4 h-100">
-                        <img class="img-fluid img-thumbnail" src="/images/imglocation/`+imgurls.imgs[index].filename+`" alt="`+imgurls.imgs[index].originname+`">
+                        <img class="img-fluid img-thumbnail" src="/images/imglocation/`+imgurls.imgs[index].filename+`" alt="`+imgurls.imgs[index].originalname+`">
+                        <p style="margin-top: -33px; color: blanchedalmond;">@`+imgurls.imgs[index].by.nickname+', '+ moment(imgurls.imgs[index].timecreate).format("HH:mm:ss, DD/MM/YYYY")+`</p>
                       </a>
+
         </div>`
       )
 

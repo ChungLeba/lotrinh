@@ -46,9 +46,10 @@ var checklogin = function(req,res,next){
                         req.permis = parseInt(data.phanquyen)
                         req.nickname = data.nickname
                         req.userID = data.id
-
                         console.log('Quyền user này: '+req.permis+" Nickname: "+ req.nickname+" userID:" + req.userID)
-                        return next()
+                        if(req.permis==1){
+                            return next()
+                        }
                     })
                     
                     
@@ -246,6 +247,7 @@ router.get('/location/:locationId',urlencodedParser,checklogin, function(req, re
         //Lấy hình ảnh
         let imgLocation = await imglocationModel.findOne({locationID: req.params.locationId})
                             .limit(16)
+                            .populate('imgs.by')
                             .sort({totalviews:'desc'});                            
         return {
             location,
@@ -330,53 +332,58 @@ router.post('/location/img/:locationId',urlencodedParser,checklogin,upload.array
     console.log("data:",req.body.locationID)
 
     console.log("by:",req.userID)
-    //Neu Location ID chua co anh thi POST
-    imglocationModel.findOne({
-        locationID: req.body.locationID
-    })
-    .then(data=>{
-        console.log(data)
-        imgurls =[]
-            for (let index = 0; index < req.files.length; index++) {
-                imgurl = {}
-                imgurl.originalname = req.files[index].originalname
-                imgurl.filename = req.files[index].filename
-                imgurl.size = req.files[index].size
-                imgurl.by = req.userID
-                imgurl.timecreate = new Date()
-                imgurl.totalviews = 1
-                imgurls.push(imgurl)
-            }
-        console.log(imgurls)
-        if(data){
-            //PUT
-            imglocationModel.findOneAndUpdate({
-                locationID: req.body.locationID
-            }, {
-                $push:{imgs:imgurls}
-            })
-            .then(data=>{
-                res.json({mes:"Hình ảnh đã được thêm"})
-            })
-            .catch(err=>{
-                console.log(err)
-            })
+    if (req.files.length>10){
+        res.json({mes:"Chọn tối đa 10 hình ảnh"})
+    } else {
+        //Neu Location ID chua co anh thi POST
+        imglocationModel.findOne({
+            locationID: req.body.locationID
+        })
+        .then(data=>{
+            console.log(data)
+            imgurls =[]
+                for (let index = 0; index < req.files.length; index++) {
+                    imgurl = {}
+                    imgurl.originalname = req.files[index].originalname
+                    imgurl.filename = req.files[index].filename
+                    imgurl.size = req.files[index].size
+                    imgurl.by = req.userID
+                    imgurl.timecreate = new Date()
+                    imgurl.totalviews = 1
+                    imgurls.push(imgurl)
+                }
+            console.log(imgurls)
+            if(data){
+                //PUT
+                imglocationModel.findOneAndUpdate({
+                    locationID: req.body.locationID
+                }, {
+                    $push:{imgs:imgurls}
+                })
+                .then(data=>{
+                    res.json({mes:"Hình ảnh đã được thêm"})
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
 
-        } else {
-            //CREAT
-            
-            imglocationModel.create({
-            locationID: req.body.locationID,
-            imgs: imgurls
-            })
-            .then(data=>{
-                res.json({mes:"Hình ảnh đã được tải lên"})
-            })
-            .catch(err=>{
-                console.log(err)
-            })
-        }
-    })
+            } else {
+                //CREAT
+                
+                imglocationModel.create({
+                locationID: req.body.locationID,
+                imgs: imgurls
+                })
+                .then(data=>{
+                    res.json({mes:"Hình ảnh đã được tải lên"})
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+            }
+        })
+    }
+    
     
     
 

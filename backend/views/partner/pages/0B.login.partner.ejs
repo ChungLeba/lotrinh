@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Log in (v2)</title>
+  <title>PARTNER | Đăng nhập</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -54,10 +54,20 @@
           <!-- /.col -->
         </div>
       <!-- /.social-auth-links -->
+      <div class="row">
+        <div class="col-8">
+          <p class="mb-1">
+            <a href="#">Quên mật khẩu?</a>
+          </p>
+        </div>
+        <div class="col-4">
+          <p style="text-align: right;">
+            <a href="/partner/dang-ky">Đăng ký</a>
+          </p>
+        </div>
+      </div>
+      
 
-      <p class="mb-1">
-        <a href="#">Lose password?</a>
-      </p>
     </div>
     <!-- /.card-body -->
   </div>
@@ -75,7 +85,7 @@
                 alert("Vui lòng nhập đầy đủ thông tin")
             } else{
                 $.ajax({
-                url:'/admin/',
+                url:'/partner/dang-nhap',
                 type:'POST',
                 dataType:'json',
                 data:{
@@ -83,12 +93,11 @@
                     pass: $('#pass').val()
                 },
                 success:function(res){
-                  //xử lý res.redirect không hoạt động khi post = ajax
-                  if(res.fw) {
-                    console.log(res.fw)
-                    window.location.href=res.fw
-                  } else
-                  alert(res)
+                  if(res.mes) {
+                    alert(res.mes)
+                  } else if(res.ok) {
+                    window.location.href="/partner/"
+                  }
                 }
             })
             }

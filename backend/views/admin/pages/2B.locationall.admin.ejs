@@ -53,7 +53,7 @@
                             <h3 class="card-title">Danh sách địa điểm mới thêm</h3>
                           </div>
                             <div class="card-body table-responsive p-0" style="height: auto;">
-                                <table class="table table-head-fixed text-nowrap">
+                                <table class="table table-head-fixed text-wrap">
                                   <thead>
                                     <tr>
                                       <th>#</th>
@@ -62,7 +62,7 @@
                                       <th>Tên địa điểm</th>
                                       <th>Địa chỉ</th>
                                       <th>Trend today</th>
-                                      <th>Cập nhật</th>
+                                      <th>Public</th>
                                     </tr>
                                   </thead>
                                   <tbody id="tbody">
@@ -78,9 +78,10 @@
                                             </td>
                                             <td><i class="fas fa-poll"></i> <%-data[index].todayviews%></td>
                                             <td>
-                                                <a href="/admin/location/<%- data[index].id %>">
-                                                  <button type="button" class="btn btn-outline-danger btn-block btn-sm"><i class="fas fa-edit"></i> Cập nhật</button>
-                                                </a>
+                                              <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch<%- index +1 %>">
+                                                <label class="custom-control-label" for="customSwitch<%- index +1 %>">Active</label>
+                                              </div>
                                             </td>
                                           </tr>
                                     <% } %>

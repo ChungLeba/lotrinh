@@ -11,7 +11,7 @@ mongoose.connect(process.env.DBSTRING);
 
 // Model
 var userSchema = new mongoose.Schema({
-    phanquyen: Number, //1: admin, 2: nhanvien, 3: khach hang
+    phanquyen: Number, //1: admin, 2: partner, 3: khach hang
     email: String,
     /* matkhau: String, */
     hoten: String,
