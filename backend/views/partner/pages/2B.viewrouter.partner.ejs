@@ -29,12 +29,12 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Thêm tuyến đường vận tải</h1>
+            <h1>Sửa tuyến đường vận tải</h1>
         </div>
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Thêm tuyến đường</li>
+            <li class="breadcrumb-item active">Sửa tuyến đường</li>
         </ol>
         </div>
     </div>
@@ -48,36 +48,10 @@
             <div class="col-sm-4">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title" id="p_buoc">Bước 1: Đặt tên tuyến đường</h3>
+                        <h3 class="card-title" id="p_buoc">Thêm điểm đón, trả & đi qua</h3>
                     </div>
                     <div class="card-body">
-                        <input class="form-control form-control-lg" type="text" placeholder="Hà Nội - Hồ Chí Minh, cung điện di động" id="input_tentuyen">
                         <div class="row" id="buoc2">
-                            <!-- <div class="col-sm-6">
-                                <div class="card card-warning card-outline">
-                                    <div class="card-header">
-                                        <h3 class="card-title" id="p_buoc">Thêm nhanh bằng cách tìm kiếm</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder=" 1001 địa điểm" aria-label="Search">
-                                            <div class="input-group-append">
-                                              <span class="input-group-text"><i class="fas fa-search fa-fw"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <button type="button" class="btn btn-block btn-outline-success">Thêm chiều đi</button>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <button type="button" class="btn btn-block btn-outline-danger">Thêm chiều về</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="col">
                                 <div class="card card-primary card-outline">
                                     <div class="card-header">
@@ -125,12 +99,6 @@
                     </div>
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-10">
-                                <button type="button" class="btn btn-block bg-gradient-primary btn-lg" id="bt_next">NEXT</button>
-                            </div>
-                            <div class="col-sm-2">
-                                <button type="button" class="btn btn-block bg-gradient-danger btn-lg" id="bt_back">Back</button>
-                            </div>
                         </div>
                     </div>
 
@@ -153,7 +121,8 @@
                           </div>
                     </div>
                     <div class="card-body">
-                        <h3 id="p_tentuyen"></h3>
+                        <input class="form-control form-control-lg" type="text" placeholder="Hà Nội - Hồ Chí Minh, cung điện di động" id="input_tentuyen" value="<%- data.ten %> ">
+                        <br>
                         <div class="row">
                             <div class="col">
                                 <div class="card card-success card-outline">
@@ -180,7 +149,18 @@
                                             </tr>
                                           </thead>
                                           <tbody id="tbody_chieudi">
-                                            
+                                            <% for( let index = 0; index < data.chieudi.length; index++ ) { %>
+                                            <tr id="tr_chieudi_<%- index +1 %>">
+                                                <td><%- index +1 %> </td>
+                                                <td>
+                                                    <p style="font-weight: bold;margin-bottom:2px"><%- data.chieudi[index].locationID.ten %></p>
+                                                    <p style="margin-bottom:2px"><%- data.chieudi[index].locationID.duong %>, <%- data.chieudi[index].locationID.phuong %>, <%- data.chieudi[index].locationID.quan %>, <%- data.chieudi[index].locationID.tinh %></p>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-outline-danger btn-block btn-sm" id="bt_xoa_chieudi_<%- index+1 %>"><i class="fas fa-trash-alt"></i> Xóa</button>
+                                                </td>
+                                            </tr>
+                                            <% } %>
                                           </tbody>
                                         </table>
                                     </div>
@@ -211,7 +191,18 @@
                                             </tr>
                                           </thead>
                                           <tbody id="tbody_chieuve">
-                                            
+                                            <% for( let index = 0; index < data.chieuve.length; index++ ) { %>
+                                                <tr id="tr_chieuve_<%- index +1 %>">
+                                                    <td><%- index +1 %> </td>
+                                                    <td>
+                                                        <p style="font-weight: bold;margin-bottom:2px"><%- data.chieuve[index].locationID.ten %></p>
+                                                        <p style="margin-bottom:2px"><%- data.chieuve[index].locationID.duong %>, <%- data.chieuve[index].locationID.phuong %>, <%- data.chieuve[index].locationID.quan %>, <%- data.chieuve[index].locationID.tinh %></p>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-outline-danger btn-block btn-sm" id="bt_xoa_chieuve_<%- index+1 %>"><i class="fas fa-trash-alt"></i> Xóa</button>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
                                           </tbody>
                                         </table>
                                         
@@ -230,7 +221,11 @@
                             <label class="custom-control-label" for="customSwitch1">Tự tạo chiều về từ chiều đi</label>
                         </div>
                         <br>
-                        <button type="button" class="btn btn-block bg-gradient-success" id="bt_save">Lưu</button>
+                        <div class="row">
+                            <div class="col-sm-10"><button type="button" class="btn btn-block bg-gradient-success" id="bt_save">Lưu</button></div>
+                            <div class="col-sm-2"><button type="button" class="btn btn-block bg-gradient-danger" id="bt_xoa">Xóa</button></div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -261,33 +256,21 @@
 <script>
 
 $(document).ready(function(){
-    $('#buoc2').hide()
-    if ($('#input_tentuyen').val() ==''){
-        $('#bt_next').hide()
-    } 
-    //Đang làm ở đây: next phát là chọn điểm bị lặp thêm
+    //Đếm 
+    $('#dem_chieudi').text($('#table_chieudi tr').length -1)
+    $('#dem_chieuve').text($('#table_chieuve tr').length -1)
+    
     $('#input_tentuyen').keyup(function(){
         $('#p_tentuyen').text(
             $('#input_tentuyen').val()
         )
         $('#bt_next').show()
     })
-    $('#bt_next').click(function(){
 
-        $('#input_tentuyen').hide()
-        $('#p_buoc').text(
-            "Bước 2: Thêm điểm đón, trả, đi qua"
-        )
-        $('#buoc2').show()
-        $('#bt_back').click(function(){
-            $('#input_tentuyen').show()
-            $('#buoc2').hide()
-        })
-        
-    })
     // Sắp xếp chiều đi
-    let i = 1
+    
     $('#bt_tc_chieudi').click(function(){
+        let i = $('#table_chieudi tr').length
         let phuong = $('#select_phuong'+" option:selected").text()
         let quan = $('#select_quan'+" option:selected").text()
         let tinh = $('#select_tinh'+" option:selected").text()
@@ -323,9 +306,12 @@ $(document).ready(function(){
 
             i++  
         }
-        //Xóa điểm đón trả
+        
+    })
+    //Xóa điểm đón trả
+    $('#table_chieudi').mouseenter(function(){
         let numbrow_chieudi =  $('#table_chieudi tr').length -1
-        for (let index = 1; index <= i; index++) {
+        for (let index = 1; index <= numbrow_chieudi; index++) {
             $("#bt_xoa_chieudi_"+index).click(function(){
                 $("#tr_chieudi_"+index).remove()
                 let numbrow_chieudi =  $('#table_chieudi tr').length -1
@@ -334,9 +320,11 @@ $(document).ready(function(){
             })
         }
     })
+    
     // Sắp xếp chiều về
-    let t = 1
+    
     $('#bt_tc_chieuve').click(function(){
+        let t = $('#table_chieuve tr').length
         let phuong = $('#select_phuong'+" option:selected").text()
         let quan = $('#select_quan'+" option:selected").text()
         let tinh = $('#select_tinh'+" option:selected").text()
@@ -370,17 +358,21 @@ $(document).ready(function(){
             $('#dem_chieuve').text($('#table_chieuve tr').length -1)
             t++  
         }
-        //Xóa điểm đón trả
+        
+    })
+    //Xóa điểm đón trả
+    $('#table_chieuve').mouseenter(function(){
         let numbrow_chieuve =  $('#table_chieuve tr').length -1
-        for (let index = 1; index <= t; index++) {
+        for (let index = 1; index <= numbrow_chieuve; index++) {
             $("#bt_xoa_chieuve_"+index).click(function(){
                 $("#tr_chieuve_"+index).remove()
                 let numbrow_chieuve =  $('#table_chieuve tr').length -1
                 //Đếm điểm đón trả chiều đi
                 $('#dem_chieuve').text($('#table_chieuve tr').length -1)
             })
-        }
+        } 
     })
+    
 
     //Sortable
     $("#table_chieudi tbody").sortable({
@@ -464,9 +456,10 @@ $(document).ready(function(){
         console.log(router_chieuve)
         //Save
         ten = $('#input_tentuyen').val()
+        let urlid = '<%-data._id%>'
         $.ajax({
-            url:'/partner/routers/add',
-            type:'POST',
+            url:'/partner/routers/'+urlid,
+            type:'PUT',
             dataType: 'json',
             data: 
             {
@@ -482,6 +475,29 @@ $(document).ready(function(){
         console.log(err)
         })
 
+    })
+    //Xoa tuyen
+    $('#bt_xoa').click(function(){
+        let ok = confirm("Bạn chắc chắn muốn xóa tuyến đường này?")
+        if (ok==true){
+            let urlid = '<%-data._id%>'
+            $.ajax({
+                url:'/partner/routers/'+urlid,
+                type:'DELETE',
+                dataType: 'json',
+                data: 
+                {
+                    idxoa: urlid
+                }
+            })
+            .then(data=>{
+            alert(data.mes)
+            window.location.href = "/partner/routers/"
+            })
+            .catch(err=>{
+            console.log(err)
+            })
+        }
     })
 })
 </script>

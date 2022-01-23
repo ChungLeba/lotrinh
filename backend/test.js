@@ -1,7 +1,7 @@
+const userInput = '05:20';
+const hours = userInput.slice(0, 2);
+const minutes = userInput.slice(3);
 
-var crypto = require("crypto")
-let salt = crypto.randomBytes(32).toString('hex');
-console.log(salt)
-let hash_check = crypto.pbkdf2Sync("123456", salt, 2000, 64,'sha512')
-hash_check = hash_check.toString('hex')
-console.log(hash_check)
+const date = new Date();
+date.setHours(hours, minutes);
+console.log(hours, minutes)

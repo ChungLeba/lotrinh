@@ -58,30 +58,34 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Mã</th>
-                                    <th>Loại</th>
-                                    <th>Tên tuyến đường</th>
-                                    <th>Nơi đi</th>
-                                    <th>Nơi đến</th>
-                                    <th><i class="nav-icon fas fa-map-marker-alt"></i> Điểm đón, trả và đi qua</th>
-                                    <th><i class="nav-icon fas fa-bus-alt"></i> Chuyến</th>
+                                    <th><i class="nav-icon fas fa-road"></i> Tên tuyến đường</th>
+                                    <th><i class="nav-icon fas fa-play-circle"></i> Nơi đi</th>
+                                    <th><i class="nav-icon fas fa-stop-circle"></i> Nơi đến</th>
+                                    <th><i class="nav-icon fas fa-map-marker-alt"></i> SL điểm dừng</th>
+                                    <th><i class="nav-icon fas fa-calendar-alt"></i> Lịch trình</th>
                                 </tr>
                                 </thead>
                                 <tbody id="tbody">
-                                    <tr id="tr">
-                                        <td> 1</td>
-                                        <td> <span class="badge bg-primary">001</span></td>
-                                        <td> 1 chiều</td>
-                                        <td><a href="#"></a> Đà Nẵng - Thanh Hóa cung điện di động</td>
-                                        <td><a href="#"> Bến xe TT Đà Nẵng</a></td>
-                                        <td><a href="#"> Bến xe Phía Nam Thanh Hóa</a></td>
-                                        <td><a href="#"> TP Quảng Bình (32 nơi khác)</a></td>
-                                        <td>
-                                            <a href="#">
-                                                10 chuyến
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <% for( let index = 0; index < data.length; index++ ) { %>
+                                        <tr>
+                                            <td> <%-index+1%></td>
+                                            <td><a href="/partner/routers/<%- data[index]._id %>"><%- data[index].ten %> </a></td>
+                                            <td>
+                                                <p style="margin-bottom:2px"><a href="#"><%- data[index].chieudi[0].locationID.ten %></a></p>
+                                                <p style="margin-bottom:2px"><%- data[index].chieudi[0].locationID.duong %>, <%- data[index].chieudi[0].locationID.phuong %>,  <%- data[index].chieudi[0].locationID.quan %>, <%- data[index].chieudi[0].locationID.tinh %></p>
+                                            </td>
+                                            <td>
+                                                <p style="margin-bottom:2px"><a href="#"><%- data[index].chieudi[data[index].chieudi.length -1].locationID.ten %></a></p>
+                                                <p style="margin-bottom:2px"><%- data[index].chieudi[data[index].chieudi.length -1].locationID.duong %>, <%- data[index].chieudi[data[index].chieudi.length -1].locationID.phuong %>, <%- data[index].chieudi[data[index].chieudi.length -1].locationID.quan %>, <%- data[index].chieudi[data[index].chieudi.length -1].locationID.tinh %></p>
+                                            </td>
+                                            <td><a href="#"><%- data[index].chieudi.length %></a></td>
+                                            <td>
+                                                <a href="/partner/timetables/<%- data[index]._id %>">
+                                                    <button type="button" class="btn btn-block btn-outline-primary btn-sm">Xem</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <% } %>
                                 <!-- Loader -->
                                 </tbody>
                             </table>
