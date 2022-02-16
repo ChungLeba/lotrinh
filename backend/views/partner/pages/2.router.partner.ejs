@@ -58,17 +58,29 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th><i class="nav-icon fas fa-road"></i> Tên tuyến đường</th>
+                                    <th>Loại</th>
+                                    <th>Mã</th>
+                                    <th><i class="nav-icon fas fa-road"></i> Tên tuyến đường (*)</th>
                                     <th><i class="nav-icon fas fa-play-circle"></i> Nơi đi</th>
                                     <th><i class="nav-icon fas fa-stop-circle"></i> Nơi đến</th>
-                                    <th><i class="nav-icon fas fa-map-marker-alt"></i> SL điểm dừng</th>
-                                    <th><i class="nav-icon fas fa-calendar-alt"></i> Lịch trình</th>
+                                    <th><i class="nav-icon fas fa-calendar-alt"></i> Lịch trình (**)</th>
                                 </tr>
                                 </thead>
                                 <tbody id="tbody">
                                     <% for( let index = 0; index < data.length; index++ ) { %>
                                         <tr>
                                             <td> <%-index+1%></td>
+                                            <td>
+                                                <% var selects = [{1:"Xe bus"},{2:"Xe khách"},{3:"Xe taxis"},{4:"Xe moto"},{5:"Thuyền, tàu biển"},{6:"Phương tiện khác"}] %>
+                                                <% for(const key in selects) { %>
+                                                    <% let k = parseInt(key) + 1 %> 
+                                                    <% if (k==data[index].loai){ %>
+                                                        <%-Object.values(Object.values(selects)[key])[0]%>
+                                                    <% } %>    
+                                                <% } %> 
+                                                
+                                            </td>
+                                            <td><span class="badge bg-light"> <%- data[index].matuyen %></span></td>
                                             <td><a href="/partner/routers/<%- data[index]._id %>"><%- data[index].ten %> </a></td>
                                             <td>
                                                 <p style="margin-bottom:2px"><a href="#"><%- data[index].chieudi[0].locationID.ten %></a></p>
@@ -78,10 +90,9 @@
                                                 <p style="margin-bottom:2px"><a href="#"><%- data[index].chieudi[data[index].chieudi.length -1].locationID.ten %></a></p>
                                                 <p style="margin-bottom:2px"><%- data[index].chieudi[data[index].chieudi.length -1].locationID.duong %>, <%- data[index].chieudi[data[index].chieudi.length -1].locationID.phuong %>, <%- data[index].chieudi[data[index].chieudi.length -1].locationID.quan %>, <%- data[index].chieudi[data[index].chieudi.length -1].locationID.tinh %></p>
                                             </td>
-                                            <td><a href="#"><%- data[index].chieudi.length %></a></td>
                                             <td>
                                                 <a href="/partner/timetables/<%- data[index]._id %>">
-                                                    <button type="button" class="btn btn-block btn-outline-primary btn-sm">Xem</button>
+                                                    <button type="button" class="btn btn-block btn-outline-primary btn-sm">Xem <span class="badge bg-light"> <%- data[index].chieudi[0].time.length %></span></button>
                                                 </a>
                                             </td>
                                         </tr>
@@ -92,6 +103,10 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
+                                <div class="col text-right">
+                                    <p style="margin-bottom:2px; font-style: italic;">(*) Nhấn vào "tên tuyến đường" để xem và thêm các điểm đón, trả, đi qua</p>
+                                    <p style="margin-bottom:2px; font-style: italic;">(**) Nhấn vào "xem lịch trình" để xem, thêm và xóa các lịch trình các chuyến</p>    
+                                </div>
                                 <div class="col text-center">
                                     <button id="bt_more" type="button" class="btn btn-block btn-outline-success"> Xem thêm 10 tuyến khác</button>
                                 </div>                

@@ -21,6 +21,8 @@ mongoose.connect(process.env.DBSTRING);
 
 var routerSchema = new mongoose.Schema({
     ten: String, 
+    matuyen: String,
+    loai: String, 
     chieudi: [{locationID: {type: String, ref:"diadiemchitietModel"}, time:[{
                                                                             no:{type: Number},
                                                                             tripCode:{type: String},

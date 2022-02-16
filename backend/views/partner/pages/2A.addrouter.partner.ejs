@@ -48,10 +48,33 @@
             <div class="col-sm-4">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title" id="p_buoc">Bước 1: Đặt tên tuyến đường</h3>
+                        <h3 class="card-title" id="p_buoc">Bước 1: Đặt tên tuyến đường và mã tuyến</h3>
                     </div>
                     <div class="card-body">
-                        <input class="form-control form-control-lg" type="text" placeholder="Hà Nội - Hồ Chí Minh, cung điện di động" id="input_tentuyen">
+                        <div id="div_tentuyen">
+                            <input class="form-control form-control-lg" type="text" placeholder="Hà Nội - Hồ Chí Minh, cung điện di động" id="input_tentuyen">
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <select id="loai" class="custom-select">
+                                            <option value="1">Xe bus</option>
+                                            <option value="2">Xe khách</option>
+                                            <option value="3">Xe taxi</option>
+                                            <option value="4">Xe moto</option>
+                                            <option value="5">Thuyền, tàu biển</option>
+                                            <option value="6">Phương tiện khác</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" placeholder="Mã tuyến: 01" id="input_code">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
                         <div class="row" id="buoc2">
                             <!-- <div class="col-sm-6">
                                 <div class="card card-warning card-outline">
@@ -274,13 +297,13 @@ $(document).ready(function(){
     })
     $('#bt_next').click(function(){
 
-        $('#input_tentuyen').hide()
+        $('#div_tentuyen').hide()
         $('#p_buoc').text(
             "Bước 2: Thêm điểm đón, trả, đi qua"
         )
         $('#buoc2').show()
         $('#bt_back').click(function(){
-            $('#input_tentuyen').show()
+            $('#div_tentuyen').show()
             $('#buoc2').hide()
         })
         
@@ -463,24 +486,37 @@ $(document).ready(function(){
         })
         console.log(router_chieuve)
         //Save
-        ten = $('#input_tentuyen').val()
-        $.ajax({
+        let ten = $('#input_tentuyen').val()
+        let code = $('#input_code').val()
+        let loai = $('#loai').val()
+        if(ten==""){
+            alert("Tên tuyến đường không được bỏ trống")
+        } else if (code==""){
+            alert("Mã tuyến đường không được bỏ trống")
+        } else if (router_chieudi.length<2){
+            alert("Địa điểm đi qua phải từ 2 điểm để xác định điểm đầu và cuối")
+        } else {
+            $.ajax({
             url:'/partner/routers/add',
             type:'POST',
             dataType: 'json',
             data: 
             {
                 ten: ten,
+                code: code,
+                loai: loai,
                 chieudi: JSON.stringify(router_chieudi),
                 chieuve: JSON.stringify(router_chieuve)
             }
-        })
-        .then(data=>{
-        alert(data.mes)
-        })
-        .catch(err=>{
-        console.log(err)
-        })
+            })
+            .then(data=>{
+            alert(data.mes)
+            })
+            .catch(err=>{
+            console.log(err)
+            })
+        }
+        
 
     })
 })

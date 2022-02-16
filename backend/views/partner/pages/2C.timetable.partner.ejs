@@ -47,59 +47,19 @@
         <div class="row">
 
             <div class="col">
-                <div class="card card-success">
+                <div class="card card-success card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Tuyến đường</h3>
+                    </div>
                     <div class="card-body">
                         <h3><%- data.ten %></h3>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5">
-                        <div class="card card-success card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">Bảng thời gian chiều đi</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                                        <i class="fas fa-expand"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <span title="Chuyến" class="badge bg-danger" id="dem_chuyen_chieudi">0</span>
-                                </div>
-                            </div>
-                            <div class="card-body table-responsive p-0" style="height: 440px;">
-                                <table class="table table-head-fixed text-nowrap" id="table_chieudi">
-                                    <thead>
-                                      <tr>
-                                        <th>Chuyến số</th>
-                                        <th>Mã chuyến</th>
-                                        <th>Thời gian khởi hành</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody id="tbody_chieudi">
-                                        <% for( let index = 0; index < data.chieudi[0].time.length; index++ ) { %>
-                                            <tr>
-                                                <td><%- index +1 %></td>
-                                                <td><%-data.chieudi[0].time[index].tripCode%></td>
-                                                <td><%-data.chieudi[0].time[index].time%>, <%- moment(data.chieudi[0].time[index].date).format("DD/MM/YYYY")%></td>
-                                            </tr>
-                                        <% } %> 
-                                        
-                                    </tbody>
-                                  </table>
-                            </div>
-                            <div class="card-footer">
-                                <a href="/partner/timetables/departure/<%- data._id %>">
-                                    <button type="button" class="btn btn-block bg-gradient-success" id="bt_time_chieudi">Thêm lịch trình chiều đi</button>
-
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-sm-7">
-                        <div class="card card-success card-outline">
+                        <div class="card card-warning card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Chiều đi</h3>
+                                <h3 class="card-title">Địa điểm đón trả chiều đi</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                         <i class="fas fa-expand"></i>
@@ -107,12 +67,12 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <span title="địa điểm" class="badge bg-danger" id="dem_chieudi">0</span>
+                                    <span title="địa điểm" class="badge bg-warning" id="dem_chieudi">0</span>
                                 </div>
                             </div>
 
                             <div class="card-body table-responsive p-0" style="height: 500px;">
-                                <table class="table table-head-fixed text-nowrap" id="table_chieudi">
+                                <table class="table table-head-fixed text-wrap" id="table_chieudi">
                                   <thead>
                                     <tr>
                                       <th>#</th>
@@ -135,14 +95,10 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="row">
-                    
                     <div class="col-sm-5">
-                        <div class="card card-danger card-outline">
+                        <div class="card card-warning card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Bảng thời gian chiều về</h3>
+                                <h3 class="card-title">Bảng thời gian chiều đi</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                         <i class="fas fa-expand"></i>
@@ -150,11 +106,11 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <span title="Chuyến" class="badge bg-danger" id="dem_chuyen_chieuve">0</span>
+                                    <span title="Chuyến" class="badge bg-warning" id="dem_chuyen_chieudi">0</span>
                                 </div>
                             </div>
                             <div class="card-body table-responsive p-0" style="height: 440px;">
-                                <table class="table table-head-fixed text-nowrap" id="table_chieudi">
+                                <table class="table table-head-fixed text-wrap" id="table_chieudi">
                                     <thead>
                                       <tr>
                                         <th>Chuyến số</th>
@@ -162,40 +118,40 @@
                                         <th>Thời gian khởi hành</th>
                                       </tr>
                                     </thead>
-                                    <tbody id="tbody_chieuve">
-                                        <tr>
-                                            <td>1</td>
-                                            <td>HCM-DN-01</td>
-                                            <td>08:00, 22/22/2022</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>HCM-DN-01</td>
-                                            <td>08:00, 22/22/2022</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>HCM-DN-01</td>
-                                            <td>08:00, 22/22/2022</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>HCM-DN-01</td>
-                                            <td>08:00, 22/22/2022</td>
-                                        </tr>
+                                    <tbody id="tbody_chieudi">
+                                        <% for( let index = 0; index < data.chieudi[0].time.length; index++ ) { %>
+                                            <tr>
+                                                <td id="<%-data.chieudi[0].time[index]._id%>"><%- index +1 %></td>
+                                                <td>
+                                                    <a href="/partner/timetables/departure/<%-data._id%>/trip/<%-data.chieudi[0].time[index].tripCode%>">
+                                                        <span class="badge bg-warning text-dark"><%-data.chieudi[0].time[index].tripCode%></span>                                                    
+                                                    </a>
+                                                </td>
+                                                <td><%-data.chieudi[0].time[index].time%>, <%- moment(data.chieudi[0].time[index].date).format("DD/MM/YYYY")%></td>
+                                            </tr>
+                                        <% } %> 
                                         
                                     </tbody>
                                   </table>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="btn btn-block bg-gradient-danger" id="bt_time_chieudi">Thêm lịch trình chiều về</button>
+                                <a href="/partner/timetables/departure/<%- data._id %>">
+                                    <button type="button" class="btn btn-block bg-gradient-warning" id="bt_time_chieudi">Thêm lịch trình chiều đi</button>
+
+                                </a>
                             </div>
                         </div>
                     </div>
+                    
+
+                </div>
+                <div class="row">
+                    
+                    
                     <div class="col-sm-7">
                         <div class="card card-danger card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Chiều về</h3>
+                                <h3 class="card-title">Địa điểm đón trả chiều về</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                         <i class="fas fa-expand"></i>
@@ -208,7 +164,7 @@
                             </div>
 
                             <div class="card-body table-responsive p-0" style="height: 500px;">
-                                <table class="table table-head-fixed text-nowrap" id="table_chieuve">
+                                <table class="table table-head-fixed text-wrap" id="table_chieuve">
                                   <thead>
                                     <tr>
                                       <th>#</th>
@@ -230,6 +186,51 @@
                                 
                             </div>
                             
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="card card-danger card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Bảng thời gian chiều về</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span title="Chuyến" class="badge bg-danger" id="dem_chuyen_chieuve">0</span>
+                                </div>
+                            </div>
+                            <div class="card-body table-responsive p-0" style="height: 440px;">
+                                <table class="table table-head-fixed text-wrap" id="table_chieudi">
+                                    <thead>
+                                      <tr>
+                                        <th>Chuyến số</th>
+                                        <th>Mã chuyến</th>
+                                        <th>Thời gian khởi hành</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody id="tbody_chieuve">
+                                        <% for( let index = 0; index < data.chieuve[0].time.length; index++ ) { %>
+                                            <tr>
+                                                <td id="<%-data.chieuve[0].time[index]._id%>"><%- index +1 %></td>
+                                                <td>
+                                                    <a href="/partner/timetables/return/<%-data._id%>/trip/<%-data.chieuve[0].time[index].tripCode%>">
+                                                        <span class="badge bg-warning text-dark"><%-data.chieuve[0].time[index].tripCode%></span>                                                    
+                                                    </a>
+                                                </td>
+                                                <td><%-data.chieuve[0].time[index].time%>, <%- moment(data.chieuve[0].time[index].date).format("DD/MM/YYYY")%></td>
+                                            </tr>
+                                        <% } %> 
+                                    </tbody>
+                                  </table>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/partner/timetables/return/<%- data._id %>">
+                                    <button type="button" class="btn btn-block bg-gradient-danger" id="bt_time_chieuve">Thêm lịch trình chiều về</button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

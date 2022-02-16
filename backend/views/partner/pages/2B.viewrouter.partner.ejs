@@ -121,8 +121,39 @@
                           </div>
                     </div>
                     <div class="card-body">
-                        <input class="form-control form-control-lg" type="text" placeholder="Hà Nội - Hồ Chí Minh, cung điện di động" id="input_tentuyen" value="<%- data.ten %> ">
-                        <br>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Tuyến đường</span>
+                            </div>
+                            <input class="form-control form-control-lg" type="text" placeholder="Hà Nội - Hồ Chí Minh, cung điện di động" id="input_tentuyen" value="<%- data.ten %> ">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="loai" class="custom-select">
+                                        <% var selects = [{1:"Xe bus"},{2:"Xe khách"},{3:"Xe taxis"},{4:"Xe moto"},{5:"Thuyền, tàu biển"},{6:"Phương tiện khác"}] %> 
+                                        <% for(const key in selects) { %>
+                                            <% let k = parseInt(key) + 1 %> 
+                                            <% if (k==data.loai){ %>
+                                                <option value="<%-k%>" selected><%-Object.values(Object.values(selects)[key])[0]%></option>  
+                                            <% } else { %> 
+                                                <option value="<%-k%>"><%-Object.values(Object.values(selects)[key])[0]%></option>
+                                              
+                                            <%  } %>    
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Mã tuyến</span>
+                                    </div>
+                                    <input class="form-control" type="text" placeholder="Mã tuyến: 01" id="input_code" value="<%- data.matuyen %> ">
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             <div class="col">
                                 <div class="card card-success card-outline">
@@ -219,6 +250,9 @@
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="customSwitch1">
                             <label class="custom-control-label" for="customSwitch1">Tự tạo chiều về từ chiều đi</label>
+                        </div>
+                        <div class="col text-right">
+                            <p style="margin-bottom:2px; font-style: italic;">Lưu ý: Khi sửa tuyến đường thì bạn phải tạo mới toàn bộ lịch trình các chuyến </p>
                         </div>
                         <br>
                         <div class="row">
@@ -389,7 +423,7 @@ $(document).ready(function(){
         update: function( event, ui ) {
             $(this).children().each(function(index) {
             let odder = index + 1
-            $(this).find('td').first().html('<p>'+odder+'</p>')
+            $(this).find('td').first().html(odder)
             });
         } 
     });
@@ -407,7 +441,7 @@ $(document).ready(function(){
         update: function( event, ui ) {
             $(this).children().each(function(index) {
             let odder = index + 1
-            $(this).find('td').first().html('<p>'+odder+'</p>')
+            $(this).find('td').first().html(odder)
             });
         } 
     });
@@ -456,29 +490,44 @@ $(document).ready(function(){
         console.log(router_chieuve)
         //Save
         ten = $('#input_tentuyen').val()
+        let code = $('#input_code').val()
+        let loai = $('#loai').val()
         let urlid = '<%-data._id%>'
-        $.ajax({
-            url:'/partner/routers/'+urlid,
-            type:'PUT',
-            dataType: 'json',
-            data: 
-            {
-                ten: ten,
-                chieudi: JSON.stringify(router_chieudi),
-                chieuve: JSON.stringify(router_chieuve)
-            }
-        })
-        .then(data=>{
-        alert(data.mes)
-        })
-        .catch(err=>{
-        console.log(err)
-        })
+        //console.log(loai)
+        if(ten==""){
+            alert("Tên tuyến đường không được bỏ trống")
+        } else if (code==""){
+            alert("Mã tuyến đường không được bỏ trống")
+        } else if (router_chieudi.length<2){
+            alert("Địa điểm đi qua phải từ 2 điểm để xác định điểm đầu và cuối")
+        } else {
+            $.ajax({
+                url:'/partner/routers/'+urlid,
+                type:'PUT',
+                dataType: 'json',
+                data: 
+                {
+                    ten: ten,
+                    code: code,
+                    loai: loai,
+                    chieudi: JSON.stringify(router_chieudi),
+                    chieuve: JSON.stringify(router_chieuve)
+                }
+            })
+            .then(data=>{
+            alert(data.mes)
+            })
+            .catch(err=>{
+            console.log(err)
+            })
+        }
+
+        
 
     })
     //Xoa tuyen
     $('#bt_xoa').click(function(){
-        let ok = confirm("Bạn chắc chắn muốn xóa tuyến đường này?")
+        let ok = confirm("Khi xóa tuyến đường này thì lịch trình chạy của các chuyến xe liên quan sẽ bị xóa hoàn toàn. Bạn đã chắc chắn muốn xóa?")
         if (ok==true){
             let urlid = '<%-data._id%>'
             $.ajax({

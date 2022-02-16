@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PARTNER | Lịch trình chạy</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
+  <!-- Moment -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <!-- Dữ liệu tỉnh thành -->
+  <script src="../javascripts/dvhcvn.js"></script>
+
+</head>
+<body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+<%- include('../1.topmenu.partner.ejs'); %>
+<%- include('../2.leftmenu.partner.ejs'); %>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Lịch trình chạy<h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Lịch trình chạy</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                
+                <div class="col-md-12">
+                    <% for( let t = 0; t < data.length; t++ ) { %>
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="nav-icon fas fa-road"></i> Tuyến đường: <%- data[t].ten %></h3>
+                            </div>
+                            <div class="card-body table-responsive p-0" style="height: auto;">
+                                <table class="table table-head-fixed text-wrap">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Mã chuyến</th>
+                                        <th>Thời gian khởi hành</th>
+                                        <th>Ngày khởi hành</th>
+                                        <th>Nơi khởi hành</th>
+                                        <th>Nơi đến</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tbody">
+                                        
+                                        <% for( let index = 0; index < data[t].chieudi[0].time.length; index++ ) { %>
+                                            <tr>
+                                                <td><%- index + 1 %></td>
+                                                <td><span class="badge bg-light"><%- data[t].chieudi[0].time[index].tripCode %></span></td>
+                                                <td><%- data[t].chieudi[0].time[index].time %></td>
+                                                <td><%- moment(data[t].chieudi[0].time[index].date).format("DD-MM-YYYY") %></td>
+                                                <td> 
+                                                    <p style="margin-bottom:2px; font-weight: bold;"><%- data[t].chieudi[0].locationID.ten %></p>
+                                                    <p style="margin-bottom:2px"><%- data[t].chieudi[0].locationID.duong %>, <%- data[t].chieudi[0].locationID.phuong %>, <%- data[t].chieudi[0].locationID.quan %>, <%- data[t].chieudi[0].locationID.tinh %></p>
+                                                </td>
+                                                <td> 
+                                                    <p style="margin-bottom:2px; font-weight: bold;"><%- data[t].chieudi[data[t].chieudi.length -1].locationID.ten %></p>
+                                                    <p style="margin-bottom:2px"><%- data[t].chieudi[data[t].chieudi.length -1].locationID.duong %>, <%- data[t].chieudi[data[t].chieudi.length -1].locationID.phuong %>, <%- data[t].chieudi[data[t].chieudi.length -1].locationID.quan %>, <%- data[t].chieudi[data[t].chieudi.length -1].locationID.tinh %></p>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                        
+                                    
+                                    <!-- Loader -->
+                                    </tbody>
+                                </table>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="col-md-12">
+                    <div class="col text-center">
+                        <button id="bt_more" type="button" class="btn btn-block bg-gradient-success"> Xem thêm</button>
+                    </div>
+                </div>
+
+                
+            </div>
+            
+        </div>
+        
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <%- include('../3.footer.partner.ejs'); %>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../admin/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../admin/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../admin/dist/js/demo.js"></script>
+
+
+</body>
+</html>

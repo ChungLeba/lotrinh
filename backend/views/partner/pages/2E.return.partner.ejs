@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PARTNER | Chiều về</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../../admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../../admin/dist/css/adminlte.min.css">
+  
+    <!-- Dữ liệu tỉnh thành -->
+    <script src="../../../javascripts/dvhcvn.js"></script>
+        
+
+</head>
+<body class="sidebar-mini sidebar-collapse">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+<%- include('../2.leftmenu.partner.ejs'); %>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1>Thêm lịch trình chuyến - Chiều về</h1>
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Thêm lịch trình chuyến đi</li>
+        </ol>
+        </div>
+    </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col">
+                <div class="card card-success card-outline">
+                    <div class="card-body">
+                        <input class="form-control form-control-lg" type="text" placeholder="Mã chuyến: BKS-11.111, HCM-DN-01, CODE-01..." id="input_tripcode">
+                        <br>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">(*) Khởi hành hàng ngày</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card card-success card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Chiều đi</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span title="địa điểm" class="badge bg-danger" id="dem_chieuve">0</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body table-responsive p-0" style="height: auto;">
+
+                        <table class="table table-head-fixed text-nowrap" id="table_chieuve">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Địa điểm</th>
+                              <th>Thời gian khởi hành</th>
+                              <th>Ngày,tháng, năm khởi hành (*)</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tbody_chieuve">
+                            <% for( let index = 0; index < data.chieuve.length; index++ ) { %>
+                            <tr id="tr_chieuve_<%- index +1 %>">
+                                <td id="<%- data.chieuve[index]._id %>"><%- index +1 %></td>
+                                <td>
+                                    <p style="font-weight: bold;margin-bottom:2px"><%- data.chieuve[index].locationID.ten %></p>
+                                    <p style="margin-bottom:2px"><%- data.chieuve[index].locationID.duong %>, <%- data.chieuve[index].locationID.phuong %>, <%- data.chieuve[index].locationID.quan %>, <%- data.chieuve[index].locationID.tinh %></p>
+                                </td>
+                                <td>
+                                    <input type="time" id="appt<%- index +1 %>" name="appt" required>
+                                </td>
+                                <td>
+                                    <input type="date" id="start<%- index +1 %>" name="trip-start" value="2022-03-22">
+                                </td>
+                            </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+
+                        <button type="button" class="btn btn-block bg-gradient-success" id="bt_time_save_chieuve">Lưu lịch trình chuyến</button>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<%- include('../3.footer.partner.ejs'); %>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+<!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../../admin/plugins/jquery/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<!-- Chọn theo cấu trúc -->
+<script src="../../../javascripts/choncautruc.js"></script>
+<script>
+
+$(document).ready(function(){
+    //Đếm 
+    $('#dem_chieuve').text($('#table_chieuve tr').length -1)
+    $('#dem_chieuve').text($('#table_chieuve tr').length -1)
+    //Tim time
+
+    $('#bt_time_save_chieuve').click(function(){
+        //console.log($('#appt1').val())
+        let tripno = '<%- data.chieuve[0].time.length + 1 %>'
+        let trips = []
+        
+        $('#tbody_chieuve').find("tr").each(function(){
+            let trip = {}
+            $(this).find("td:first").each(function(){
+                trip.diadiemdiquaid = $(this).attr("id")
+            })
+            trip.no = tripno
+            trip.tripCode = $('#input_tripcode').val()
+
+            $(this).find("[name='appt']").each(function(){
+                trip.time = $(this).val()
+            })
+            $(this).find("[name='trip-start']").each(function(){
+                trip.date = $(this).val()
+            })
+            trip.frequency = "many"
+            console.log(trip)
+            trips.push(trip)
+        })
+        console.log("all:",trips)
+        //PUT
+        let urlid = '<%-data._id%>'
+        if (trips[0].tripCode==''){
+            alert("Mã chuyến không được bỏ trống")
+        } else {
+            $.ajax({
+            url:'/partner/timetables/return/'+urlid,
+            type:'PUT',
+            dataType: 'json',
+            data: 
+            {
+                chuyen_chieuve: JSON.stringify(trips),
+            }
+            })
+            .then(data=>{
+            alert(data.mes)
+            window.location.href = '/partner/timetables/'+urlid
+            })
+            .catch(err=>{
+            console.log(err)
+            })
+        }
+        
+    })
+})
+</script>
+<!-- Bootstrap 4 -->
+<script src="../../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../../admin/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../../admin/dist/js/demo.js"></script>
+</body>
+</html>

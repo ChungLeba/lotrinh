@@ -12,6 +12,7 @@ var diadiemchitietModel = require('../models/location.model')
 var imglocationModel = require('../models/img.location.model');
 var routerModel = require('../models/router.model');
 const { json } = require('express');
+const { time } = require('console');
 
 
 
@@ -302,6 +303,8 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
         //console.log(data)
         routerModel.create({
             ten: req.body.ten, 
+            matuyen: req.body.code,
+            loai: req.body.loai,
             chieudi: data.chieudi,
             chieuve: data.chieuve,
             partnerID: req.userID,
@@ -335,13 +338,14 @@ router.get('/routers/:id',checkloginpartner,function(req , res, next){
         console.log(err)
     })
 })
-//PUT
+//PUT - BỔ SUNG LOẠI CHO TUYẾN ĐƯỜNG NGÀY MAI !!!!!!!!!!!!!
 router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res, next){
     //Nap dia diem chieu di
     let cacdiadiemchieudi = JSON.parse(req.body.chieudi)
-    let cacdiadiemchieudi_res = []
-    let diadiemchieudi = {}
+    //console.log(cacdiadiemchieudi)
+
     async function napdiadiem_chieudi (){
+        let cacdiadiemchieudi_res = []
         for (let index = 0; index < cacdiadiemchieudi.length; index++) {
             let timdiadiem = await diadiemchitietModel.findOne({
                                     ten: cacdiadiemchieudi[index][0],
@@ -352,11 +356,14 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
                                     })
 
             if(timdiadiem){
+                let diadiemchieudi = {} 
                 console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieudi.locationID = timdiadiem._id
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
+                //console.log("dia diem: ",cacdiadiemchieudi_res)
             } else {
+                let diadiemchieudi = {} 
                 let taodiadiem = await diadiemchitietModel.create({
                     ten: cacdiadiemchieudi[index][0],
                     duong: cacdiadiemchieudi[index][1],
@@ -376,16 +383,13 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
         }
         return cacdiadiemchieudi_res
     }
-    //Lay Router chieu di
-    /* napdiadiem_chieudi()
-    .then(data=>{
-        console.log("Chieu di: ",cacdiadiemchieudi_res)
-    }) */
+
     //Nap dia diem chieu ve
     let cacdiadiemchieuve = JSON.parse(req.body.chieuve)
-    let cacdiadiemchieuve_res = []
-    let diadiemchieuve = {}
+
     async function napdiadiem_chieuve (){
+        let cacdiadiemchieuve_res = []
+        
         for (let index = 0; index < cacdiadiemchieuve.length; index++) {
             let timdiadiem = await diadiemchitietModel.findOne({
                                     ten: cacdiadiemchieuve[index][0],
@@ -396,11 +400,13 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
                                     })
 
             if(timdiadiem){
+                let diadiemchieuve = {}
                 console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieuve.locationID = timdiadiem._id
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve)
             } else {
+                let diadiemchieuve = {}
                 let taodiadiem = await diadiemchitietModel.create({
                     ten: cacdiadiemchieuve[index][0],
                     duong: cacdiadiemchieuve[index][1],
@@ -420,11 +426,6 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
         }
         return cacdiadiemchieuve_res
     }
-    //Lay Router chieu ve
-    /* napdiadiem_chieuve()
-    .then(data=>{
-        console.log("Chieu ve: ",cacdiadiemchieuve_res)
-    }) */
     //Tao ham lay id chieu di va chieu ve
     async function taotuyenduong(){
         let chieudi = await napdiadiem_chieudi()
@@ -434,9 +435,11 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
     //Sua tuyen duong
     taotuyenduong()
     .then(data=>{
-        //console.log(data)
+        console.log(data)
         routerModel.findByIdAndUpdate({_id:req.params.id},{
             ten: req.body.ten, 
+            matuyen: req.body.code,
+            loai: req.body.loai,
             chieudi: data.chieudi,
             chieuve: data.chieuve,
             partnerID: req.userID,
@@ -489,7 +492,6 @@ router.get('/timetables/departure/:id',checkloginpartner,function(req , res, nex
     console.log(req.params.id)
     routerModel.findById(req.params.id)
     .populate("chieudi.locationID")
-    .populate("chieuve.locationID")
     .then(data=>{
         //console.log(data)
         res.render('partner/pages/2E.departure.partner.ejs',{user:req.partnername, data:data});
@@ -498,7 +500,7 @@ router.get('/timetables/departure/:id',checkloginpartner,function(req , res, nex
         console.log(err)
     })
 })
-//Them lich trinh
+//Them lich trinh chieu di
 router.put('/timetables/departure/:id',checkloginpartner,function(req , res, next){
     let chuyen_chieudi = JSON.parse(req.body.chuyen_chieudi)
     console.log(chuyen_chieudi)
@@ -514,12 +516,199 @@ router.put('/timetables/departure/:id',checkloginpartner,function(req , res, nex
             }
             )
             .then(data=>{
-                console.log(data)
+                //console.log(data)
+                
+                
             })
             .catch(err=>{
                 console.log(err)
             })
         }
+        res.json({mes:"Thêm lịch trình thành công"})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+//Xem chi tiet lich trinh cua chuyen - chieu di
+router.get('/timetables/departure/:id/trip/:tripcode',checkloginpartner,function(req , res, next){
+    console.log(req.params)
+    async function timchuyen(){
+        let trips = []
+        await routerModel.findOne({
+            _id: req.params.id
+    
+        })
+        .populate("chieudi.locationID")
+        .then(data=>{
+            console.log("chieu di: ",data.chieudi.length)
+            
+            for (let index = 0; index < data.chieudi.length; index++) {
+                for (let t = 0; t < data.chieudi[index].time.length; t++) {
+                    
+                    if(data.chieudi[index].time[t].tripCode == req.params.tripcode){
+                        let trip = {}
+                        trip.time =  data.chieudi[index].time[t]
+                        trip.locationID = data.chieudi[index].locationID
+                        trips.push(trip)
+                    }
+                    
+                }
+            }
+            console.log("trip: ",trips.length)
+            
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+        return trips
+    }
+    timchuyen()
+    .then(data=>{
+        console.log(data.length)
+        res.render('partner/pages/2G.departure.trip.partner.ejs',{user:req.partnername, data:data, routerID: req.params.id});
+
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+//Xoa lich trinh - chieu di
+router.delete('/timetables/departure/:id/trip/:tripcode',checkloginpartner,function(req , res, next){
+    routerModel.findById(req.params.id)
+    .then(data=>{
+        //console.log(data)
+            routerModel.updateMany({
+                _id: req.params.id
+            },{
+                $pull: {
+                            'chieudi.$[].time':{tripCode:req.params.tripcode} // $[] chon all array
+                        }
+            },
+            { multi: true }
+            )
+            .then(data=>{
+                console.log(data)
+                res.json({mes:"Xóa chuyến thành công"})
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+//TIMETABLE - TAO CHIEUVE
+
+router.get('/timetables/return/:id',checkloginpartner,function(req , res, next){
+    console.log(req.params.id)
+    routerModel.findById(req.params.id)
+    .populate("chieuve.locationID")
+    .then(data=>{
+        //console.log(data)
+        res.render('partner/pages/2E.return.partner.ejs',{user:req.partnername, data:data});
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+//Them lich trinh chieu ve
+router.put('/timetables/return/:id',checkloginpartner,function(req , res, next){
+    let chuyen_chieuve = JSON.parse(req.body.chuyen_chieuve)
+    console.log(chuyen_chieuve)
+    routerModel.findById(req.params.id)
+    .then(data=>{
+        //console.log(data)
+        for (let index = 0; index < chuyen_chieuve.length; index++) {
+            routerModel.updateOne({
+                _id: req.params.id, 
+                "chieuve._id": chuyen_chieuve[index].diadiemdiquaid
+            },{
+                $push: {"chieuve.$.time":chuyen_chieuve[index]}
+            }
+            )
+            .then(data=>{
+                //console.log(data)
+                
+                
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+        }
+        res.json({mes:"Thêm lịch trình thành công"})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+//Xem chi tiet lich trinh cua chuyen - chiều về
+router.get('/timetables/return/:id/trip/:tripcode',checkloginpartner,function(req , res, next){
+    console.log(req.params)
+    async function timchuyen(){
+        let trips = []
+        await routerModel.findOne({
+            _id: req.params.id
+    
+        })
+        .populate("chieuve.locationID")
+        .then(data=>{
+            //console.log(data.chieuve)
+            
+            for (let index = 0; index < data.chieuve.length; index++) {
+                for (let t = 0; t < data.chieuve[index].time.length; t++) {
+                    
+                    if(data.chieuve[index].time[t].tripCode == req.params.tripcode){
+                        let trip = {}
+                        trip.time =  data.chieuve[index].time[t]
+                        trip.locationID = data.chieuve[index].locationID
+                        trips.push(trip)
+                    }
+                    
+                }
+            }
+            //console.log(trips)
+            
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+        return trips
+    }
+    timchuyen()
+    .then(data=>{
+        //console.log(data)
+        res.render('partner/pages/2G.return.trip.partner.ejs',{user:req.partnername, data:data, routerID: req.params.id});
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+//Xoa lich trinh - chieu di
+router.delete('/timetables/return/:id/trip/:tripcode',checkloginpartner,function(req , res, next){
+    routerModel.findById(req.params.id)
+    .then(data=>{
+        //console.log(data)
+            routerModel.updateMany({
+                _id: req.params.id
+            },{
+                $pull: {
+                            'chieuve.$[].time':{tripCode:req.params.tripcode} // $[] chon all array
+                        }
+            },
+            { multi: true }
+            )
+            .then(data=>{
+                console.log(data)
+                res.json({mes:"Xóa chuyến thành công"})
+            })
+            .catch(err=>{
+                console.log(err)
+            })
     })
     .catch(err=>{
         console.log(err)
@@ -527,7 +716,60 @@ router.put('/timetables/departure/:id',checkloginpartner,function(req , res, nex
 })
 
 
+//3.ĐỊA ĐIỂM ĐÓN TRẢ
+router.get('/location',checkloginpartner,function(req , res, next){
+    console.log(req.query)
+    let page = req.query.page;
+    console.log(req.query)
+    const PAGE_SIZE =50;
+    if(page){
+        page = parseInt(page);
+        if (page <1){
+            page = 1;
+        }
+        var slboqua = (page - 1)*PAGE_SIZE;
+        diadiemchitietModel.find({byuserID: req.userID})
+        .skip(slboqua)
+        .limit(PAGE_SIZE)
+        .sort({timecreate:'asc'})
+        .then(data=>{
+            console.log(data)
+            res.json(data)
+        })
+    } else {
+        diadiemchitietModel.find({
+            byuserID: req.userID
+        })
+        .limit(PAGE_SIZE)
+        .sort({timecreate:'desc'})
+        .then(data=>{
+            if(data){
+                res.render('partner/pages/3.location.partner.ejs',{user:req.partnername, data:data})
+            } else {
+                res.render('partner/pages/3.location.partner.ejs',{user:req.partnername, data:""})
+            }
 
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
 
+    
+    
+    
+})
+
+//4.LỊCH TRÌNH
+router.get('/timetables',checkloginpartner,function(req , res, next){
+    routerModel.find({partnerID:req.userID})
+    .limit(5)
+    .populate("chieudi.locationID")
+    .then(data=>{
+        //console.log(data)
+        res.render('partner/pages/4.timetable.partner.ejs',{user:req.partnername, data:data})
+    })
+    
+})
 module.exports = router;
 

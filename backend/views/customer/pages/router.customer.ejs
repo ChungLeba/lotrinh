@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lộ trình tuyến</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
+</head>
+
+<body class="sidebar-mini sidebar-collapse">
+  <!-- Site wrapper -->
+  <div class="container">
+    <%- include('../1.topmenu.customer.ejs'); %>
+    <%- include('../2.seach.customer.ejs'); %>
+    <div class="row">
+        <div class="col">
+            
+        <div class="row">
+            <div class="col">
+                <div class="card card-success card-outline">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h1 class="text-center"><%- data.matuyen %></h1>
+                            </div>
+                            <div class="col-sm-10">
+                                <h3 class="text-center"><i class="nav-icon fas fa-road"></i> <%- data.ten %></h3>
+                                <h5 style="text-align: right;"><i class="fab fa-servicestack"> </i> LOTRINHVIET</h5>
+                                <h6 style="text-align: right;"><i class="fas fa-user"></i> <%- data.partnerID.email %></h6>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <!-- Chiều đi -->
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="card card-warning card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-route"></i> Lộ trình chiều đi</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span title="địa điểm" class="badge bg-warning" id="dem_chieudi">0</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body table-responsive p-0" style="height: auto; max-height: 500px;">
+                        <table class="table table-head-fixed text-wrap" id="table_chieudi">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Địa điểm</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tbody_chieudi">
+                            <% for( let index = 0; index < data.chieudi.length; index++ ) { %>
+                            <tr id="tr_chieudi_<%- index +1 %>">
+                                <td><%- index +1 %></td>
+                                <td>
+                                    <p style="font-weight: bold;margin-bottom:2px"><%- data.chieudi[index].locationID.ten %></p>
+                                    <p style="margin-bottom:2px"><%- data.chieudi[index].locationID.duong %>, <%- data.chieudi[index].locationID.phuong %>, <%- data.chieudi[index].locationID.quan %>, <%- data.chieudi[index].locationID.tinh %></p>
+                                </td>
+                                
+                            </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="card card-warning card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Bảng thời gian chiều đi</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span title="Chuyến" class="badge bg-warning" id="dem_chuyen_chieudi">0</span>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive p-0" style="height: auto; max-height: 500px;">
+                        <table class="table table-head-fixed text-wrap" id="table_chieudi">
+                            <thead>
+                              <tr>
+                                <th class="text-center">Chuyến</th>
+                                <th>Mã</th>
+                                <th>Thời gian đi</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody_chieudi">
+                                <% for( let index = 0; index < data.chieudi[0].time.length; index++ ) { %>
+                                    <tr>
+                                        <td id="<%-data.chieudi[0].time[index]._id%>" class="text-center"><%- index +1 %></td>
+                                        <td>
+                                                <span class="badge bg-primary"><%-data.chieudi[0].time[index].tripCode%></span>                                                    
+                                        </td>
+                                        <td>
+                                            <% if (data.chieudi[0].time[index].frequency=="many") { %>
+                                            <a href="/lo-trinh/lich-trinh/chieu-di/<%-data._id%>/chuyen/<%-data.chieudi[0].time[index].tripCode%>">
+                                                <button type="button" class="btn btn-block btn-light">
+                                                    <%-data.chieudi[0].time[index].time%>, <%- moment(data.chieudi[0].time[index].date).format("DD/MM/YYYY")%>
+                                                </button>
+                                            </a>
+
+                                            <% } %> 
+                                            <% if (data.chieudi[0].time[index].frequency=="one") { %> 
+                                            <a href="/lo-trinh/lich-trinh/chieu-di/<%-data._id%>/chuyen/<%-data.chieudi[0].time[index].tripCode%>">
+                                                <button type="button" class="btn btn-block btn-light">
+                                                    <%-data.chieudi[0].time[index].time%>, hàng ngày
+                                                </button>
+                                            </a>
+                                            <% } %> 
+                                        </td>
+                                    </tr>
+                                <% } %> 
+                                
+                            </tbody>
+                          </table>
+                    </div>
+                    
+                </div>
+            </div>
+            
+
+        </div>
+
+        <!-- Chiều về -->
+        <% if (data.chieuve.length){ %>
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="card card-danger card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-route"></i> Lộ trình chiều về</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span title="Địa điểm" class="badge bg-danger" id="dem_chieuve">0</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body table-responsive p-0" style="height: auto; max-height: 500px;">
+                        <table class="table table-head-fixed text-wrap" id="table_chieuve">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Địa điểm</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tbody_chieuve">
+                            <% for( let index = 0; index < data.chieuve.length; index++ ) { %>
+                                <tr id="tr_chieuve_<%- index +1 %>">
+                                    <td><%- index +1 %> </td>
+                                    <td>
+                                        <p style="font-weight: bold;margin-bottom:2px"><%- data.chieuve[index].locationID.ten %></p>
+                                        <p style="margin-bottom:2px"><%- data.chieuve[index].locationID.duong %>, <%- data.chieuve[index].locationID.phuong %>, <%- data.chieuve[index].locationID.quan %>, <%- data.chieuve[index].locationID.tinh %></p>
+                                    </td>
+                                </tr>
+                                <% } %>
+                          </tbody>
+                        </table>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="card card-danger card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Bảng thời gian chiều về</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span title="Chuyến" class="badge bg-danger" id="dem_chuyen_chieuve">0</span>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive p-0" style="height: auto; max-height: 500px;">
+                        <table class="table table-head-fixed table-hover text-wrap" id="table_chieudi">
+                            <thead>
+                              <tr>
+                                <th class="text-center">Chuyến</th>
+                                <th>Mã</th>
+                                <th>Thời gian đi</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody_chieuve">
+                                
+                                    <% for( let index = 0; index < data.chieuve[0].time.length; index++ ) { %>
+                                        <tr>
+                                            <td id="<%-data.chieuve[0].time[index]._id%>" class="text-center"><%- index +1 %></td>
+                                            <td>
+                                                    <span class="badge bg-primary"><%-data.chieuve[0].time[index].tripCode%></span>                                                                                                </td>
+                                            <td>
+                                                <% if (data.chieuve[0].time[index].frequency=="many") { %>
+                                                    <a href="/lo-trinh/lich-trinh/chieu-ve/<%-data._id%>/chuyen/<%-data.chieuve[0].time[index].tripCode%>">
+                                                        <button type="button" class="btn btn-block btn-light">
+                                                            <%-data.chieuve[0].time[index].time%>, <%- moment(data.chieuve[0].time[index].date).format("DD/MM/YYYY")%>
+                                                        </button> 
+                                                    </a>
+                                                    
+                                                <% } %> 
+                                                <% if (data.chieuve[0].time[index].frequency=="one") { %> 
+                                                    <a href="/lo-trinh/lich-trinh/chieu-ve/<%-data._id%>/chuyen/<%-data.chieuve[0].time[index].tripCode%>">
+                                                        <button type="button" class="btn btn-block btn-light">
+                                                            <%-data.chieuve[0].time[index].time%>, hàng ngày
+                                                        </button>
+                                                    </a>
+
+                                                <% } %> 
+    
+                                            </td>
+                                        </tr>
+                                    <% } %> 
+                                
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>   
+                
+        </div>
+        
+            
+
+            
+        
+    </div>
+
+
+        
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="../../admin/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../../admin/dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../admin/dist/js/demo.js"></script>
+</body>
+
+</html>

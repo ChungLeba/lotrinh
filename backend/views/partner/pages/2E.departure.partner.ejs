@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PARTNER | ROUTER</title>
+  <title>PARTNER | Chiều đi</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -51,10 +51,13 @@
                     <div class="card-body">
                         <input class="form-control form-control-lg" type="text" placeholder="Mã chuyến: BKS-11.111, HCM-DN-01, CODE-01..." id="input_tripcode">
                         <br>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1">(*) Khởi hành hàng ngày</label>
+                        <div class="form-group">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                <label class="custom-control-label" for="customSwitch1">Khởi hành hàng ngày</label>
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -80,7 +83,7 @@
                               <th>#</th>
                               <th>Địa điểm</th>
                               <th>Thời gian khởi hành</th>
-                              <th>Ngày,tháng, năm khởi hành (*)</th>
+                              <th>Ngày, tháng, năm khởi hành (*)</th>
                             </tr>
                           </thead>
                           <tbody id="tbody_chieudi">
@@ -104,7 +107,7 @@
                     </div>
                     <div class="card-footer">
 
-                        <button type="button" class="btn btn-block bg-gradient-success" id="bt_time_save_chieudi">Lưu lịch trình chuyến đi</button>
+                        <button type="button" class="btn btn-block bg-gradient-success" id="bt_time_save_chieudi">Lưu lịch trình chuyến</button>
                     </div>
                 </div>
                 
@@ -140,49 +143,123 @@ $(document).ready(function(){
     //Đếm 
     $('#dem_chieudi').text($('#table_chieudi tr').length -1)
     $('#dem_chieuve').text($('#table_chieuve tr').length -1)
-    //Tim time
-
-    $('#bt_time_save_chieudi').click(function(){
-        //console.log($('#appt1').val())
-        let tripno = '<%- data.chieudi[0].time.length + 1 %>'
-        let trips = []
+    //daily check
+    
+    $("#customSwitch1").click(function() {
+    if(this.checked) {
+        //alert("check")
+        for (let index = 1; index <= '<%- data.chieudi.length%>'; index++) {
+            $('#start'+index).hide()
+        }
         
-        $('#tbody_chieudi').find("tr").each(function(){
-            let trip = {}
-            $(this).find("td:first").each(function(){
-                trip.diadiemdiquaid = $(this).attr("id")
-            })
-            trip.no = tripno
-            trip.tripCode = $('#input_tripcode').val()
+    }else{
+        //alert("Uncheck")
+        for (let index = 1; index <= '<%- data.chieudi.length%>'; index++) {
+            $('#start'+index).show()
+        }
+        
+        
+    }
+    });
+    $('#bt_time_save_chieudi').click(function(){
+        //console.log($('#customSwitch1').is(':checked'))
+        if($('#customSwitch1').is(':checked')){
+            //Tim time
+            //console.log($('#appt1').val())
+            let tripno = '<%- data.chieudi[0].time.length + 1 %>'
+            let trips = []
+            
+            $('#tbody_chieudi').find("tr").each(function(){
+                let trip = {}
+                $(this).find("td:first").each(function(){
+                    trip.diadiemdiquaid = $(this).attr("id")
+                })
+                trip.no = tripno
+                trip.tripCode = $('#input_tripcode').val()
 
-            $(this).find("[name='appt']").each(function(){
-                trip.time = $(this).val()
+                $(this).find("[name='appt']").each(function(){
+                    trip.time = $(this).val()
+                })
+                $(this).find("[name='trip-start']").each(function(){
+                    trip.date = '0001-01-01'
+                })
+                trip.frequency = "one"
+                console.log(trip)
+                trips.push(trip)
             })
-            $(this).find("[name='trip-start']").each(function(){
-                trip.date = $(this).val()
-            })
-            trip.frequency = "many"
-            console.log(trip)
-            trips.push(trip)
-        })
-        console.log("all:",trips)
-        //PUT
-        let urlid = '<%-data._id%>'
-        $.ajax({
-            url:'/partner/timetables/departure/'+urlid,
-            type:'PUT',
-            dataType: 'json',
-            data: 
-            {
-                chuyen_chieudi: JSON.stringify(trips),
+            console.log("all:",trips)
+            //PUT
+            let urlid = '<%-data._id%>'
+            if (trips[0].tripCode==''){
+                alert("Mã chuyến không được bỏ trống")
+            } else {
+                $.ajax({
+                url:'/partner/timetables/departure/'+urlid,
+                type:'PUT',
+                dataType: 'json',
+                data: 
+                {
+                    chuyen_chieudi: JSON.stringify(trips),
+                }
+                })
+                .then(data=>{
+                alert(data.mes)
+                window.location.href = '/partner/timetables/'+urlid
+                })
+                .catch(err=>{
+                console.log(err)
+                })
             }
-        })
-        .then(data=>{
-        alert(data.mes)
-        })
-        .catch(err=>{
-        console.log(err)
-        })
+        
+        }
+        else{
+            //Tim time
+            //console.log($('#appt1').val())
+            let tripno = '<%- data.chieudi[0].time.length + 1 %>'
+            let trips = []
+            $('#tbody_chieudi').find("tr").each(function(){
+                let trip = {}
+                $(this).find("td:first").each(function(){
+                    trip.diadiemdiquaid = $(this).attr("id")
+                })
+                trip.no = tripno
+                trip.tripCode = $('#input_tripcode').val()
+
+                $(this).find("[name='appt']").each(function(){
+                    trip.time = $(this).val()
+                })
+                $(this).find("[name='trip-start']").each(function(){
+                    trip.date = $(this).val()
+                })
+                trip.frequency = "many"
+                console.log(trip)
+                trips.push(trip)
+            })
+            console.log("all:",trips)
+            //PUT
+            let urlid = '<%-data._id%>'
+            if (trips[0].tripCode==''){
+                alert("Mã chuyến không được bỏ trống")
+            } else {
+                $.ajax({
+                url:'/partner/timetables/departure/'+urlid,
+                type:'PUT',
+                dataType: 'json',
+                data: 
+                {
+                    chuyen_chieudi: JSON.stringify(trips),
+                }
+                })
+                .then(data=>{
+                alert(data.mes)
+                window.location.href = '/partner/timetables/'+urlid
+                })
+                .catch(err=>{
+                console.log(err)
+                })
+            }
+        }
+        
     })
 })
 </script>
