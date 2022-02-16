@@ -206,7 +206,6 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
     //Nap dia diem chieu di
     let cacdiadiemchieudi = JSON.parse(req.body.chieudi)
     let cacdiadiemchieudi_res = []
-    let diadiemchieudi = {}
     async function napdiadiem_chieudi (){
         for (let index = 0; index < cacdiadiemchieudi.length; index++) {
             let timdiadiem = await diadiemchitietModel.findOne({
@@ -218,11 +217,13 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                                     })
 
             if(timdiadiem){
+                let diadiemchieudi = {}
                 console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieudi.locationID = timdiadiem._id
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
             } else {
+                let diadiemchieudi = {}
                 let taodiadiem = await diadiemchitietModel.create({
                     ten: cacdiadiemchieudi[index][0],
                     duong: cacdiadiemchieudi[index][1],
@@ -250,7 +251,6 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
     //Nap dia diem chieu ve
     let cacdiadiemchieuve = JSON.parse(req.body.chieuve)
     let cacdiadiemchieuve_res = []
-    let diadiemchieuve = {}
     async function napdiadiem_chieuve (){
         for (let index = 0; index < cacdiadiemchieuve.length; index++) {
             let timdiadiem = await diadiemchitietModel.findOne({
@@ -262,11 +262,13 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                                     })
 
             if(timdiadiem){
+                let diadiemchieuve = {}
                 console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieuve.locationID = timdiadiem._id
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve)
             } else {
+                let diadiemchieuve = {}
                 let taodiadiem = await diadiemchitietModel.create({
                     ten: cacdiadiemchieuve[index][0],
                     duong: cacdiadiemchieuve[index][1],
@@ -300,7 +302,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
     //Tao tuyen duong
     taotuyenduong()
     .then(data=>{
-        //console.log(data)
+        console.log(data)
         routerModel.create({
             ten: req.body.ten, 
             matuyen: req.body.code,
@@ -338,7 +340,7 @@ router.get('/routers/:id',checkloginpartner,function(req , res, next){
         console.log(err)
     })
 })
-//PUT - BỔ SUNG LOẠI CHO TUYẾN ĐƯỜNG NGÀY MAI !!!!!!!!!!!!!
+//PUT
 router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res, next){
     //Nap dia diem chieu di
     let cacdiadiemchieudi = JSON.parse(req.body.chieudi)
@@ -436,7 +438,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
     taotuyenduong()
     .then(data=>{
         console.log(data)
-        routerModel.findByIdAndUpdate({_id:req.params.id},{
+        /* routerModel.findByIdAndUpdate({_id:req.params.id},{
             ten: req.body.ten, 
             matuyen: req.body.code,
             loai: req.body.loai,
@@ -451,7 +453,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
         })
         .catch(err=>{
             console.log(err)
-        })
+        }) */
     })
     .catch(err=>{
         console.log(err)
@@ -507,23 +509,23 @@ router.put('/timetables/departure/:id',checkloginpartner,function(req , res, nex
     routerModel.findById(req.params.id)
     .then(data=>{
         //console.log(data)
-        for (let index = 0; index < chuyen_chieudi.length; index++) {
-            routerModel.updateOne({
-                _id: req.params.id, 
-                "chieudi._id": chuyen_chieudi[index].diadiemdiquaid
-            },{
-                $push: {"chieudi.$.time":chuyen_chieudi[index]}
-            }
-            )
-            .then(data=>{
-                //console.log(data)
-                
-                
-            })
-            .catch(err=>{
-                console.log(err)
-            })
-        }
+            for (let index = 0; index < chuyen_chieudi.length; index++) {
+                routerModel.updateOne({
+                    _id: req.params.id, 
+                    "chieudi._id": chuyen_chieudi[index].diadiemdiquaid
+                },{
+                    $push: {"chieudi.$.time":chuyen_chieudi[index]}
+                }
+                )
+                .then(data=>{
+                    //console.log(data)
+                    
+                    
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+            }        
         res.json({mes:"Thêm lịch trình thành công"})
     })
     .catch(err=>{

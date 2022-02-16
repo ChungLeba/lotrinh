@@ -119,6 +119,7 @@
                                       </tr>
                                     </thead>
                                     <tbody id="tbody_chieudi">
+                                        <% if(data.chieudi[0].time.length>0){ %> 
                                         <% for( let index = 0; index < data.chieudi[0].time.length; index++ ) { %>
                                             <tr>
                                                 <td id="<%-data.chieudi[0].time[index]._id%>"><%- index +1 %></td>
@@ -130,7 +131,9 @@
                                                 <td><%-data.chieudi[0].time[index].time%>, <%- moment(data.chieudi[0].time[index].date).format("DD/MM/YYYY")%></td>
                                             </tr>
                                         <% } %> 
-                                        
+                                        <% }else{ %>
+
+                                        <% } %>
                                     </tbody>
                                   </table>
                             </div>
@@ -212,6 +215,7 @@
                                       </tr>
                                     </thead>
                                     <tbody id="tbody_chieuve">
+                                        <% if(data.chieuve.length>1){ %> 
                                         <% for( let index = 0; index < data.chieuve[0].time.length; index++ ) { %>
                                             <tr>
                                                 <td id="<%-data.chieuve[0].time[index]._id%>"><%- index +1 %></td>
@@ -223,6 +227,9 @@
                                                 <td><%-data.chieuve[0].time[index].time%>, <%- moment(data.chieuve[0].time[index].date).format("DD/MM/YYYY")%></td>
                                             </tr>
                                         <% } %> 
+                                        <% }else{ %>
+
+                                        <% } %>
                                     </tbody>
                                   </table>
                             </div>
