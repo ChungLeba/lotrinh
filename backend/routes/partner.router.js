@@ -437,7 +437,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
     //Sua tuyen duong
     taotuyenduong()
     .then(data=>{
-        console.log(data)
+        //console.log(data)
         routerModel.findByIdAndUpdate({_id:req.params.id},{
             ten: req.body.ten, 
             matuyen: req.body.code,

@@ -420,7 +420,7 @@ $(document).ready(function(){
         update: function( event, ui ) {
             $(this).children().each(function(index) {
             let odder = index + 1
-            $(this).find('td').first().html('<p>'+odder+'</p>')
+            $(this).find('td').first().html(odder)
             });
         } 
     });
@@ -438,7 +438,7 @@ $(document).ready(function(){
         update: function( event, ui ) {
             $(this).children().each(function(index) {
             let odder = index + 1
-            $(this).find('td').first().html('<p>'+odder+'</p>')
+            $(this).find('td').first().html(odder)
             });
         } 
     });
@@ -448,12 +448,13 @@ $(document).ready(function(){
         let router_chieudi = []
         let header = ["ten", "diadiem"];
         $('#tbody_chieudi').find("tr").each(function(){
+            //console.log($(this).text())
             let row_chieudi = {}
             $(this).find("p").each(function(i){
                 let key = header[i], value = $(this).text();
                 row_chieudi[key] = value
             })
-            //console.log(row_chieudi.diadiem)
+            console.log(row_chieudi.diadiem)
             let diadiem = row_chieudi.diadiem.split(",")
             let diadiemok = []
             diadiemok.push(row_chieudi.ten)
@@ -464,7 +465,7 @@ $(document).ready(function(){
             //console.log(diadiemok)
             router_chieudi.push(diadiemok)
         })
-        console.log(router_chieudi)
+        console.log("di: ",router_chieudi)
         //Tim chieu ve
         let router_chieuve = []
         $('#tbody_chieuve').find("tr").each(function(){
@@ -484,7 +485,7 @@ $(document).ready(function(){
             //console.log(diadiemok)
             router_chieuve.push(diadiemveok)
         })
-        console.log(router_chieuve)
+        console.log("ve: ",router_chieuve)
         //Save
         let ten = $('#input_tentuyen').val()
         let code = $('#input_code').val()
