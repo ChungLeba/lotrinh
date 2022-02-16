@@ -438,7 +438,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
     taotuyenduong()
     .then(data=>{
         console.log(data)
-        /* routerModel.findByIdAndUpdate({_id:req.params.id},{
+        routerModel.findByIdAndUpdate({_id:req.params.id},{
             ten: req.body.ten, 
             matuyen: req.body.code,
             loai: req.body.loai,
@@ -453,7 +453,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
         })
         .catch(err=>{
             console.log(err)
-        }) */
+        })
     })
     .catch(err=>{
         console.log(err)
