@@ -504,17 +504,12 @@ router.delete('/routers/:id',urlencodedParser,checkloginpartner,function(req , r
         let kqxoa  = await routerModel.deleteOne({
             _id:req.params.id,
             partnerID: req.userID
-
         })
         return kqxoa
     }
     xoatuyen()
     .then(data=>{
-        console.log(data)
-        if(data.deletedCount==1){
-            res.json({mes:"Xóa tuyến thành công"})
-        }
-        
+        res.json({mes:"Xóa tuyến thành công"})
     })
 
 })
