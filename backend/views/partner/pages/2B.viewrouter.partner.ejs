@@ -545,15 +545,14 @@ $(document).ready(function(){
     $('#bt_xoa').click(function(){
         let ok = confirm("Khi xóa tuyến đường này thì lịch trình chạy của các chuyến xe liên quan sẽ bị xóa hoàn toàn. Bạn đã chắc chắn muốn xóa?")
         if (ok==true){
-            let urlid = '<%-data._id%>'
-            console.log(urlid)
+            let urlidxoa = '<%-data._id%>'
             $.ajax({
-                url:'/partner/routers/'+urlid,
+                url:'/partner/routers/'+urlidxoa,
                 type:'DELETE',
                 dataType: 'json',
                 data: 
                 {
-                    idxoa: urlid
+                    idxoa: urlidxoa
                 }
             })
             .then(data=>{
