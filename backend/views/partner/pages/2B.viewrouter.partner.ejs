@@ -546,6 +546,7 @@ $(document).ready(function(){
         let ok = confirm("Khi xóa tuyến đường này thì lịch trình chạy của các chuyến xe liên quan sẽ bị xóa hoàn toàn. Bạn đã chắc chắn muốn xóa?")
         if (ok==true){
             let urlid = '<%-data._id%>'
+            console.log(urlid)
             $.ajax({
                 url:'/partner/routers/'+urlid,
                 type:'DELETE',
