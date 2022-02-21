@@ -80,7 +80,7 @@ var cactinh =
 
 /* 1.Trang chủ */
 router.get('/', function(req, res, next) {
-  res.end("Wellcome to lotrinh22")
+  res.redirect('/tim-kiem')
 });
 
 /* 2.Trang chi tiết tuyến đường */
