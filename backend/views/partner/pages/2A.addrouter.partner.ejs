@@ -73,6 +73,7 @@
                             </div>
                             <% if (cacncc.length>0){ %> 
                             <div class="form-group">
+                                <label for="">Nhà cung cấp</label>
                                 <select id="cacncc" class="custom-select">
                                     <% for(const key in cacncc) { %>
                                         <option value=<%- cacncc[key].id %>><%-cacncc[key].tenncc%></option>  
@@ -534,6 +535,7 @@ $(document).ready(function(){
             })
             .then(data=>{
             alert(data.mes)
+            window.location.href = "/partner/routers/"
             })
             .catch(err=>{
             console.log(err)

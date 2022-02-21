@@ -27,14 +27,14 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 //Function checklogin
 var checkloginpartner = function(req,res,next){
     let token = req.cookies.tokenSatime
-    console.log(token)
+    //console.log(token)
     userModel.findOne({
         lasttoken: token
     })
     .then(data=>{
         //console.log("token:"+ data)
         if(data){
-            console.log("Token bị rò rỉ")
+            //console.log("Token bị rò rỉ")
             res.redirect('/partner/dang-nhap')
         } else {
             jwt.verify(token, process.env.LOGINJWT, function(err, data){
@@ -42,14 +42,14 @@ var checkloginpartner = function(req,res,next){
                     //console.log(err)
                     res.redirect('/partner/dang-nhap')
                 } else {
-                    console.log("Token hợp lệ: ", data)
+                    //console.log("Token hợp lệ: ", data)
                     //tìm quyền
                     userModel.findById({_id:data.id})
                     .then(data=>{
                         req.permis = parseInt(data.phanquyen)
                         req.partnername = data.hoten
                         req.userID = data.id
-                        console.log('Quyền user này: '+req.permis+" Nickname: "+ req.nickname+" userID:" + req.userID)
+                        //console.log('Quyền user này: '+req.permis+" Nickname: "+ req.nickname+" userID:" + req.userID)
                         if (req.permis == 2){
                             return next()
                         }
@@ -118,7 +118,7 @@ router.get('/dang-nhap',function(req , res, next){
     res.render('partner/pages/0B.login.partner.ejs',{hi:"Vui lòng đăng nhập để sử dụng dịch vụ."});
 })
 router.post('/dang-nhap',urlencodedParser,function(req , res, next){
-    console.log(req.body)
+    //console.log(req.body)
     userModel.findOne({
         email: req.body.email
     })
@@ -126,7 +126,7 @@ router.post('/dang-nhap',urlencodedParser,function(req , res, next){
         if(data == null) {
             res.json({mes:"Tài khoản không tồn tại, vui lòng đăng ký"})
         } else {
-            console.log(data)
+            //console.log(data)
             let hash_check = crypto.pbkdf2Sync(req.body.pass, data.salt, 2000, 64,'sha512')
             hash_check = hash_check.toString('hex')
             if(hash_check!==data.hash){
@@ -219,7 +219,7 @@ router.get('/routers/add',checkloginpartner,function(req , res, next){
 })
 
 router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res, next){
-    console.log(req.body)
+    //console.log(req.body)
     //Nap dia diem chieu di
     let cacdiadiemchieudi = JSON.parse(req.body.chieudi)
     let cacdiadiemchieudi_res = []
@@ -235,7 +235,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
 
             if(timdiadiem){
                 let diadiemchieudi = {}
-                console.log("Tìm thấy: ", timdiadiem._id)
+                //console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieudi.locationID = timdiadiem._id
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
@@ -252,7 +252,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                     timecreate: new Date(),
                     totalviews:1
                 })
-                console.log("Tạo mới: ", taodiadiem._id)
+                //console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieudi.locationID = taodiadiem._id
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
@@ -280,7 +280,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
 
             if(timdiadiem){
                 let diadiemchieuve = {}
-                console.log("Tìm thấy: ", timdiadiem._id)
+                //console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieuve.locationID = timdiadiem._id
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve)
@@ -297,7 +297,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                     timecreate: new Date(),
                     totalviews:1
                 })
-                console.log("Tạo mới: ", taodiadiem._id)
+                //console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieuve.locationID = taodiadiem._id
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve) 
@@ -319,7 +319,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
     //Tao tuyen duong
     taotuyenduong()
     .then(data=>{
-        console.log(data)
+        //console.log(data)
         routerModel.create({
             ten: req.body.ten, 
             matuyen: req.body.code,
@@ -346,7 +346,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
 //ROUTER 1 VIEW
 //GET
 router.get('/routers/:id',checkloginpartner,function(req , res, next){
-    console.log(req.params.id)
+    //console.log(req.params.id)
     //Cac nha cung cap
     async function cacncc(){
         let datacacncc = await partnerModel.find({
@@ -367,7 +367,7 @@ router.get('/routers/:id',checkloginpartner,function(req , res, next){
         .populate("chieudi.locationID")
         .populate("chieuve.locationID")
         .then(data=>{
-            console.log(data)
+            //console.log(data)
             res.render('partner/pages/2B.viewrouter.partner.ejs',{user:req.partnername, data:data, cacncc: cacncc});
         })
         .catch(err=>{
@@ -395,7 +395,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
 
             if(timdiadiem){
                 let diadiemchieudi = {} 
-                console.log("Tìm thấy: ", timdiadiem._id)
+                //console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieudi.locationID = timdiadiem._id
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
@@ -413,7 +413,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
                     timecreate: new Date(),
                     totalviews:1
                 })
-                console.log("Tạo mới: ", taodiadiem._id)
+                //console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieudi.locationID = taodiadiem._id
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
@@ -439,7 +439,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
 
             if(timdiadiem){
                 let diadiemchieuve = {}
-                console.log("Tìm thấy: ", timdiadiem._id)
+                //console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieuve.locationID = timdiadiem._id
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve)
@@ -456,7 +456,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
                     timecreate: new Date(),
                     totalviews:1
                 })
-                console.log("Tạo mới: ", taodiadiem._id)
+                //console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieuve.locationID = taodiadiem._id
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve) 
@@ -499,21 +499,22 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
 })
 //DELETE
 router.delete('/routers/:id',checkloginpartner,function(req , res, next){
-    console.log(req.body.idxoa)
-    routerModel.findOneAndDelete({_id:req.body.idxoa})
+    //console.log(req.body.idxoa)
+    async function xoatuyen(){
+        let kqxoa  = await routerModel.deleteOne({_id:req.body.idxoa})
+        return kqxoa
+    }
+    xoatuyen()
     .then(data=>{
-        //console.log(data)
         res.json({mes:"Xóa tuyến thành công"})
     })
-    .catch(err=>{
-        console.log(err)
-    })
+
 })
 
 //TIMETABLE
 
 router.get('/timetables/:id',checkloginpartner,function(req , res, next){
-    console.log(req.params.id)
+    //console.log(req.params.id)
     routerModel.findById(req.params.id)
     .populate("chieudi.locationID")
     .populate("chieuve.locationID")
@@ -543,7 +544,7 @@ router.get('/timetables/departure/:id',checkloginpartner,function(req , res, nex
 //Them lich trinh chieu di
 router.put('/timetables/departure/:id',checkloginpartner,function(req , res, next){
     let chuyen_chieudi = JSON.parse(req.body.chuyen_chieudi)
-    console.log(chuyen_chieudi)
+    //console.log(chuyen_chieudi)
     routerModel.findById(req.params.id)
     .then(data=>{
         //console.log(data)
@@ -572,7 +573,7 @@ router.put('/timetables/departure/:id',checkloginpartner,function(req , res, nex
 })
 //Xem chi tiet lich trinh cua chuyen - chieu di
 router.get('/timetables/departure/:id/trip/:tripcode',checkloginpartner,function(req , res, next){
-    console.log(req.params)
+    //console.log(req.params)
     async function timchuyen(){
         let trips = []
         await routerModel.findOne({
@@ -581,7 +582,7 @@ router.get('/timetables/departure/:id/trip/:tripcode',checkloginpartner,function
         })
         .populate("chieudi.locationID")
         .then(data=>{
-            console.log("chieu di: ",data.chieudi.length)
+            //console.log("chieu di: ",data.chieudi.length)
             
             for (let index = 0; index < data.chieudi.length; index++) {
                 for (let t = 0; t < data.chieudi[index].time.length; t++) {
@@ -595,7 +596,7 @@ router.get('/timetables/departure/:id/trip/:tripcode',checkloginpartner,function
                     
                 }
             }
-            console.log("trip: ",trips.length)
+            //console.log("trip: ",trips.length)
             
         })
         .catch(err=>{
@@ -605,7 +606,7 @@ router.get('/timetables/departure/:id/trip/:tripcode',checkloginpartner,function
     }
     timchuyen()
     .then(data=>{
-        console.log(data.length)
+        //console.log(data.length)
         res.render('partner/pages/2G.departure.trip.partner.ejs',{user:req.partnername, data:data, routerID: req.params.id});
 
     })
@@ -628,7 +629,7 @@ router.delete('/timetables/departure/:id/trip/:tripcode',checkloginpartner,funct
             { multi: true }
             )
             .then(data=>{
-                console.log(data)
+                //console.log(data)
                 res.json({mes:"Xóa chuyến thành công"})
             })
             .catch(err=>{
@@ -643,7 +644,7 @@ router.delete('/timetables/departure/:id/trip/:tripcode',checkloginpartner,funct
 //TIMETABLE - TAO CHIEUVE
 
 router.get('/timetables/return/:id',checkloginpartner,function(req , res, next){
-    console.log(req.params.id)
+    //console.log(req.params.id)
     routerModel.findById(req.params.id)
     .populate("chieuve.locationID")
     .then(data=>{
@@ -657,7 +658,7 @@ router.get('/timetables/return/:id',checkloginpartner,function(req , res, next){
 //Them lich trinh chieu ve
 router.put('/timetables/return/:id',checkloginpartner,function(req , res, next){
     let chuyen_chieuve = JSON.parse(req.body.chuyen_chieuve)
-    console.log(chuyen_chieuve)
+    //console.log(chuyen_chieuve)
     routerModel.findById(req.params.id)
     .then(data=>{
         //console.log(data)
@@ -687,7 +688,7 @@ router.put('/timetables/return/:id',checkloginpartner,function(req , res, next){
 
 //Xem chi tiet lich trinh cua chuyen - chiều về
 router.get('/timetables/return/:id/trip/:tripcode',checkloginpartner,function(req , res, next){
-    console.log(req.params)
+    //console.log(req.params)
     async function timchuyen(){
         let trips = []
         await routerModel.findOne({
@@ -743,7 +744,7 @@ router.delete('/timetables/return/:id/trip/:tripcode',checkloginpartner,function
             { multi: true }
             )
             .then(data=>{
-                console.log(data)
+                //console.log(data)
                 res.json({mes:"Xóa chuyến thành công"})
             })
             .catch(err=>{
@@ -758,9 +759,8 @@ router.delete('/timetables/return/:id/trip/:tripcode',checkloginpartner,function
 
 //3.ĐỊA ĐIỂM ĐÓN TRẢ
 router.get('/location',checkloginpartner,function(req , res, next){
-    console.log(req.query)
+    //console.log(req.query)
     let page = req.query.page;
-    console.log(req.query)
     const PAGE_SIZE =50;
     if(page){
         page = parseInt(page);
@@ -773,7 +773,7 @@ router.get('/location',checkloginpartner,function(req , res, next){
         .limit(PAGE_SIZE)
         .sort({timecreate:'asc'})
         .then(data=>{
-            console.log(data)
+            //console.log(data)
             res.json(data)
         })
     } else {
@@ -852,7 +852,7 @@ router.get('/partner-info',checkloginpartner,function(req , res, next){
     
 })
 router.post('/partner-info',checkloginpartner,urlencodedParser,function(req , res, next){
-    console.log(req.body)
+    //console.log(req.body)
     partnerModel.create({
         userID: req.body.userID,
         tenncc: req.body.tenncc,
@@ -862,8 +862,8 @@ router.post('/partner-info',checkloginpartner,urlencodedParser,function(req , re
         ]
     })
     .then(data=>{
-        console.log(data)
-        res.json({mes:"ok"})
+        //console.log(data)
+        res.json({mes:"Thêm thành công"})
     })
     .catch(err=>{
         console.log(err)
@@ -888,7 +888,7 @@ router.get('/partner-info/:id',checkloginpartner,function(req , res, next){
     }
     data1ncc()
     .then(data=>{
-        console.log(data)
+        //console.log(data)
         if(data){
             res.render('partner/pages/7A.1partner_info.partner.ejs',{user:req.partnername, userID:req.userID, data:data})
         } else (
