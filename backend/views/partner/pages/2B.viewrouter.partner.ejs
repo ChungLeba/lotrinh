@@ -143,13 +143,28 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-8">
+                            <div class="col-sm-2">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Mã tuyến</span>
                                     </div>
                                     <input class="form-control" type="text" placeholder="Mã tuyến: 01" id="input_code" value="<%- data.matuyen %> ">
                                 </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <select id="cacncc" class="custom-select">
+                                        <% for(const key in cacncc) { %>
+                                            <% if (cacncc[key].id==data.nccID){ %> 
+                                                <option value=<%- cacncc[key].id %> selected><%-cacncc[key].tenncc%></option>  
+                                            <% } else { %> 
+                                                <option value=<%- cacncc[key].id %>><%-cacncc[key].tenncc%></option>  
+                                            <% } %> 
+
+                                        <% } %>
+                                    </select>
+                                </div>
+                                
                             </div>
                         </div>
                         
@@ -491,6 +506,7 @@ $(document).ready(function(){
         ten = $('#input_tentuyen').val()
         let code = $('#input_code').val()
         let loai = $('#loai').val()
+        let nccID = $('#cacncc').val()
         let urlid = '<%-data._id%>'
         //console.log(loai)
         if(ten==""){
@@ -509,6 +525,7 @@ $(document).ready(function(){
                     ten: ten,
                     code: code,
                     loai: loai,
+                    nccID: nccID,
                     chieudi: JSON.stringify(router_chieudi),
                     chieuve: JSON.stringify(router_chieuve)
                 }

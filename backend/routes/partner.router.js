@@ -211,7 +211,7 @@ router.get('/routers/add',checkloginpartner,function(req , res, next){
             ncc.tenncc = data[index].tenncc
             cacncc.push(ncc)
         }
-        console.log(cacncc)
+        //console.log(cacncc)
         res.render('partner/pages/2A.addrouter.partner.ejs',{user:req.partnername,cacncc:cacncc});
     })
     
@@ -219,6 +219,7 @@ router.get('/routers/add',checkloginpartner,function(req , res, next){
 })
 
 router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res, next){
+    console.log(req.body)
     //Nap dia diem chieu di
     let cacdiadiemchieudi = JSON.parse(req.body.chieudi)
     let cacdiadiemchieudi_res = []
@@ -323,6 +324,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
             ten: req.body.ten, 
             matuyen: req.body.code,
             loai: req.body.loai,
+            nccID: req.body.nccID,
             chieudi: data.chieudi,
             chieuve: data.chieuve,
             partnerID: req.userID,
@@ -345,16 +347,34 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
 //GET
 router.get('/routers/:id',checkloginpartner,function(req , res, next){
     console.log(req.params.id)
-    routerModel.findById(req.params.id)
-    .populate("chieudi.locationID")
-    .populate("chieuve.locationID")
-    .then(data=>{
-        //console.log(data)
-        res.render('partner/pages/2B.viewrouter.partner.ejs',{user:req.partnername, data:data});
+    //Cac nha cung cap
+    async function cacncc(){
+        let datacacncc = await partnerModel.find({
+            userID: req.userID
+        })
+        let cacncc = []
+        for (let index = 0; index < datacacncc.length; index++) {
+            let ncc ={}
+            ncc.id = datacacncc[index]._id
+            ncc.tenncc = datacacncc[index].tenncc
+            cacncc.push(ncc)
+        }
+        return cacncc
+    }
+    cacncc()
+    .then(cacncc=>{
+        routerModel.findById(req.params.id)
+        .populate("chieudi.locationID")
+        .populate("chieuve.locationID")
+        .then(data=>{
+            console.log(data)
+            res.render('partner/pages/2B.viewrouter.partner.ejs',{user:req.partnername, data:data, cacncc: cacncc});
+        })
+        .catch(err=>{
+            console.log(err)
+        })
     })
-    .catch(err=>{
-        console.log(err)
-    })
+    
 })
 //PUT
 router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res, next){
@@ -450,6 +470,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
         let chieuve = await napdiadiem_chieuve()
         return {chieudi, chieuve}
     }
+    
     //Sua tuyen duong
     taotuyenduong()
     .then(data=>{
@@ -458,6 +479,7 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
             ten: req.body.ten, 
             matuyen: req.body.code,
             loai: req.body.loai,
+            nccID: req.body.nccID,
             chieudi: data.chieudi,
             chieuve: data.chieuve,
             partnerID: req.userID,

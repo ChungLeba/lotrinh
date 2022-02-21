@@ -81,6 +81,7 @@
                             </div>
                             <% } else { %>
                             <div class="text-right">
+
                                 <a href="/partner/partner-info"> <p class="text-right"></p>Lưu ý: Chưa có nhà cung cấp dịch vụ vui lòng "Thêm nhà cung cấp"</a>
                             </div> 
                             <% } %> 
@@ -507,10 +508,13 @@ $(document).ready(function(){
         let ten = $('#input_tentuyen').val()
         let code = $('#input_code').val()
         let loai = $('#loai').val()
+        let nccID = $('#cacncc').val()
         if(ten==""){
             alert("Tên tuyến đường không được bỏ trống")
         } else if (code==""){
             alert("Mã tuyến đường không được bỏ trống")
+        } else if (nccID==null){
+            alert("Vui lòng thêm nhà cung cấp")
         } else if (router_chieudi.length<2){
             alert("Địa điểm đi qua phải từ 2 điểm để xác định điểm đầu và cuối")
         } else {
@@ -523,6 +527,7 @@ $(document).ready(function(){
                 ten: ten,
                 code: code,
                 loai: loai,
+                nccID: nccID,
                 chieudi: JSON.stringify(router_chieudi),
                 chieuve: JSON.stringify(router_chieuve)
             }
