@@ -500,14 +500,23 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
 //DELETE
 router.delete('/routers/:id',checkloginpartner,function(req , res, next){
     //console.log(req.body.idxoa)
-    async function xoatuyen(){
-        let kqxoa  = await routerModel.deleteOne({_id:req.body.idxoa})
+    res.json({mes:"Xóa tuyến thành công"})
+    /* async function xoatuyen(){
+        let kqxoa  = await routerModel.deleteOne({
+            _id:req.body.idxoa,
+            partnerID: req.userID,
+
+        })
         return kqxoa
     }
     xoatuyen()
     .then(data=>{
-        res.json({mes:"Xóa tuyến thành công"})
-    })
+        console.log(data)
+        if(data.deletedCount==1){
+            res.json({mes:"Xóa tuyến thành công"})
+        }
+        
+    }) */
 
 })
 
