@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PARTNER | INFO</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
+</head>
+<body class="sidebar-mini sidebar-collapse">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+<%- include('../1.topmenu.partner.ejs'); %>
+<%- include('../2.leftmenu.partner.ejs'); %>
+  <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+      <div class="container-fluid">
+      <div class="row mb-2">
+          <div class="col-sm-6">
+          <h1>Quản lý nhà cung cấp</h1>
+          </div>
+          <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Tất cả nhà cung cấp</li>
+          </ol>
+          </div>
+      </div>
+      </div><!-- /.container-fluid -->
+  </section>
+  
+  <!-- Main content -->
+  <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-4">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Sửa nhà cung cấp</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <input class="form-control form-control-lg" type="text" placeholder="Lộ trình Việt" id="input_ten" value="<%- data.ncc.tenncc %> ">
+                        </div>
+                    </br>
+                        <div class="row" id="div_lienhe">
+                            <label for="lien-he">Liên hệ</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-headset"></i></span>
+                                </div>
+                                <input class="form-control" type="text" placeholder="Trụ sở, phòng vé, tổng đài..." id="input_bophan">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                </div>
+                                <input class="form-control" type="text" placeholder="09..." id="input_dienthoai">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                                </div>
+                                <input class="form-control" type="text" placeholder="Số 77, Lê Văn Thịnh, ..." id="input_diachi">
+                            </div>
+                            <button type="button" class="btn btn-block bg-gradient-primary" id="bt_save">Thêm liên hệ</button>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+              </div>
+  
+              <div class="col-md-8">
+                  <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">Thêm và sửa thông tin nhà cung cấp</h3>
+                            </div>
+                            <div class="card-body" style="height: auto;">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="card card-outline card-danger">
+                                            <div class="card-header">
+                                                
+                                                <h4 class="card-title">Các tuyến vận tải quản lý</h4>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-block bg-gradient-danger btn-sm" id="bt_themtuyen">+ Thêm</button>
+                                                </div>
+
+                                            </div>
+                                            <div class="card-body">
+                                                <ol>
+                                                    <% for( let index = 0; index < data.cactuyenql.length; index++ ) { %>
+                                                        <li>
+                                                            <%- data.cactuyenql[index].ten %> 
+                                                        </li>
+                                                    </br>
+                                                    <% } %>
+                                                    
+                                                </ol>
+                                            </div>
+
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card card-outline card-warning">
+                                            <div class="card-header">
+                                                <h4 class="card-title">Các địa chỉ liên hệ</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table table-head-fixed text-wrap">
+                                                    <thead>
+                                                        <th>TT</th>
+                                                        <th>Liên hệ</th>
+                                                        <th>Sửa</th>
+                                                        <th>Xóa</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% for( let index = 0; index < data.ncc.caclienhe.length; index++ ) { %>
+                                                            <tr>
+                                                                <td><%- index +1 %> </td>
+                                                                <td>
+                                                                    <%- data.ncc.caclienhe[index].bophan %>, <%- data.ncc.caclienhe[index].dienthoai %>, <%- data.ncc.caclienhe[index].diachi %> 
+                                                                </td>
+                                                                <td>
+                                                                    <button class="btn btn-block btn-outline-danger btn-sm">Sửa</button>
+                                                                </td>
+                                                                <td>
+                                                                    <button class="btn btn-block btn-outline-warning btn-sm">Xóa</button>
+                                                                </td>
+                                                            </tr>
+                                                        <% } %>
+                                                            
+
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                  </div>
+              </div>
+              
+  
+              
+          </div>
+          
+      </div>
+      
+  </section>
+  <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <%- include('../3.footer.partner.ejs'); %>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../admin/plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap 4 -->
+<script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../admin/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../admin/dist/js/demo.js"></script>
+</body>
+</html>

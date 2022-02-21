@@ -23,6 +23,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 //TRANG CHU
 router.get('/',function(req , res, next){
+    console.log(req.params)
     //res.json("partner đăng ký")
     res.render('partner/pages/0A.reg.partner.ejs',{hi:"Xin chào nhà cung cấp"});
 

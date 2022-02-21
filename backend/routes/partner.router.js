@@ -11,6 +11,7 @@ var userModel = require('../models/user.model')
 var diadiemchitietModel = require('../models/location.model')
 var imglocationModel = require('../models/img.location.model');
 var routerModel = require('../models/router.model');
+var partnerModel = require('../models/partner.model');
 const { json } = require('express');
 const { time } = require('console');
 
@@ -198,7 +199,22 @@ router.get('/routers',checkloginpartner,function(req , res, next){
 
 //ROUTER ADD
 router.get('/routers/add',checkloginpartner,function(req , res, next){
-    res.render('partner/pages/2A.addrouter.partner.ejs',{user:req.partnername});
+    partnerModel.find({
+        userID: req.userID
+    })
+    .then(data=>{
+        console.log(data)
+        let cacncc = []
+        for (let index = 0; index < data.length; index++) {
+            let ncc ={}
+            ncc.id = data[index]._id
+            ncc.tenncc = data[index].tenncc
+            cacncc.push(ncc)
+        }
+        console.log(cacncc)
+        res.render('partner/pages/2A.addrouter.partner.ejs',{user:req.partnername,cacncc:cacncc});
+    })
+    
     
 })
 
@@ -773,5 +789,100 @@ router.get('/timetables',checkloginpartner,function(req , res, next){
     })
     
 })
+//5.PHƯƠNG TIỆN
+//6.NHÂN SỰ
+//7.TT các NCC
+router.get('/partner-info',checkloginpartner,function(req , res, next){
+    async function timnccIDinrouter(){
+        let cacncc = await partnerModel.find({
+            userID: req.userID
+        })
+        //console.log("cacncc: ",cacncc)
+        let datacactuyenql = []
+        for (let index = 0; index < cacncc.length; index++) {
+            let tuyenql = {}
+            let cactuyenquanlycuancc = await routerModel.find({
+                                            nccID:cacncc[index]._id
+                                        })
+            tuyenql._id = cacncc[index]._id
+            tuyenql.tenncc = cacncc[index].tenncc
+            tuyenql.cactuyenql = cactuyenquanlycuancc
+            tuyenql.caclienhe = cacncc[index].caclienhe
+            datacactuyenql.push(tuyenql)                                 
+        }
+        
+        //console.log("data: ",datacactuyenql)
+        return data = datacactuyenql
+    }
+    timnccIDinrouter()
+    .then(data=>{
+        //console.log(data)
+        if(data){
+            res.render('partner/pages/7.partner_info.partner.ejs',{user:req.partnername, userID:req.userID, data:data})
+        } else (
+            res.render('partner/pages/7.partner_info.partner.ejs',{user:req.partnername, userID:req.userID})
+        )
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+    
+    
+})
+router.post('/partner-info',checkloginpartner,urlencodedParser,function(req , res, next){
+    console.log(req.body)
+    partnerModel.create({
+        userID: req.body.userID,
+        tenncc: req.body.tenncc,
+        caclienhe:
+        [
+            JSON.parse(req.body.lienhe)
+        ]
+    })
+    .then(data=>{
+        console.log(data)
+        res.json({mes:"ok"})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+//7.1.TT 1 NCC
+router.get('/partner-info/:id',checkloginpartner,function(req , res, next){
+    async function data1ncc(){
+        let data = {}
+        let ncc = await partnerModel.find({
+            _id:req.params.id
+        })
+        //console.log("data: ",ncc)
+        data.ncc = ncc[0]
+        let cactuyenquanlycuancc = await routerModel.find({
+                                        nccID:ncc[0]._id
+                                    })                               
+        //console.log("cactuyenql: ",cactuyenquanlycuancc)
+        data.cactuyenql = cactuyenquanlycuancc                          
+        return data
+    }
+    data1ncc()
+    .then(data=>{
+        console.log(data)
+        if(data){
+            res.render('partner/pages/7A.1partner_info.partner.ejs',{user:req.partnername, userID:req.userID, data:data})
+        } else (
+            res.render('partner/pages/7.partner_info.partner.ejs',{user:req.partnername, userID:req.userID})
+        )
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+    
+})
+//7.2. ROUTER OF PARTNER
+router.get('/manager-router-of-partner',checkloginpartner,function(req , res, next){
+    res.render('partner/pages/7B.router.partner.ejs',{user:req.partnername, userID:req.userID})
+})
+
+
 module.exports = router;
 

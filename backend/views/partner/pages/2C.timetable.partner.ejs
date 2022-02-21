@@ -124,11 +124,26 @@
                                             <tr>
                                                 <td id="<%-data.chieudi[0].time[index]._id%>"><%- index +1 %></td>
                                                 <td>
-                                                    <a href="/partner/timetables/departure/<%-data._id%>/trip/<%-data.chieudi[0].time[index].tripCode%>">
-                                                        <span class="badge bg-warning text-dark"><%-data.chieudi[0].time[index].tripCode%></span>                                                    
-                                                    </a>
+                                                    <span class="badge bg-warning text-dark"><%-data.chieudi[0].time[index].tripCode%></span>                                                    
                                                 </td>
-                                                <td><%-data.chieudi[0].time[index].time%>, <%- moment(data.chieudi[0].time[index].date).format("DD/MM/YYYY")%></td>
+                                                <td>
+                                                    <% if (data.chieudi[0].time[index].frequency=="many") { %>
+                                                        <a href="/partner/timetables/departure/<%-data._id%>/trip/<%-data.chieudi[0].time[index].tripCode%>">
+                                                            <button type="button" class="btn btn-block btn-light">
+                                                                <%-data.chieudi[0].time[index].time%>, <%- moment(data.chieudi[0].time[index].date).format("DD/MM/YYYY")%>
+                                                            </button>
+                                                        </a>
+                                                    
+                                                    <% } %> 
+                                                    <% if (data.chieudi[0].time[index].frequency=="one") { %>
+                                                        <a href="/partner/timetables/departure/<%-data._id%>/trip/<%-data.chieudi[0].time[index].tripCode%>">
+                                                            <button type="button" class="btn btn-block btn-light">
+                                                                <%-data.chieudi[0].time[index].time%>, hàng ngày
+                                                            </button>
+                                                        </a>
+                                                    
+                                                    <% } %> 
+                                                </td>
                                             </tr>
                                         <% } %> 
                                         <% }else{ %>
@@ -220,11 +235,25 @@
                                             <tr>
                                                 <td id="<%-data.chieuve[0].time[index]._id%>"><%- index +1 %></td>
                                                 <td>
-                                                    <a href="/partner/timetables/return/<%-data._id%>/trip/<%-data.chieuve[0].time[index].tripCode%>">
-                                                        <span class="badge bg-warning text-dark"><%-data.chieuve[0].time[index].tripCode%></span>                                                    
-                                                    </a>
+
+                                                    <span class="badge bg-warning text-dark"><%-data.chieuve[0].time[index].tripCode%></span>                                                    
                                                 </td>
-                                                <td><%-data.chieuve[0].time[index].time%>, <%- moment(data.chieuve[0].time[index].date).format("DD/MM/YYYY")%></td>
+                                                <td>
+                                                    <% if (data.chieuve[0].time[index].frequency=="many") { %>
+                                                        <a href="/partner/timetables/return/<%-data._id%>/trip/<%-data.chieuve[0].time[index].tripCode%>">
+                                                            <button type="button" class="btn btn-block btn-light">
+                                                                <%-data.chieuve[0].time[index].time%>, <%- moment(data.chieuve[0].time[index].date).format("DD/MM/YYYY")%>
+                                                            </button>
+                                                        </a>
+                                                    <% } %> 
+                                                    <% if (data.chieuve[0].time[index].frequency=="one") { %>
+                                                        <a href="/partner/timetables/return/<%-data._id%>/trip/<%-data.chieuve[0].time[index].tripCode%>">
+                                                            <button type="button" class="btn btn-block btn-light">
+                                                                <%-data.chieuve[0].time[index].time%>, hàng ngày
+                                                            </button>
+                                                        </a>
+                                                    <% } %> 
+                                                </td>
                                             </tr>
                                         <% } %> 
                                         <% }else{ %>

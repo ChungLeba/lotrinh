@@ -32,12 +32,7 @@ var diadiemchitietSchema = new mongoose.Schema({
     
 var diadiemchitietModel = mongoose.model('diadiemchitietModel',diadiemchitietSchema)
 
-function between(min, max) {  
-    return Math.floor(
-      Math.random() * (max - min) + min
-    )
-}
-random = between(100,9000)
+
 
 /* diadiemchitietModel.updateMany({},{$set: {todayviews: random}},{upsert:true,
     multi:true})
@@ -48,7 +43,15 @@ random = between(100,9000)
     console.log(err)
 }) */
 
-
+/* diadiemchitietModel.findOne({tinh:"Thành phố Đà Nẵng"})
+.then(data=>{
+    let tinhID = data._id
+    console.log("kq:",tinhID)
+})
+.catch(err=>{
+    console.log(err)
+})
+ */
 
 
 module.exports = diadiemchitietModel

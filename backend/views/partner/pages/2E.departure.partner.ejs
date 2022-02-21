@@ -49,14 +49,27 @@
             <div class="col">
                 <div class="card card-success card-outline">
                     <div class="card-body">
-                        <input class="form-control form-control-lg" type="text" placeholder="Mã chuyến: BKS-11.111, HCM-DN-01, CODE-01..." id="input_tripcode">
-                        <br>
-                        <div class="form-group">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                                <label class="custom-control-label" for="customSwitch1">Khởi hành hàng ngày</label>
+                        <input class="form-control form-control-lg" type="text" placeholder="Mã chuyến: BKS-11.111, HCM-DN-01, CODE-01..." id="input_tripcode" readonly>
+                        <br> 
+                        <div class="row">
+                            <br>
+
+                            <div class="col-sm-12">
+                                <div class="form-group text-left">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                        <label class="custom-control-label" for="customSwitch1">Khởi hành hàng ngày</label>
+                                    </div>
+                                </div>
                             </div>
+                            
                         </div>
+                        <small><span class="badge bg-warning"><%- data.chieudi[0].time.length %></span> Chuyến đã có: </small>
+                        <% for( let index = 0; index < data.chieudi[0].time.length; index++ ) { %>
+                            <span class="badge bg-warning"><%- data.chieudi[0].time[index].tripCode %></span> 
+                        <% } %>
+                        
+                        
 
                     </div>
 
@@ -144,7 +157,7 @@ $(document).ready(function(){
     $('#dem_chieudi').text($('#table_chieudi tr').length -1)
     $('#dem_chieuve').text($('#table_chieuve tr').length -1)
     //daily check
-    
+    /* Lộ trình chạy hàng ngày hoặc nhiều ngày */
     $("#customSwitch1").click(function() {
     if(this.checked) {
         //alert("check")
@@ -161,6 +174,9 @@ $(document).ready(function(){
         
     }
     });
+    /* Tao trip code tự động */
+    $("#input_tripcode").val("C-"+(parseInt('<%-data.chieudi[0].time.length%>')+1)+"-D")
+
     $('#bt_time_save_chieudi').click(function(){
         //console.log($('#customSwitch1').is(':checked'))
         if($('#customSwitch1').is(':checked')){

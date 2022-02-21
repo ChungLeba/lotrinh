@@ -49,12 +49,25 @@
             <div class="col">
                 <div class="card card-success card-outline">
                     <div class="card-body">
-                        <input class="form-control form-control-lg" type="text" placeholder="Mã chuyến: BKS-11.111, HCM-DN-01, CODE-01..." id="input_tripcode">
+                        <input class="form-control form-control-lg" type="text" placeholder="Mã chuyến: BKS-11.111, HCM-DN-01, CODE-01..." id="input_tripcode" readonly>
                         <br>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1">(*) Khởi hành hàng ngày</label>
+                        <div class="row">
+                            <br>
+
+                            <div class="col-sm-12">
+                                <div class="form-group text-left">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                        <label class="custom-control-label" for="customSwitch1">Khởi hành hàng ngày</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
+                        <small><span class="badge bg-warning"><%- data.chieuve[0].time.length %></span> Chuyến đã có: </small>
+                        <% for( let index = 0; index < data.chieuve[0].time.length; index++ ) { %>
+                            <span class="badge bg-warning"><%- data.chieuve[0].time[index].tripCode %></span> 
+                        <% } %>
                     </div>
 
                 </div>
@@ -140,54 +153,123 @@ $(document).ready(function(){
     //Đếm 
     $('#dem_chieuve').text($('#table_chieuve tr').length -1)
     $('#dem_chieuve').text($('#table_chieuve tr').length -1)
+    //daily check
+    /* Lộ trình chạy hàng ngày hoặc nhiều ngày */
+    $("#customSwitch1").click(function() {
+    if(this.checked) {
+        //alert("check")
+        for (let index = 1; index <= '<%- data.chieuve.length%>'; index++) {
+            $('#start'+index).hide()
+        }
+        
+    }else{
+        //alert("Uncheck")
+        for (let index = 1; index <= '<%- data.chieuve.length%>'; index++) {
+            $('#start'+index).show()
+        }
+        
+        
+    }
+    });
+    /* Tao trip code tự động */
+    $("#input_tripcode").val("C-"+(parseInt('<%-data.chieuve[0].time.length%>')+1)+"-V")
     //Tim time
 
     $('#bt_time_save_chieuve').click(function(){
-        //console.log($('#appt1').val())
-        let tripno = '<%- data.chieuve[0].time.length + 1 %>'
-        let trips = []
-        
-        $('#tbody_chieuve').find("tr").each(function(){
-            let trip = {}
-            $(this).find("td:first").each(function(){
-                trip.diadiemdiquaid = $(this).attr("id")
-            })
-            trip.no = tripno
-            trip.tripCode = $('#input_tripcode').val()
+        if($('#customSwitch1').is(':checked')){
+            //console.log($('#appt1').val())
+            let tripno = '<%- data.chieuve[0].time.length + 1 %>'
+            let trips = []
+            
+            $('#tbody_chieuve').find("tr").each(function(){
+                let trip = {}
+                $(this).find("td:first").each(function(){
+                    trip.diadiemdiquaid = $(this).attr("id")
+                })
+                trip.no = tripno
+                trip.tripCode = $('#input_tripcode').val()
 
-            $(this).find("[name='appt']").each(function(){
-                trip.time = $(this).val()
+                $(this).find("[name='appt']").each(function(){
+                    trip.time = $(this).val()
+                })
+                $(this).find("[name='trip-start']").each(function(){
+                    trip.date = '0001-01-01'
+                })
+                trip.frequency = "one"
+                console.log(trip)
+                trips.push(trip)
             })
-            $(this).find("[name='trip-start']").each(function(){
-                trip.date = $(this).val()
-            })
-            trip.frequency = "many"
-            console.log(trip)
-            trips.push(trip)
-        })
-        console.log("all:",trips)
-        //PUT
-        let urlid = '<%-data._id%>'
-        if (trips[0].tripCode==''){
-            alert("Mã chuyến không được bỏ trống")
-        } else {
-            $.ajax({
-            url:'/partner/timetables/return/'+urlid,
-            type:'PUT',
-            dataType: 'json',
-            data: 
-            {
-                chuyen_chieuve: JSON.stringify(trips),
+            console.log("all:",trips)
+            //PUT
+            let urlid = '<%-data._id%>'
+            if (trips[0].tripCode==''){
+                alert("Mã chuyến không được bỏ trống")
+            } else {
+                $.ajax({
+                url:'/partner/timetables/return/'+urlid,
+                type:'PUT',
+                dataType: 'json',
+                data: 
+                {
+                    chuyen_chieuve: JSON.stringify(trips),
+                }
+                })
+                .then(data=>{
+                alert(data.mes)
+                window.location.href = '/partner/timetables/'+urlid
+                })
+                .catch(err=>{
+                console.log(err)
+                })
             }
+        } else {
+            //console.log($('#appt1').val())
+            let tripno = '<%- data.chieuve[0].time.length + 1 %>'
+            let trips = []
+            
+            $('#tbody_chieuve').find("tr").each(function(){
+                let trip = {}
+                $(this).find("td:first").each(function(){
+                    trip.diadiemdiquaid = $(this).attr("id")
+                })
+                trip.no = tripno
+                trip.tripCode = $('#input_tripcode').val()
+
+                $(this).find("[name='appt']").each(function(){
+                    trip.time = $(this).val()
+                })
+                $(this).find("[name='trip-start']").each(function(){
+                    trip.date = $(this).val()
+                })
+                trip.frequency = "many"
+                console.log(trip)
+                trips.push(trip)
             })
-            .then(data=>{
-            alert(data.mes)
-            window.location.href = '/partner/timetables/'+urlid
-            })
-            .catch(err=>{
-            console.log(err)
-            })
+            console.log("all:",trips)
+            //PUT
+            let urlid = '<%-data._id%>'
+            if (trips[0].tripCode==''){
+                alert("Mã chuyến không được bỏ trống")
+            } else {
+                $.ajax({
+                url:'/partner/timetables/return/'+urlid,
+                type:'PUT',
+                dataType: 'json',
+                data: 
+                {
+                    chuyen_chieuve: JSON.stringify(trips),
+                }
+                })
+                .then(data=>{
+                alert(data.mes)
+                window.location.href = '/partner/timetables/'+urlid
+                })
+                .catch(err=>{
+                console.log(err)
+                })
+            }
         }
+        
         
     })
 })

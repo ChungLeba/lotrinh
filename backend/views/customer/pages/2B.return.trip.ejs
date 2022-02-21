@@ -20,80 +20,113 @@
     <%- include('../1.topmenu.customer.ejs'); %>
     <%- include('../2.seach.customer.ejs'); %>
     <div class="row">
-        <!-- Lịch trình chuyến -->
-            <div class="info-box bg-light">
-                <div class="info-box-content">
+        <div class="col">
+            <!-- Lịch trình chuyến -->
+            <div class="card card-success card-outline">
+                <div class="card-body">
                         <div class="row">
                             <div class="col-sm-2">
                                 
                                 <h1 class="text-center"><%- data[0].matuyen %></h1>
+                                <% if (data[0].loai=="1"){ %> 
+                                    <h5 class="text-center">Xe bus</h5>
+                                    <% } else if (data[0].loai=="2"){ %>
+                                    <h5 class="text-center">Xe khách</h5>
+                                    <% } else if (data[0].loai=="3"){ %>
+                                    <h5 class="text-center">Xe taxi</h5>
+                                    <% } else if (data[0].loai=="4"){ %>
+                                    <h5 class="text-center">Xe moto</h5>
+                                    <% } else if (data[0].loai=="5"){ %>
+                                        <h5 class="text-center">Thuyền, tàu biển</h5>
+                                        <% } else if (data[0].loai=="6"){ %>
+                                        <h5 class="text-center">Phương tiện khác</h5>
+
+                                    <% } %>
                                 <h6 class="text-center">Chuyến: <%- data[1][0].time.tripCode %></h6>
                             </div>
                             <div class="col-sm-10">
-                                <h2 class="text-center"><i class="nav-icon fas fa-road"></i> <%- data[0].ten %></h2>
-                                <h5 style="text-align: right;"><i class="fab fa-servicestack"> </i> LOTRINHVIET</h5>
-                                <h6 style="text-align: right;"><i class="fas fa-user"></i> <%- data[0].partnerID.email %></h6>
+                                <h2 class="text-center"><%- data[0].ten %></h2>
                             </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="card card-success card-outline">
-                                    <div class="card-header">
-                                        <h3 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Bảng thời gian chiều về</h3>
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                                                <i class="fas fa-expand"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <span title="địa điểm" class="badge bg-danger" id="dem_chieudi">0</span>
-                                        </div>
-                                    </div>
-            
-                                    <div class="card-body table-responsive p-0" style="height: auto;">
-            
-                                        <table class="table table-head-fixed text-wrap" id="table_chieudi">
-                                        <thead>
-                                            <tr>
-                                            <th>#</th>
-                                            <th>Thời gian đi</th>
-                                            <th>Ngày đi (*)</th>
-                                            <th>Địa điểm</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbody_chieudi">
-                                            <% for( let index = 0; index < data[1].length; index++ ) { %>
-                                            <tr id="tr_chieudi_<%- index +1 %>">
-                                                <td><%- index +1 %></td>
-                                                <td>
-                                                    <p><%- data[1][index].time.time %></p>
-                                                </td>
-                                                <td>
-                                                    <% if (data[1][index].time.frequency=="many") { %> 
-                                                        <p><%- moment(data[1][index].time.date).format("YYYY-MM-DD") %></p>
-                                                    <% } %>
-                                                    <% if (data[1][index].time.frequency=="one") { %> 
-                                                        <p>Hàng ngày</p>
-                                                    <% } %> 
-                                                </td>
-                                                <td>
-                                                    <p style="font-weight: bold;margin-bottom:2px"><%- data[1][index].locationID.ten %></p>
-                                                    <p style="margin-bottom:2px"><%- data[1][index].locationID.duong %>, <%- data[1][index].locationID.phuong %>, <%- data[1][index].locationID.quan %>, <%- data[1][index].locationID.tinh %></p>
-                                                </td>
-                                                
-                                            </tr>
-                                            <% } %>
-                                        </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            
+
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <% if(data[0].ncc){ %>
+                                <h5 style="text-align: left;"><i class="fab fa-servicestack"> </i> <%- data[0].ncc %></h5>
+                            <% } %>
+
                         </div>
+                        <div class="col">
+                            <h6 style="text-align: right;"><i class="fas fa-user"></i> <%- data[0].partnerID.email %></h6>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card card-success card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Bảng thời gian chiều về</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span title="địa điểm" class="badge bg-danger" id="dem_chieudi">0</span>
+                            </div>
+                        </div>
+
+                        <div class="card-body table-responsive p-0" style="height: auto;">
+
+                            <table class="table table-head-fixed text-wrap" id="table_chieudi">
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Thời gian đi</th>
+                                <th>Ngày đi (*)</th>
+                                <th>Địa điểm</th>
+                                <th><i class="nav-icon fas fa-map-marker-alt"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody_chieudi">
+                                <% for( let index = 0; index < data[1].length; index++ ) { %>
+                                <tr id="tr_chieudi_<%- index +1 %>">
+                                    <td><%- index +1 %></td>
+                                    <td>
+                                        <p><%- data[1][index].time.time %></p>
+                                    </td>
+                                    <td>
+                                        <% if (data[1][index].time.frequency=="many") { %> 
+                                            <p><%- moment(data[1][index].time.date).format("YYYY-MM-DD") %></p>
+                                        <% } %>
+                                        <% if (data[1][index].time.frequency=="one") { %> 
+                                            <p>Hàng ngày</p>
+                                        <% } %> 
+                                    </td>
+                                    <td>
+                                        <p style="font-weight: bold;margin-bottom:2px"><%- data[1][index].locationID.ten %></p>
+                                        <p style="margin-bottom:2px"><%- data[1][index].locationID.duong %>, <%- data[1][index].locationID.phuong %>, <%- data[1][index].locationID.quan %>, <%- data[1][index].locationID.tinh %></p>
+                                    </td>
+                                    <td class="align-left">
+                                        <a href="#"><i class="fas fa-chevron-right"></i></a>
+                                    </td>
+                                    
+                                </tr>
+                                <% } %>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
     </div>
         
   </div>

@@ -12,7 +12,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="sidebar-mini sidebar-collapse">
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -59,7 +59,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Loại</th>
-                                    <th>Mã</th>
+                                    <th>(T) Mã tuyến</th>
                                     <th><i class="nav-icon fas fa-road"></i> Tên tuyến đường (*)</th>
                                     <th><i class="nav-icon fas fa-play-circle"></i> Nơi đi</th>
                                     <th><i class="nav-icon fas fa-stop-circle"></i> Nơi đến</th>
@@ -92,7 +92,7 @@
                                             </td>
                                             <td>
                                                 <a href="/partner/timetables/<%- data[index]._id %>">
-                                                    <button type="button" class="btn btn-block btn-outline-primary btn-sm">Xem <span class="badge bg-light"> <%- data[index].chieudi[0].time.length %></span></button>
+                                                    <button type="button" class="btn btn-block btn-outline-primary btn-sm">Xem và thêm <span class="badge bg-light"> <%- data[index].chieudi[0].time.length %></span></button>
                                                 </a>
                                             </td>
                                         </tr>

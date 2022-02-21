@@ -20,7 +20,8 @@ mongoose.connect(process.env.DBSTRING);
 },{collection : 'routers'}) */
 
 var routerSchema = new mongoose.Schema({
-    ten: String, 
+    ten: String,
+    nccID:{type: String, ref:"partnerModel"},
     matuyen: String,
     loai: String, 
     chieudi: [{locationID: {type: String, ref:"diadiemchitietModel"}, time:[{
