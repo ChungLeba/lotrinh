@@ -543,16 +543,17 @@ $(document).ready(function(){
     })
     //Xoa tuyen
     $('#bt_xoa').click(function(){
+        let idxoa = '<%-data._id%>'
         let ok = confirm("Khi xóa tuyến đường này thì lịch trình chạy của các chuyến xe liên quan sẽ bị xóa hoàn toàn. Bạn đã chắc chắn muốn xóa?")
         if (ok==true){
-            let urlidxoa = '<%-data._id%>'
+            console.log('/partner/routers/'+idxoa)
             $.ajax({
-                url:'/partner/routers/'+urlidxoa,
+                url:'/partner/routers/'+idxoa,
                 type:'DELETE',
                 dataType: 'json',
                 data: 
                 {
-                    idxoa: urlidxoa
+                    idxoa: idxoa
                 }
             })
             .then(data=>{
