@@ -646,10 +646,7 @@
             $.ajax({
                           url:'/admin/location/'+locationId,
                           type:'DELETE',
-                          dataType: 'json',
-                          data: {
-                          IDxoa: locationId
-                          }
+                          dataType: 'json'
                         })
                         .then(data=>{
                           alert(data.ten + " Đã được xóa")

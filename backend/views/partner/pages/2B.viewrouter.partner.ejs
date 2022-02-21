@@ -550,11 +550,7 @@ $(document).ready(function(){
             $.ajax({
                 url:'/partner/routers/'+idxoa,
                 type:'DELETE',
-                dataType: 'json',
-                data: 
-                {
-                    idxoa: idxoa
-                }
+                dataType: 'json'
             })
             .then(data=>{
             alert(data.mes);
@@ -565,6 +561,7 @@ $(document).ready(function(){
             })
         }
     })
+    
 })
 </script>
 <!-- Bootstrap 4 -->

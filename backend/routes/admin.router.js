@@ -304,7 +304,7 @@ router.delete('/location/:locationId',urlencodedParser,checklogin, function(req,
     console.log(req.params)
     diadiemchitietModel.findByIdAndDelete({_id: req.params.locationId})
     .then(data=>{
-        console.log(data)
+        //console.log(data)
         res.send(data)
     })
     .catch(err=>{
