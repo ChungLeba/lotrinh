@@ -45,19 +45,95 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title" id="p_buoc">Thêm điểm đón, trả & đi qua</h3>
+                        <h3 class="card-title">Chỉnh sửa thông tin tuyến đường</h3>
                     </div>
                     <div class="card-body">
-                        <div class="row" id="buoc2">
-                            <div class="col">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Tuyến đường</span>
+                            </div>
+                            <input class="form-control form-control-lg" type="text" placeholder="Hà Nội - Hồ Chí Minh, cung điện di động" id="input_tentuyen" value="<%- data.ten %>">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <select id="loai" class="custom-select">
+                                        <% var selects = [{1:"Xe bus"},{2:"Xe khách"},{3:"Xe taxi"},{4:"Xe moto"},{5:"Thuyền, tàu biển"},{6:"Phương tiện khác"}] %> 
+                                        <% for(const key in selects) { %>
+                                            <% let k = parseInt(key) + 1 %> 
+                                            <% if (k==data.loai){ %>
+                                                <option value="<%-k%>" selected><%-Object.values(Object.values(selects)[key])[0]%></option>  
+                                            <% } else { %> 
+                                                <option value="<%-k%>"><%-Object.values(Object.values(selects)[key])[0]%></option>
+                                            <%  } %>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Mã tuyến</span>
+                                    </div>
+                                    <input class="form-control" type="text" placeholder="Mã tuyến: 01" id="input_code" value="<%- data.matuyen %>">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <select id="cacncc" class="custom-select">
+                                        <% for(const key in cacncc) { %>
+                                            <% if (cacncc[key].id==data.nccID){ %> 
+                                                <option value=<%- cacncc[key].id %> selected><%-cacncc[key].tenncc%></option>  
+                                            <% } else { %> 
+                                                <option value=<%- cacncc[key].id %>><%-cacncc[key].tenncc%></option>  
+                                            <% } %> 
+
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-9"><button type="button" class="btn btn-outline-primary btn-block btn-sm" id="bt_save_tt">Lưu thay đổi</button></div>
+                            <div class="col-sm-3"><button type="button" class="btn btn-outline-danger btn-block btn-sm" id="bt_xoa">Xóa</button></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Chỉnh sửa lộ trình</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
                                 <div class="card card-primary card-outline">
                                     <div class="card-header">
                                         <h3 class="card-title" id="p_buoc">Vui lòng chọn từ trên xuống theo cấu trúc địa phương</h3>
                                     </div>
                                     <div class="card-body">
+                                        <div class="form-group">
+                                            <input list="browsers" autocomplete="off" id="input_diadiemthem" class="form-control is-invalid form-control-lg" type="text" placeholder="Công ty CP Phần Mềm Satime" aria-label=".form-control-sm example">
+                                            <datalist id="browsers">
+                                                <% for( let index = 0; index < dsdiadiem.length; index++ ) { %>
+                                                    <option value='<%= dsdiadiem[index].ten %>, <%= dsdiadiem[index].duong%>, <%- dsdiadiem[index].phuong%>, <%- dsdiadiem[index].quan%>, <%- dsdiadiem[index].tinh%>'  label='<%= dsdiadiem[index]._id%>'>
+                                                <% } %>
+                                                
+                                                <option value="Điểm dừng 2" label="127 Trưng Nữ Vương, Phường Bình Hiên, Quận Hải Châu, Đà Nẵng">
+                                            </datalist>
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="input_duong" class="form-control is-invalid" type="text" placeholder="77 Lê Văn Thịnh, Ngã tư..." aria-label=".form-control-sm example">
+                                        </div>
                                         <div class="form-group">
                                             <select id="select_tinh" class="form-control is-invalid" aria-label="Default select example">
                                             <option selected>Vui lòng chọn Tỉnh</option>
@@ -75,12 +151,7 @@
                                                 <option selected>Vui lòng chọn Phường/xã</option>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <input id="input_duong" class="form-control is-invalid" type="text" placeholder="77 Lê Văn Thịnh, Ngã tư..." aria-label=".form-control-sm example">
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="input_diadiemthem" class="form-control is-invalid" type="text" placeholder="Công ty CP Phần Mềm Satime" aria-label=".form-control-sm example">
-                                        </div>
+                                        
                                     </div>
                                     <div class="card-footer">
                                         <div class="row">
@@ -92,87 +163,13 @@
                                             </div>
                                         </div>
                                     </div>
-
+            
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Xem lại kết quả</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
-                              <i class="fas fa-expand"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                              <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                              <i class="fas fa-times"></i>
-                            </button>
-                          </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Tuyến đường</span>
-                            </div>
-                            <input class="form-control form-control-lg" type="text" placeholder="Hà Nội - Hồ Chí Minh, cung điện di động" id="input_tentuyen" value="<%- data.ten %> ">
-                        </div>
-                        <div class="row">
                             <div class="col-sm-4">
-                                <div class="form-group">
-                                    <select id="loai" class="custom-select">
-                                        <% var selects = [{1:"Xe bus"},{2:"Xe khách"},{3:"Xe taxis"},{4:"Xe moto"},{5:"Thuyền, tàu biển"},{6:"Phương tiện khác"}] %> 
-                                        <% for(const key in selects) { %>
-                                            <% let k = parseInt(key) + 1 %> 
-                                            <% if (k==data.loai){ %>
-                                                <option value="<%-k%>" selected><%-Object.values(Object.values(selects)[key])[0]%></option>  
-                                            <% } else { %> 
-                                                <option value="<%-k%>"><%-Object.values(Object.values(selects)[key])[0]%></option>
-                                            <%  } %>
-                                        <% } %>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Mã tuyến</span>
-                                    </div>
-                                    <input class="form-control" type="text" placeholder="Mã tuyến: 01" id="input_code" value="<%- data.matuyen %> ">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <select id="cacncc" class="custom-select">
-                                        <% for(const key in cacncc) { %>
-                                            <% if (cacncc[key].id==data.nccID){ %> 
-                                                <option value=<%- cacncc[key].id %> selected><%-cacncc[key].tenncc%></option>  
-                                            <% } else { %> 
-                                                <option value=<%- cacncc[key].id %>><%-cacncc[key].tenncc%></option>  
-                                            <% } %> 
-
-                                        <% } %>
-                                    </select>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col">
                                 <div class="card card-success card-outline">
                                     <div class="card-header">
-                                        <h3 class="card-title">Chiều đi</h3>
+                                        <h3 class="card-title">Lộ trình chiều đi (có <a href="/partner/timetables/<%- data._id %>"><%- data.chieudi[0].time.length %> lịch trình</a>)</h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                                 <i class="fas fa-expand"></i>
@@ -186,14 +183,14 @@
         
                                     <div class="card-body table-responsive p-0" style="height: 500px;">
                                         <table class="table table-head-fixed text-nowrap" id="table_chieudi">
-                                          <thead>
+                                            <thead>
                                             <tr>
-                                              <th>#</th>
-                                              <th>Địa điểm</th>
-                                              <th>Sửa</th>
+                                                <th>#</th>
+                                                <th>Địa điểm</th>
+                                                <th>Sửa</th>
                                             </tr>
-                                          </thead>
-                                          <tbody id="tbody_chieudi">
+                                            </thead>
+                                            <tbody id="tbody_chieudi">
                                             <% for( let index = 0; index < data.chieudi.length; index++ ) { %>
                                             <tr id="tr_chieudi_<%- index +1 %>">
                                                 <td><%- index +1 %> </td>
@@ -206,15 +203,15 @@
                                                 </td>
                                             </tr>
                                             <% } %>
-                                          </tbody>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-sm-4">
                                 <div class="card card-danger card-outline">
                                     <div class="card-header">
-                                        <h3 class="card-title">Chiều về</h3>
+                                        <h3 class="card-title">Lộ trình chiều về (có <a href="/partner/timetables/<%- data._id %>"><%- data.chieuve[0].time.length %> lịch trình</a>)</h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                                 <i class="fas fa-expand"></i>
@@ -228,14 +225,14 @@
         
                                     <div class="card-body table-responsive p-0" style="height: 500px;">
                                         <table class="table table-head-fixed text-nowrap" id="table_chieuve">
-                                          <thead>
+                                            <thead>
                                             <tr>
-                                              <th>#</th>
-                                              <th>Địa điểm</th>
-                                              <th>Sửa</th>
+                                                <th>#</th>
+                                                <th>Địa điểm</th>
+                                                <th>Sửa</th>
                                             </tr>
-                                          </thead>
-                                          <tbody id="tbody_chieuve">
+                                            </thead>
+                                            <tbody id="tbody_chieuve">
                                             <% for( let index = 0; index < data.chieuve.length; index++ ) { %>
                                                 <tr id="tr_chieuve_<%- index +1 %>">
                                                     <td><%- index +1 %> </td>
@@ -248,7 +245,7 @@
                                                     </td>
                                                 </tr>
                                                 <% } %>
-                                          </tbody>
+                                            </tbody>
                                         </table>
                                         
                                     </div>
@@ -256,24 +253,12 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
-
                     </div>
                     <div class="card-footer">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1">Tự tạo chiều về từ chiều đi</label>
-                        </div>
-                        <div class="col text-right">
-                            <p style="margin-bottom:2px; font-style: italic;">Lưu ý: Khi sửa tuyến đường thì bạn phải tạo mới toàn bộ lịch trình các chuyến </p>
-                        </div>
                         <br>
                         <div class="row">
-                            <div class="col-sm-10"><button type="button" class="btn btn-block bg-gradient-success" id="bt_save">Lưu</button></div>
-                            <div class="col-sm-2"><button type="button" class="btn btn-block bg-gradient-danger" id="bt_xoa">Xóa</button></div>
+                            <div class="col-sm-12"><button type="button" class="btn btn-outline-success btn-block btn-sm" id="bt_save">Lưu thay đổi lộ trình</button></div>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -314,7 +299,103 @@ $(document).ready(function(){
         )
         $('#bt_next').show()
     })
+    //Luu thong tin sua doi
+    $('#bt_save_tt').click(function(){
+            let ten = $('#input_tentuyen').val()
+            let code = $('#input_code').val()
+            let loai = $('#loai').val()
+            let nccID = $('#cacncc').val()
+            let urlid = '<%-data._id%>'
+            //console.log(loai)
+            if(ten==""){
+                alert("Tên tuyến đường không được bỏ trống")
+            } else if (code==""){
+                alert("Mã tuyến đường không được bỏ trống")
+            } else {
+                $.ajax({
+                    url:'/partner/routers/'+urlid,
+                    type:'PUT',
+                    dataType: 'json',
+                    data: 
+                    {
+                        ten: ten,
+                        code: code,
+                        loai: loai,
+                        nccID: nccID
+                    }
+                })
+                .then(data=>{
+                alert(data.mes)
+                })
+                .catch(err=>{
+                console.log(err)
+                })
+            }
+        })
+        
+    //Xử lý dữ liệu đã có
+    $("#input_diadiemthem").on('input', function () {
+        let val = this.value;
+        $("#browsers").find("option").each(function() {
+            if ($(this).val() == val) {
+                let diadiem = $(this).val()
+                let id_didiem =  $(this).attr("label")
+                tachdiadiem = diadiem.split(", ")
+                console.log(tachdiadiem[4])
+                console.log(id_didiem)
+                $('#input_diadiemthem').val(tachdiadiem[0])
+                $('#input_duong').val(tachdiadiem[1])
+                /* Xử lý cấu trúc từ điểm đã gợi ý */
+                async function chuyencautruc(){
+                    /* Thay tỉnh */
+                    let chuyentinh = await $('#select_tinh option').filter(function() {
+                            return $(this).text() == tachdiadiem[4];
+                            }).prop('selected', true);
+                    //Cac quan,huyen thuoc tinh
+                    let idTinh = $('#select_tinh').val()
+                    let cacHuyen = diachi.data[idTinh].level2s
+                    let luachonchuyen=['<option value="NA">Chọn Quận/huyện</option>',]
+                    let i = 0;
+                    for (let element of cacHuyen){
+                        huyen = element.name
+                        //console.log('- '+huyen)
+                        luachonchuyen.push('<option value='+i+'>'+huyen+'</option>')
+                        i++
+                    }
+                    let kqhuyen = '<select id="select_quan" class="form-control is-invalid" aria-label="Default select example">'+luachonchuyen+'</select>';
+                    $("#select_quan").replaceWith(kqhuyen)
+                    // Thay Quận huyện
+                    $('#select_quan option').filter(function() {
+                            return $(this).text() == tachdiadiem[3];
+                            }).prop('selected', true);
+                    //Quan to xa/phuong
+                    let idHuyen = $('#select_quan').val()
+                    let cacXa = diachi.data[idTinh].level2s[idHuyen].level3s;
+                    console.log(cacXa)
+                    let luachonxa=[]
+                    let t = 0;
+                    for (let element of cacXa){
+                        xa = element.name
+                        console.log('- '+xa)
+                        luachonxa.push('<option value='+t+'>'+xa+'</option>')
+                        i++
+                    }
+                    //console.log(luachonchuyen)
+                    let kqxa = '<select id="select_phuong" class="form-control is-invalid" aria-label="Default select example">'+luachonxa+'</select>';
+                    $("#select_phuong").replaceWith(kqxa)
+                    //Thay xã
+                    $('#select_phuong option').filter(function() {
+                            return $(this).text() == tachdiadiem[2];
+                            }).prop('selected', true);
+                }
 
+                chuyencautruc()
+                
+                       
+            }
+        })
+    });
+    
     // Sắp xếp chiều đi
     
     $('#bt_tc_chieudi').click(function(){
@@ -459,7 +540,8 @@ $(document).ready(function(){
             });
         } 
     });
-    //Luu tuyen
+    
+    //Luu lotrinh sua doi
     $('#bt_save').click(function(){
         //Tim chieu di
         let router_chieudi = []
@@ -503,19 +585,20 @@ $(document).ready(function(){
         })
         console.log(router_chieuve)
         //Save
-        ten = $('#input_tentuyen').val()
+        let ten = $('#input_tentuyen').val()
         let code = $('#input_code').val()
         let loai = $('#loai').val()
         let nccID = $('#cacncc').val()
         let urlid = '<%-data._id%>'
         //console.log(loai)
+        let oksave = confirm("Khi sửa lộ trình thì toàn bộ lịch trình các chuyến đều bị xóa. Bạn chắc chắn muốn điều chỉnh?")
         if(ten==""){
             alert("Tên tuyến đường không được bỏ trống")
         } else if (code==""){
             alert("Mã tuyến đường không được bỏ trống")
         } else if (router_chieudi.length<2){
             alert("Địa điểm đi qua phải từ 2 điểm để xác định điểm đầu và cuối")
-        } else {
+        } else if(oksave==true) {
             $.ajax({
                 url:'/partner/routers/'+urlid,
                 type:'PUT',

@@ -76,7 +76,7 @@ router.get('/dang-ky',function(req , res, next){
 
 router.post('/dang-ky',urlencodedParser,function(req , res, next){
     //res.json("partner đăng ký")
-    console.log(req.body)
+    //console.log(req.body)
     let salt = crypto.randomBytes(32).toString('hex');
     let hass_pass = crypto.pbkdf2Sync(req.body.pass, salt, 2000, 64,'sha512')
     userModel.findOne({
@@ -199,21 +199,34 @@ router.get('/routers',checkloginpartner,function(req , res, next){
 
 //ROUTER ADD
 router.get('/routers/add',checkloginpartner,function(req , res, next){
-    partnerModel.find({
-        userID: req.userID
+    async function timdiadiemdaco(){
+        let kq = await diadiemchitietModel.find({
+            byuserID: req.userID
+        })
+        return kq
+
+    }
+    
+    timdiadiemdaco()
+    .then(dsdiadiem=>{
+        partnerModel.find({
+            userID: req.userID
+        })
+        .then(data=>{
+            //console.log(data)
+            let cacncc = []
+            for (let index = 0; index < data.length; index++) {
+                let ncc ={}
+                ncc.id = data[index]._id
+                ncc.tenncc = data[index].tenncc
+                cacncc.push(ncc)
+            }
+            //console.log(cacncc)
+            res.render('partner/pages/2A.addrouter.partner.ejs',{user:req.partnername,cacncc:cacncc,dsdiadiem:dsdiadiem});
+        })
     })
-    .then(data=>{
-        console.log(data)
-        let cacncc = []
-        for (let index = 0; index < data.length; index++) {
-            let ncc ={}
-            ncc.id = data[index]._id
-            ncc.tenncc = data[index].tenncc
-            cacncc.push(ncc)
-        }
-        //console.log(cacncc)
-        res.render('partner/pages/2A.addrouter.partner.ejs',{user:req.partnername,cacncc:cacncc});
-    })
+
+    
     
     
 })
@@ -235,7 +248,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
 
             if(timdiadiem){
                 let diadiemchieudi = {}
-                //console.log("Tìm thấy: ", timdiadiem._id)
+                console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieudi.locationID = timdiadiem._id
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
@@ -243,7 +256,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                 let diadiemchieudi = {}
                 let taodiadiem = await diadiemchitietModel.create({
                     ten: cacdiadiemchieudi[index][0],
-                    duong: cacdiadiemchieudi[index][1],
+                    duong: cacdiadiemchieudi[index][1], 
                     phuong: cacdiadiemchieudi[index][2],
                     quan: cacdiadiemchieudi[index][3],
                     tinh: cacdiadiemchieudi[index][4],
@@ -252,7 +265,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                     timecreate: new Date(),
                     totalviews:1
                 })
-                //console.log("Tạo mới: ", taodiadiem._id)
+                console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieudi.locationID = taodiadiem._id
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
@@ -280,7 +293,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
 
             if(timdiadiem){
                 let diadiemchieuve = {}
-                //console.log("Tìm thấy: ", timdiadiem._id)
+                console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieuve.locationID = timdiadiem._id
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve)
@@ -297,7 +310,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                     timecreate: new Date(),
                     totalviews:1
                 })
-                //console.log("Tạo mới: ", taodiadiem._id)
+                console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieuve.locationID = taodiadiem._id
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve) 
@@ -347,6 +360,14 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
 //GET
 router.get('/routers/:id',checkloginpartner,function(req , res, next){
     //console.log(req.params.id)
+    //Cac dia diem da co
+    async function timdiadiemdaco(){
+        let kq = await diadiemchitietModel.find({
+            byuserID: req.userID
+        })
+        return kq
+
+    }
     //Cac nha cung cap
     async function cacncc(){
         let datacacncc = await partnerModel.find({
@@ -363,139 +384,163 @@ router.get('/routers/:id',checkloginpartner,function(req , res, next){
     }
     cacncc()
     .then(cacncc=>{
-        routerModel.findById(req.params.id)
-        .populate("chieudi.locationID")
-        .populate("chieuve.locationID")
-        .then(data=>{
-            //console.log(data)
-            res.render('partner/pages/2B.viewrouter.partner.ejs',{user:req.partnername, data:data, cacncc: cacncc});
+        timdiadiemdaco()
+        .then(dsdiadiem=>{
+            routerModel.findById(req.params.id)
+            .populate("chieudi.locationID")
+            .populate("chieuve.locationID")
+            .then(data=>{
+                //console.log(data)
+                res.render('partner/pages/2B.viewrouter.partner.ejs',{user:req.partnername, data:data, cacncc: cacncc, dsdiadiem:dsdiadiem});
+            })
+            .catch(err=>{
+                console.log(err)
+            })
         })
-        .catch(err=>{
-            console.log(err)
-        })
+        
     })
     
 })
 //PUT
 router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res, next){
-    //Nap dia diem chieu di
-    let cacdiadiemchieudi = JSON.parse(req.body.chieudi)
-    //console.log(cacdiadiemchieudi)
-
-    async function napdiadiem_chieudi (){
-        let cacdiadiemchieudi_res = []
-        for (let index = 0; index < cacdiadiemchieudi.length; index++) {
-            let timdiadiem = await diadiemchitietModel.findOne({
-                                    ten: cacdiadiemchieudi[index][0],
-                                    duong: cacdiadiemchieudi[index][1],
-                                    phuong: cacdiadiemchieudi[index][2],
-                                    quan: cacdiadiemchieudi[index][3],
-                                    tinh: cacdiadiemchieudi[index][4]
-                                    })
-
-            if(timdiadiem){
-                let diadiemchieudi = {} 
-                //console.log("Tìm thấy: ", timdiadiem._id)
-                diadiemchieudi.locationID = timdiadiem._id
-                diadiemchieudi.time = []
-                cacdiadiemchieudi_res.push(diadiemchieudi)
-                //console.log("dia diem: ",cacdiadiemchieudi_res)
-            } else {
-                let diadiemchieudi = {} 
-                let taodiadiem = await diadiemchitietModel.create({
-                    ten: cacdiadiemchieudi[index][0],
-                    duong: cacdiadiemchieudi[index][1],
-                    phuong: cacdiadiemchieudi[index][2],
-                    quan: cacdiadiemchieudi[index][3],
-                    tinh: cacdiadiemchieudi[index][4],
-                    by: req.nickname,
-                    byuserID: req.userID,
-                    timecreate: new Date(),
-                    totalviews:1
-                })
-                //console.log("Tạo mới: ", taodiadiem._id)
-                diadiemchieudi.locationID = taodiadiem._id
-                diadiemchieudi.time = []
-                cacdiadiemchieudi_res.push(diadiemchieudi)
-            }
-        }
-        return cacdiadiemchieudi_res
-    }
-
-    //Nap dia diem chieu ve
-    let cacdiadiemchieuve = JSON.parse(req.body.chieuve)
-
-    async function napdiadiem_chieuve (){
-        let cacdiadiemchieuve_res = []
-        
-        for (let index = 0; index < cacdiadiemchieuve.length; index++) {
-            let timdiadiem = await diadiemchitietModel.findOne({
-                                    ten: cacdiadiemchieuve[index][0],
-                                    duong: cacdiadiemchieuve[index][1],
-                                    phuong: cacdiadiemchieuve[index][2],
-                                    quan: cacdiadiemchieuve[index][3],
-                                    tinh: cacdiadiemchieuve[index][4]
-                                    })
-
-            if(timdiadiem){
-                let diadiemchieuve = {}
-                //console.log("Tìm thấy: ", timdiadiem._id)
-                diadiemchieuve.locationID = timdiadiem._id
-                diadiemchieuve.time = []
-                cacdiadiemchieuve_res.push(diadiemchieuve)
-            } else {
-                let diadiemchieuve = {}
-                let taodiadiem = await diadiemchitietModel.create({
-                    ten: cacdiadiemchieuve[index][0],
-                    duong: cacdiadiemchieuve[index][1],
-                    phuong: cacdiadiemchieuve[index][2],
-                    quan: cacdiadiemchieuve[index][3],
-                    tinh: cacdiadiemchieuve[index][4],
-                    by: req.nickname,
-                    byuserID: req.userID,
-                    timecreate: new Date(),
-                    totalviews:1
-                })
-                //console.log("Tạo mới: ", taodiadiem._id)
-                diadiemchieuve.locationID = taodiadiem._id
-                diadiemchieuve.time = []
-                cacdiadiemchieuve_res.push(diadiemchieuve) 
-            }
-        }
-        return cacdiadiemchieuve_res
-    }
-    //Tao ham lay id chieu di va chieu ve
-    async function taotuyenduong(){
-        let chieudi = await napdiadiem_chieudi()
-        let chieuve = await napdiadiem_chieuve()
-        return {chieudi, chieuve}
-    }
-    
-    //Sua tuyen duong
-    taotuyenduong()
-    .then(data=>{
-        //console.log(data)
-        routerModel.findByIdAndUpdate({_id:req.params.id},{
+    if(req.body.chieudi==null&&req.body.chieuve==null){
+        routerModel.findByIdAndUpdate({_id:req.params.id, partnerID:req.userID},{
             ten: req.body.ten, 
             matuyen: req.body.code,
             loai: req.body.loai,
             nccID: req.body.nccID,
-            chieudi: data.chieudi,
-            chieuve: data.chieuve,
             partnerID: req.userID,
             timeedit: new Date()
         })
         .then(data=>{
             //console.log("kq them tuyen:", data)
-            res.json({mes:"Sửa tuyến thành công"})
+            res.json({mes:"Sửa thông tin tuyến thành công"})
         })
         .catch(err=>{
             console.log(err)
         })
-    })
-    .catch(err=>{
-        console.log(err)
-    })
+    } else if (req.body.chieudi||req.body.chieuve){
+        //Nap dia diem chieu di
+        let cacdiadiemchieudi = JSON.parse(req.body.chieudi)
+        //console.log(cacdiadiemchieudi)
+
+        async function napdiadiem_chieudi (){
+            let cacdiadiemchieudi_res = []
+            for (let index = 0; index < cacdiadiemchieudi.length; index++) {
+                let timdiadiem = await diadiemchitietModel.findOne({
+                                        ten: cacdiadiemchieudi[index][0],
+                                        duong: cacdiadiemchieudi[index][1],
+                                        phuong: cacdiadiemchieudi[index][2],
+                                        quan: cacdiadiemchieudi[index][3],
+                                        tinh: cacdiadiemchieudi[index][4]
+                                        })
+
+                if(timdiadiem){
+                    let diadiemchieudi = {} 
+                    //console.log("Tìm thấy: ", timdiadiem._id)
+                    diadiemchieudi.locationID = timdiadiem._id
+                    diadiemchieudi.time = []
+                    cacdiadiemchieudi_res.push(diadiemchieudi)  
+                    //console.log("dia diem: ",cacdiadiemchieudi_res)
+                } else {
+                    let diadiemchieudi = {} 
+                    let taodiadiem = await diadiemchitietModel.create({
+                        ten: cacdiadiemchieudi[index][0],
+                        duong: cacdiadiemchieudi[index][1],
+                        phuong: cacdiadiemchieudi[index][2],
+                        quan: cacdiadiemchieudi[index][3],
+                        tinh: cacdiadiemchieudi[index][4],
+                        by: req.nickname,
+                        byuserID: req.userID,
+                        timecreate: new Date(),
+                        totalviews:1
+                    })
+                    //console.log("Tạo mới: ", taodiadiem._id)
+                    diadiemchieudi.locationID = taodiadiem._id
+                    diadiemchieudi.time = []
+                    cacdiadiemchieudi_res.push(diadiemchieudi)
+                }
+            }
+            return cacdiadiemchieudi_res
+        }
+
+        //Nap dia diem chieu ve
+        let cacdiadiemchieuve = JSON.parse(req.body.chieuve)
+
+        async function napdiadiem_chieuve (){
+            let cacdiadiemchieuve_res = []
+            
+            for (let index = 0; index < cacdiadiemchieuve.length; index++) {
+                let timdiadiem = await diadiemchitietModel.findOne({
+                                        ten: cacdiadiemchieuve[index][0],
+                                        duong: cacdiadiemchieuve[index][1],
+                                        phuong: cacdiadiemchieuve[index][2],
+                                        quan: cacdiadiemchieuve[index][3],
+                                        tinh: cacdiadiemchieuve[index][4]
+                                        })
+
+                if(timdiadiem){
+                    let diadiemchieuve = {}
+                    //console.log("Tìm thấy: ", timdiadiem._id)
+                    diadiemchieuve.locationID = timdiadiem._id
+                    diadiemchieuve.time = []
+                    cacdiadiemchieuve_res.push(diadiemchieuve)
+                } else {
+                    let diadiemchieuve = {}
+                    let taodiadiem = await diadiemchitietModel.create({
+                        ten: cacdiadiemchieuve[index][0],
+                        duong: cacdiadiemchieuve[index][1],
+                        phuong: cacdiadiemchieuve[index][2],
+                        quan: cacdiadiemchieuve[index][3],
+                        tinh: cacdiadiemchieuve[index][4],
+                        by: req.nickname,
+                        byuserID: req.userID,
+                        timecreate: new Date(),
+                        totalviews:1
+                    })
+                    //console.log("Tạo mới: ", taodiadiem._id)
+                    diadiemchieuve.locationID = taodiadiem._id
+                    diadiemchieuve.time = []
+                    cacdiadiemchieuve_res.push(diadiemchieuve) 
+                }
+            }
+            return cacdiadiemchieuve_res
+        }
+        //Tao ham lay id chieu di va chieu ve
+        async function taotuyenduong(){
+            let chieudi = await napdiadiem_chieudi()
+            let chieuve = await napdiadiem_chieuve()
+            return {chieudi, chieuve}
+        }
+        
+        //Sua tuyen duong
+        taotuyenduong()
+        .then(data=>{
+            //console.log(data)
+            routerModel.findByIdAndUpdate({_id:req.params.id, partnerID:req.userID},{
+                ten: req.body.ten, 
+                matuyen: req.body.code,
+                loai: req.body.loai,
+                nccID: req.body.nccID,
+                chieudi: data.chieudi,
+                chieuve: data.chieuve,
+                partnerID: req.userID,
+                timeedit: new Date()
+            })
+            .then(data=>{
+                //console.log("kq them tuyen:", data)
+                res.json({mes:"Sửa lộ trình tuyến thành công"})
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
+    
+    
 })
 //DELETE
 router.delete('/routers/:id',urlencodedParser,checkloginpartner,function(req , res, next){
