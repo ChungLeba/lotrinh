@@ -278,7 +278,7 @@ router.get('/tim-kiem',function(req , res, next){
     }
     trangtimkiem()
     .then(data=>{
-      //console.log(data)
+      console.log(data)
       res.render('customer/pages/home.customer.ejs', { data: data });
     })
   

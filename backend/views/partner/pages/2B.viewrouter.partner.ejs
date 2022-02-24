@@ -171,7 +171,11 @@
                             <div class="col-sm-4">
                                 <div class="card card-success card-outline">
                                     <div class="card-header">
+                                        <% if (data.chieudi[0]) { %> 
                                         <h3 class="card-title">Lộ trình chiều đi (có <a href="/partner/timetables/<%- data._id %>"><%- data.chieudi[0].time.length %> lịch trình</a>)</h3>
+                                        <% } else { %> 
+                                            <h3 class="card-title">Lộ trình chiều đi (có 0 lịch trình)</h3>  
+                                        <% } %> 
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                                 <i class="fas fa-expand"></i>
@@ -213,7 +217,11 @@
                             <div class="col-sm-4">
                                 <div class="card card-danger card-outline">
                                     <div class="card-header">
+                                        <% if (data.chieuve[0]) { %> 
                                         <h3 class="card-title">Lộ trình chiều về (có <a href="/partner/timetables/<%- data._id %>"><%- data.chieuve[0].time.length %> lịch trình</a>)</h3>
+                                        <% } else { %> 
+                                            <h3 class="card-title">Lộ trình chiều về (có 0 lịch trình)</h3>  
+                                        <% } %> 
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                                 <i class="fas fa-expand"></i>
