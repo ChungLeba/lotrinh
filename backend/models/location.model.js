@@ -25,7 +25,7 @@ var diadiemchitietSchema = new mongoose.Schema({
     timecreate: Date,
     timeedit: Date,
     by: String,
-    byuserID: String,
+    byuserID: {type:String, ref:"userModel"},
     todayviews: Number,
     totalviews: Number
     },{collection : 'locations'})

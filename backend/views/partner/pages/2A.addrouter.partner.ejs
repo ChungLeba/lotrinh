@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
-  
+    <!-- Moment -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
     <!-- Dữ liệu tỉnh thành -->
     <script src="../../javascripts/dvhcvn.js"></script>
         
@@ -128,10 +130,8 @@
                                             
                                             <datalist id="browsers">
                                                 <% for( let index = 0; index < dsdiadiem.length; index++ ) { %>
-                                                    <option value='<%= dsdiadiem[index].ten %>, <%= dsdiadiem[index].duong%>, <%- dsdiadiem[index].phuong%>, <%- dsdiadiem[index].quan%>, <%- dsdiadiem[index].tinh%>'  label='<%= dsdiadiem[index]._id%>'>
+                                                    <option value='<%= dsdiadiem[index].ten %>, <%= dsdiadiem[index].duong%>, <%- dsdiadiem[index].phuong%>, <%- dsdiadiem[index].quan%>, <%- dsdiadiem[index].tinh%>'  label='Bởi: <%- dsdiadiem[index].byuserID %>, lúc: <%- moment(dsdiadiem[index].timecreate).format("HH:MM, DD-MM-YYYY") %>'>
                                                 <% } %>
-                                                
-                                                <option value="Điểm dừng 2" label="127 Trưng Nữ Vương, Phường Bình Hiên, Quận Hải Châu, Đà Nẵng">
                                             </datalist>
                                         </div>
                                         <div class="form-group">

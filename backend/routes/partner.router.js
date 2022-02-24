@@ -201,14 +201,15 @@ router.get('/routers',checkloginpartner,function(req , res, next){
 router.get('/routers/add',checkloginpartner,function(req , res, next){
     async function timdiadiemdaco(){
         let kq = await diadiemchitietModel.find({
-            byuserID: req.userID
         })
+        .sort({timecreate:'desc'})
         return kq
 
     }
     
     timdiadiemdaco()
     .then(dsdiadiem=>{
+        //console.log(dsdiadiem)
         partnerModel.find({
             userID: req.userID
         })
@@ -363,8 +364,8 @@ router.get('/routers/:id',checkloginpartner,function(req , res, next){
     //Cac dia diem da co
     async function timdiadiemdaco(){
         let kq = await diadiemchitietModel.find({
-            byuserID: req.userID
         })
+        .sort({timecreate:'desc'})
         return kq
 
     }
