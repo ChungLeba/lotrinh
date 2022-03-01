@@ -24,14 +24,14 @@ var routerSchema = new mongoose.Schema({
     nccID:{type: String, ref:"partnerModel"},
     matuyen: String,
     loai: String, 
-    chieudi: [{locationID: {type: String, ref:"diadiemchitietModel"}, time:[{
+    chieudi: [{locationID: {type: String, ref:"diadiemchitietModel"}, location_slug: String, time:[{
                                                                             no:{type: Number},
                                                                             tripCode:{type: String},
                                                                             time:{type: String},
                                                                             date:{type: Date},
                                                                             frequency:{type: String}
                                                                             }]}],
-    chieuve: [{locationID: {type: String, ref:"diadiemchitietModel"}, time:[{
+    chieuve: [{locationID: {type: String, ref:"diadiemchitietModel"}, location_slug: String, time:[{
                                                                             no:{type: Number},
                                                                             tripCode:{type: String},
                                                                             time:{type: String},

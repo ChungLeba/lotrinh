@@ -210,88 +210,243 @@ router.get('/lo-trinh/lich-trinh/chieu-ve/:id/chuyen/:machuyen',function(req , r
   })
 })
 
+/* 98 Thống kê */
+router.get('/thong-ke',function(req , res, next){
 
-/* 99 Tim kiem */
-router.get('/tim-kiem',function(req , res, next){
+  /* Đếm số tuyến đi qua tỉnh */
+  async function demtuyenquatinh(){
+    let cactuyenquacactinh = []
+    for (let index = 0; index < cactinh.length; index++) {
+      let cactuyenqua1tinh = {}
+      cactuyenqua1tinh.name = cactinh[index].name_slug
+      let tinhcantim = 'tinh-'+cactinh[index].name_slug
+      let cactuyenquatinh_chieudi = await routerModel.count({chieudi: {$elemMatch: {location_slug:{$regex:tinhcantim}}}})
+      let cactuyenquatinh_chieuve = await routerModel.count({chieuve: {$elemMatch: {location_slug:{$regex:tinhcantim}}}})
+      cactuyenqua1tinh.sltuyen = cactuyenquatinh_chieudi + cactuyenquatinh_chieuve
+      cactuyenquacactinh.push(cactuyenqua1tinh)
+      console.log(cactuyenqua1tinh)
+    }
+    return cactuyenquacactinh
+  }
+  
+  demtuyenquatinh()
+  .then(data=>{
+    console.log(data)
+    res.json(data)
+  })
+    
+})
+/* 99 Lọc và tìm kiếm */
+router.get('/tim-kiem',function(req , res, next){ 
+  
   console.log("q: ",req.query)
-  if(req.query.loai){
-    /* Tìm theo loại */
-    async function trangtimkiem(){
-      let loai = req.query.loai
-      let kq = await routerModel.find({loai:req.query.loai})
-        .limit(10)
-        .sort({timeedit: 'desc'})
-        .populate('chieudi.locationID')
-        .populate('chieuve.locationID')
-        .populate('partnerID')
-        .populate('nccID')
-      /* Đếm các tuyến đường */
-      let total = []
-      let total_xebus = await routerModel.count({loai:1})
-      let total_xekhach = await routerModel.count({loai:2})
-      let total_taxi = await routerModel.count({loai:3})
-      let total_moto = await routerModel.count({loai:4})
-      let total_tauthuyen = await routerModel.count({loai:5})
-      let total_khac = await routerModel.count({loai:6})
-      total.push(total_xebus,total_xekhach, total_taxi, total_moto, total_tauthuyen,total_khac)
+  /* Function */
+  /* Đếm loại phương tiện */
+  async function demcacloaiphuongtien() {
+    let total = []
+    let total_xebus = await routerModel.count({loai:1})
+    let total_xekhach = await routerModel.count({loai:2})
+    let total_taxi = await routerModel.count({loai:3})
+    let total_moto = await routerModel.count({loai:4})
+    let total_tauthuyen = await routerModel.count({loai:5})
+    let total_khac = await routerModel.count({loai:6})
+    total.push(total_xebus,total_xekhach, total_taxi, total_moto, total_tauthuyen,total_khac)
+    return total
+  }
+  
+  /* Lọc theo loại */
+  async function timkiemloai(loai,q){
+    
+    let total = await demcacloaiphuongtien()
+    /* kq tim kiem */
+    let kq = await routerModel.find({loai:q })
+      .limit(10)
+      .sort({timeedit: 'desc'})
+      .populate('chieudi.locationID')
+      .populate('chieuve.locationID')
+      .populate('partnerID')
+      .populate('nccID')
+
     return {
-    kq,
-    cactinh,
-    loai,
-    total
+      kq,
+      cactinh,
+      loai,
+      total
     }
+  }
+  /* Tìm kiếm theo loại và tinh */
+  async function timkiemloaivatinh(loai,tinh){
+    /* Đếm các tuyến đường */
+    let total = await demcacloaiphuongtien()
+    /* Kq tìm kiếm */
+    let kq = await routerModel.find({loai:loai,$or:[{chieudi: {$elemMatch: {location_slug:{$regex:tinh}}}},{chieuve: {$elemMatch: {location_slug:{$regex:tinh}}}}]})
+            .limit(10)
+            .sort({timeedit: 'desc'})
+            .populate('chieudi.locationID')
+            .populate('chieuve.locationID')
+            .populate('partnerID')
+            .populate('nccID')
+    return {
+      kq,
+      cactinh,
+      loai,
+      total
     }
-    trangtimkiem()
+  }
+  /* Tìm kiếm theo tinh */
+  async function timkiemtheotinh(loai, tinh){
+    /* Đếm các tuyến đường */
+    let total = await demcacloaiphuongtien()
+    /* Kq tìm kiếm */
+    let kq = await routerModel.find({$or:[{chieudi: {$elemMatch: {location_slug:{$regex:tinh}}}},{chieuve: {$elemMatch: {location_slug:{$regex:tinh}}}}]})
+            .limit(10)
+            .sort({timeedit: 'desc'})
+            .populate('chieudi.locationID')
+            .populate('chieuve.locationID')
+            .populate('partnerID')
+            .populate('nccID')
+    return {
+      kq,
+      cactinh,
+      loai,
+      total
+    }
+  }
+
+  /* Gợi ý từ khóa địa điểm (dung cho auto complete) */
+  async function timkiemtheotukhoa(tukhoa){
+/*     let kq = await routerModel.find({$or:[{chieudi: {$elemMatch: {location_slug:{$regex:tukhoa}}}},{chieuve: {$elemMatch: {location_slug:{$regex:tukhoa}}}}]})
+            .limit(10)
+            .sort({timeedit: 'desc'}) */
+        let kq = await diadiemchitietModel.find({$or:[{ten:{$regex:tukhoa}}, {duong:{$regex:tukhoa}}, {phuong:{$regex:tukhoa}}, {quan:{$regex:tukhoa}}, {tinh:{$regex:tukhoa}}]})
+          .limit(50)
+          .sort({timeedit: 'desc'}) 
+    return {
+      kq
+    }
+  }
+  
+   
+
+  if(req.query.loai&&req.query.tinh==null&&req.query.tukhoa==null){
+    /* Tìm theo loại phương tiện */
+    let loai = req.query.loai
+    let q = req.query.loai
+    
+    timkiemloai(loai,q)
+    .then(data=>{
+      //console.log(data)
+      res.render('customer/pages/home.customer.ejs', { data: data }); 
+    })
+  
+  } else if(req.query.loai==null&&req.query.tinh==null&&req.query.tukhoa==null) {
+    /* Tìm tất cả */
+    let loai = "tat-ca"
+    let q = /[1-6]/
+    timkiemloai(loai,q)
     .then(data=>{
       //console.log(data)
       res.render('customer/pages/home.customer.ejs', { data: data });
     })
   
-  } else {
-    /* Tìm tất cả */
-    async function trangtimkiem(){
-      let loai = "tat-ca"
-      
-      /* kq tim kiem */
-      let kq = await routerModel.find()
-        .limit(10)
-        .sort({timeedit: 'desc'})
-        .populate('chieudi.locationID')
-        .populate('chieuve.locationID')
-        .populate('partnerID')
-        .populate('nccID')
-      /* Đếm các tuyến đường */
-      let total = []
-      let total_xebus = await routerModel.count({loai:1})
-      let total_xekhach = await routerModel.count({loai:2})
-      let total_taxi = await routerModel.count({loai:3})
-      let total_moto = await routerModel.count({loai:4})
-      let total_tauthuyen = await routerModel.count({loai:5})
-      let total_khac = await routerModel.count({loai:6})
-      total.push(total_xebus,total_xekhach, total_taxi, total_moto, total_tauthuyen,total_khac)
-      return {
-        kq,
-        cactinh,
-        loai,
-        total
-      }
-    }
-    trangtimkiem()
+  } else if(req.query.loai!=='tat-ca'&&req.query.tinh&&req.query.tukhoa==null) {
+    /* Tìm theo tinh va loai*/
+    let loai = req.query.loai
+    let tinh = req.query.tinh
+    timkiemloaivatinh(loai,tinh)
     .then(data=>{
-      console.log(data)
+      //console.log(data)
+      //res.json(data)
       res.render('customer/pages/home.customer.ejs', { data: data });
     })
   
+  } else if(req.query.loai=='tat-ca'&&req.query.tinh&&req.query.tukhoa==null) {
+    /* Tìm theo tinh va loai*/
+    let tinh = req.query.tinh
+    let loai = req.query.loai
+    timkiemtheotinh(loai, tinh)
+    .then(data=>{
+      //console.log(data)
+      //res.json(data)
+      res.render('customer/pages/home.customer.ejs', { data: data });
+    })
+  
+  } else if(req.query.tukhoa) {
+    /* Gợi ý địa điểm */
+    let tukhoa = req.query.tukhoa
+    timkiemtheotukhoa(tukhoa)
+    .then(data=>{
+      //console.log(data)
+      res.json(data)
+    })
+    
   }
-  
-
-
-  //res.render('customer/pages/home.customer.ejs', { data: data });
-
-  //Tìm tỉnh thành
-  
 
 })
 
+router.get('/tim-kiem/dia-diem/',function(req , res, next){ 
+  
+  //console.log("q: ",req.query)
+  let diadiem = req.query.tukhoa
+  let tachdiadiem = diadiem.split(", ")
+  //console.log(tachdiadiem)
+  /* Tìm tuyến đường chứa địa điểm */
+  async function timkiemtuyentheodiadiem(){
+    
+    let locationID = await diadiemchitietModel.findOne({
+      ten:tachdiadiem[0],
+      duong:tachdiadiem[1],
+      phuong: tachdiadiem[2],
+      quan: tachdiadiem[3],
+      tinh:  tachdiadiem[4],
+    })
+    
+    //console.log("location: ",locationID)
+      
+    let kq = await routerModel.find({$or:[{chieudi: {$elemMatch: {locationID:locationID._id}}},{chieuve: {$elemMatch: {locationID:locationID._id}}}]})
+    .limit(10)
+    .sort({timeedit: 'desc'})
+    .populate('chieudi.locationID')
+    .populate('chieuve.locationID')
+    .populate('partnerID')
+    .populate('nccID')
+    
+    let total = []
+    let total_xebus = 0
+    let total_xekhach = 0
+    let total_taxi = 0
+    let total_moto = 0
+    let total_tauthuyen = 0
+    let total_khac = 0
 
+    //console.log("ket qua: ", kq)
+    for (let index = 0; index < kq.length; index++) {
+      if(kq[index].loai=="1"){
+        total_xebus++
+      } else if(kq[index].loai=="2"){
+        total_xekhach++
+      } else if(kq[index].loai=="3"){
+        total_taxi++
+      } else if(kq[index].loai=="4"){
+        total_moto++
+      } else if(kq[index].loai=="5"){
+        total_tauthuyen++
+      } else if(kq[index].loai=="6"){
+        total_khac++
+      }
+    }
+    total.push(total_xebus,total_xekhach, total_taxi, total_moto, total_tauthuyen,total_khac)
+    console.log("Tổng: ", total)
+    return {
+      kq,
+      total
+    }
+  }
+  timkiemtuyentheodiadiem()
+  .then(data=>{
+    //console.log(data)
+    res.render('customer/pages/3A.location-seach.customer.ejs', { data: data });
+    
+  })
+})
 module.exports = router;

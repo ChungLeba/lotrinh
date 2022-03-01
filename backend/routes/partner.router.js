@@ -66,6 +66,21 @@ var checkloginpartner = function(req,res,next){
         
     })
 }
+//Function Slug
+function slugify(string) {
+    const a = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;"
+    const b = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------"
+    const p = new RegExp(a.split('').join('|'), 'g')
+  
+    return string.toString().toLowerCase()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+      .replace(/&/g, '-and-') // Replace & with 'and'
+      .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, '') // Trim - from end of text
+}
 
 //DANG KY
 router.get('/dang-ky',function(req , res, next){
@@ -182,14 +197,13 @@ router.get('/',checkloginpartner,function(req , res, next){
 router.get('/routers',checkloginpartner,function(req , res, next){
     routerModel.find({
         partnerID:req.userID})
-    .limit(10)
     .sort({timecreate: 'asc'})
     .populate('chieudi.locationID')
     .populate('chieuve.locationID')
     .populate('partnerID')
     .then(data=>{
         if(data){
-            //console.log(data[0].chieudi)
+            console.log(data.length)
             res.render('partner/pages/2.router.partner.ejs',{user:req.partnername, data:data});
         } else {
             res.render('partner/pages/2.router.partner.ejs',{user:req.partnername, data:''});
@@ -248,9 +262,12 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                                     })
 
             if(timdiadiem){
+                //console.log(timdiadiem)
                 let diadiemchieudi = {}
                 console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieudi.locationID = timdiadiem._id
+                diadiemchieudi.location_slug = slugify(timdiadiem.ten+', tại '+timdiadiem.duong+', '+timdiadiem.phuong+', '+timdiadiem.quan+', tinh '+timdiadiem.tinh)
+                //console.log(diadiemchieudi.location_slug)
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
             } else {
@@ -268,6 +285,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                 })
                 console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieudi.locationID = taodiadiem._id
+                diadiemchieudi.location_slug = slugify(cacdiadiemchieudi[index][0]+', tại '+cacdiadiemchieudi[index][1]+', '+cacdiadiemchieudi[index][2]+', '+cacdiadiemchieudi[index][3]+', tinh '+cacdiadiemchieudi[index][4])
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
             }
@@ -296,6 +314,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                 let diadiemchieuve = {}
                 console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieuve.locationID = timdiadiem._id
+                diadiemchieuve.location_slug = slugify(timdiadiem.ten+', tại '+timdiadiem.duong+', '+timdiadiem.phuong+', '+timdiadiem.quan+', tinh '+timdiadiem.tinh)
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve)
             } else {
@@ -313,6 +332,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                 })
                 console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieuve.locationID = taodiadiem._id
+                diadiemchieuve.location_slug = slugify(cacdiadiemchieuve[index][0]+', tại '+cacdiadiemchieuve[index][1]+', '+cacdiadiemchieuve[index][2]+', '+cacdiadiemchieuve[index][3]+', tinh '+cacdiadiemchieuve[index][4])
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve) 
             }
@@ -599,7 +619,8 @@ router.put('/timetables/departure/:id',checkloginpartner,function(req , res, nex
         //console.log(data)
             for (let index = 0; index < chuyen_chieudi.length; index++) {
                 routerModel.updateOne({
-                    _id: req.params.id, 
+                    _id: req.params.id,
+                    partnerID:req.userID, 
                     "chieudi._id": chuyen_chieudi[index].diadiemdiquaid
                 },{
                     $push: {"chieudi.$.time":chuyen_chieudi[index]}
@@ -669,7 +690,8 @@ router.delete('/timetables/departure/:id/trip/:tripcode',checkloginpartner,funct
     .then(data=>{
         //console.log(data)
             routerModel.updateMany({
-                _id: req.params.id
+                _id: req.params.id,
+                partnerID:req.userID
             },{
                 $pull: {
                             'chieudi.$[].time':{tripCode:req.params.tripcode} // $[] chon all array
@@ -714,6 +736,7 @@ router.put('/timetables/return/:id',checkloginpartner,function(req , res, next){
         for (let index = 0; index < chuyen_chieuve.length; index++) {
             routerModel.updateOne({
                 _id: req.params.id, 
+                partnerID:req.userID,
                 "chieuve._id": chuyen_chieuve[index].diadiemdiquaid
             },{
                 $push: {"chieuve.$.time":chuyen_chieuve[index]}
@@ -784,7 +807,8 @@ router.delete('/timetables/return/:id/trip/:tripcode',checkloginpartner,function
     .then(data=>{
         //console.log(data)
             routerModel.updateMany({
-                _id: req.params.id
+                _id: req.params.id,
+                partnerID:req.userIDs
             },{
                 $pull: {
                             'chieuve.$[].time':{tripCode:req.params.tripcode} // $[] chon all array
@@ -903,7 +927,7 @@ router.get('/partner-info',checkloginpartner,function(req , res, next){
 router.post('/partner-info',checkloginpartner,urlencodedParser,function(req , res, next){
     //console.log(req.body)
     partnerModel.create({
-        userID: req.body.userID,
+        userID: req.userID,
         tenncc: req.body.tenncc,
         caclienhe:
         [

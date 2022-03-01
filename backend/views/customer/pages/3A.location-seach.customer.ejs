@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>HOME</title>
+  <title>Tìm tại địa điểm</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -206,8 +206,6 @@
           <div class="col-md-3">
             <!-- Lọc dịch vụ -->
             <%- include('../4A.filter_vehical.customer.ejs'); %>
-            <!-- Lọc dịch vụ kết hợp tỉnh -->
-            <%- include('../4B.filter_provin.customer.ejs'); %>
           </div>
         </div>
         <div class="row justify-content-center">
@@ -219,7 +217,7 @@
   <script src="../../admin/plugins/jquery/jquery.min.js"></script>
   <script>
     $(document).ready(function(){
-      /* Gợi ý từ khóa */
+
       $("#input_homeseach").keyup(function(){
         let kytuseach = $("#input_homeseach").val()
         let last = kytuseach.charAt(kytuseach.length-1)
@@ -247,8 +245,7 @@
 
             $("#bt_seach").click(function() {
               let diadiem = $("#input_homeseach").val()
-              window.location.href = '/tim-kiem/dia-diem/?tukhoa='+encodeURI(diadiem)
-              /* $.ajax({
+              $.ajax({
               url:'/tim-kiem/dia-diem/?tukhoa='+encodeURI(diadiem),
               type:'GET',
               dataType: 'json'
@@ -258,7 +255,10 @@
               })
               .catch(err=>{
               console.log(err)
-              }) */
+            })
+              
+              
+
             })
             
 

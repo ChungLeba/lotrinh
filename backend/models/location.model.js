@@ -43,10 +43,9 @@ var diadiemchitietModel = mongoose.model('diadiemchitietModel',diadiemchitietSch
     console.log(err)
 }) */
 
-/* diadiemchitietModel.findOne({tinh:"Thành phố Đà Nẵng"})
+/* diadiemchitietModel.find({tinh:"Hà Nội"})
 .then(data=>{
-    let tinhID = data._id
-    console.log("kq:",tinhID)
+    console.log("kq:",data.length)
 })
 .catch(err=>{
     console.log(err)

@@ -1,8 +1,25 @@
 <br>
 <div class="row justify-content-center">
-  <div class="input-group" style="width: 77%; margin-top: -15px; margin-bottom: 50px;">
-    <input type="text" class="form-control" placeholder="1001 nơi bạn muốn đến..." aria-label="Recipient's username"
-      aria-describedby="basic-addon2"><button class="btn" type="submit"><i class="fas fa-search"></i></button>
+  <div id="div_seach" class="input-group" style="width: 95%; margin-top: -15px; margin-bottom: 50px;">
+    <div class="input-group-prepend">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+      Địa điểm
+      </button>
+      <ul class="dropdown-menu">
+      <li class="dropdown-item"><a href="#">Tuyến đường</a></li>
+      <li class="dropdown-item"><a href="#">Nhà cung cấp</a></li>
+      <li class="dropdown-divider"></li>
+      <li class="dropdown-item"><a href="#">Tài khoản</a></li>
+      </ul>
+    </div>
+    <input list="seach" id="input_homeseach" type="text" class="form-control" placeholder="1001 nơi bạn muốn đến..." aria-label="Seach"
+      aria-describedby="basic-addon2"><button id="bt_seach" class="btn" type="submit"><i class="fas fa-search"></i></button>
+      <datalist id="seach">
+
+      </datalist>
+      
   </div>
+
   <br>
+  
 </div>
