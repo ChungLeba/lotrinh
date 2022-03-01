@@ -235,7 +235,7 @@
                 $('#seach').empty()
                 for (let index = 0; index < data.kq.length; index++) {
                   $('#seach').append(
-                    `<option id='`+data.kq[index]._id+`' value='`+data.kq[index].ten+', '+data.kq[index].duong+', '+data.kq[index].phuong+', '+data.kq[index].quan+', '+data.kq[index].tinh+`' label='`+data.kq[index].by+`'></option>`
+                    `<option id='`+data.kq[index]._id+`' value='`+data.kq[index].ten+', '+data.kq[index].duong+', '+data.kq[index].phuong+', '+data.kq[index].quan+', '+data.kq[index].tinh+`' label='`+data.kq[index].byuserID.hoten+`'></option>`
                   )
                 }
               })
