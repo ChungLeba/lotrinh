@@ -388,63 +388,69 @@ router.get('/tim-kiem/dia-diem/',function(req , res, next){
   let diadiem = req.query.tukhoa
   let tachdiadiem = diadiem.split(", ")
   //console.log(tachdiadiem)
-  /* Tìm tuyến đường chứa địa điểm */
-  async function timkiemtuyentheodiadiem(){
-    
-    let locationID = await diadiemchitietModel.findOne({
-      ten:tachdiadiem[0],
-      duong:tachdiadiem[1],
-      phuong: tachdiadiem[2],
-      quan: tachdiadiem[3],
-      tinh:  tachdiadiem[4],
-    })
-    
-    //console.log("location: ",locationID)
+  if(tachdiadiem.length===5){
+    /* Tìm tuyến đường chứa địa điểm */
+    async function timkiemtuyentheodiadiem(){
       
-    let kq = await routerModel.find({$or:[{chieudi: {$elemMatch: {locationID:locationID._id}}},{chieuve: {$elemMatch: {locationID:locationID._id}}}]})
-    .limit(10)
-    .sort({timeedit: 'desc'})
-    .populate('chieudi.locationID')
-    .populate('chieuve.locationID')
-    .populate('partnerID')
-    .populate('nccID')
-    
-    let total = []
-    let total_xebus = 0
-    let total_xekhach = 0
-    let total_taxi = 0
-    let total_moto = 0
-    let total_tauthuyen = 0
-    let total_khac = 0
+      let locationID = await diadiemchitietModel.findOne({
+        ten:tachdiadiem[0],
+        duong:tachdiadiem[1],
+        phuong: tachdiadiem[2],
+        quan: tachdiadiem[3],
+        tinh:  tachdiadiem[4],
+      })
+      
+      //console.log("location: ",locationID)
+        
+      let kq = await routerModel.find({$or:[{chieudi: {$elemMatch: {locationID:locationID._id}}},{chieuve: {$elemMatch: {locationID:locationID._id}}}]})
+      .limit(10)
+      .sort({timeedit: 'desc'})
+      .populate('chieudi.locationID')
+      .populate('chieuve.locationID')
+      .populate('partnerID')
+      .populate('nccID')
+      
+      let total = []
+      let total_xebus = 0
+      let total_xekhach = 0
+      let total_taxi = 0
+      let total_moto = 0
+      let total_tauthuyen = 0
+      let total_khac = 0
 
-    //console.log("ket qua: ", kq)
-    for (let index = 0; index < kq.length; index++) {
-      if(kq[index].loai=="1"){
-        total_xebus++
-      } else if(kq[index].loai=="2"){
-        total_xekhach++
-      } else if(kq[index].loai=="3"){
-        total_taxi++
-      } else if(kq[index].loai=="4"){
-        total_moto++
-      } else if(kq[index].loai=="5"){
-        total_tauthuyen++
-      } else if(kq[index].loai=="6"){
-        total_khac++
+      //console.log("ket qua: ", kq)
+      for (let index = 0; index < kq.length; index++) {
+        if(kq[index].loai=="1"){
+          total_xebus++
+        } else if(kq[index].loai=="2"){
+          total_xekhach++
+        } else if(kq[index].loai=="3"){
+          total_taxi++
+        } else if(kq[index].loai=="4"){
+          total_moto++
+        } else if(kq[index].loai=="5"){
+          total_tauthuyen++
+        } else if(kq[index].loai=="6"){
+          total_khac++
+        }
+      }
+      total.push(total_xebus,total_xekhach, total_taxi, total_moto, total_tauthuyen,total_khac)
+      console.log("Tổng: ", total)
+      return {
+        kq,
+        total
       }
     }
-    total.push(total_xebus,total_xekhach, total_taxi, total_moto, total_tauthuyen,total_khac)
-    console.log("Tổng: ", total)
-    return {
-      kq,
-      total
-    }
+    timkiemtuyentheodiadiem()
+    .then(data=>{
+      //console.log(data)
+      res.render('customer/pages/3A.location-seach.customer.ejs', { data: data });
+      
+    })
   }
-  timkiemtuyentheodiadiem()
-  .then(data=>{
-    //console.log(data)
-    res.render('customer/pages/3A.location-seach.customer.ejs', { data: data });
-    
-  })
+  else {
+    res.json("Chưa làm chỗ này")
+  }
+  
 })
 module.exports = router;

@@ -133,13 +133,46 @@
   <!-- ./wrapper -->
 
   <!-- jQuery -->
-  <script src="../../admin/plugins/jquery/jquery.min.js"></script>
+  <script src="../../../../../admin/plugins/jquery/jquery.min.js"></script>
+  <script>
+    $(document).ready(function(){
+
+      $("#input_homeseach").keyup(function(){
+        let kytuseach = $("#input_homeseach").val()
+        let last = kytuseach.charAt(kytuseach.length-1)
+        if(kytuseach.length>=2&&last==" "){
+          console.log("get..."+kytuseach)
+          $.ajax({
+              url:'/tim-kiem/?tukhoa='+kytuseach,
+              type:'GET',
+              dataType: 'json'
+              })
+              .then(data=>{
+              console.log(data)
+                $('#seach').empty()
+                for (let index = 0; index < data.kq.length; index++) {
+                  $('#seach').append(
+                    `<option id='`+data.kq[index]._id+`' value='`+data.kq[index].ten+', '+data.kq[index].duong+', '+data.kq[index].phuong+', '+data.kq[index].quan+', '+data.kq[index].tinh+`' label='`+data.kq[index].byuserID.hoten+`'></option>`
+                  )
+                }
+              })
+              .catch(err=>{
+              console.log(err)
+            })
+        }
+      })
+      $("#bt_seach").click(function() {
+        let diadiem = $("#input_homeseach").val()
+        window.location.href = '/tim-kiem/dia-diem/?tukhoa='+encodeURI(diadiem)
+      })
+    })
+  </script>
   <!-- Bootstrap 4 -->
-  <script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../../../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="../../admin/dist/js/adminlte.min.js"></script>
+  <script src="../../../../../admin/dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
-  <script src="../../admin/dist/js/demo.js"></script>
+  <script src="../../../../../admin/dist/js/demo.js"></script>
 </body>
 
 </html>
