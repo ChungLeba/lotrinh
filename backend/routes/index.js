@@ -315,12 +315,10 @@ router.get('/tim-kiem',function(req , res, next){
 
   /* Gợi ý từ khóa địa điểm (dung cho auto complete) */
   async function timkiemtheotukhoa(tukhoa){
-/*     let kq = await routerModel.find({$or:[{chieudi: {$elemMatch: {location_slug:{$regex:tukhoa}}}},{chieuve: {$elemMatch: {location_slug:{$regex:tukhoa}}}}]})
-            .limit(10)
-            .sort({timeedit: 'desc'}) */
-        let kq = await diadiemchitietModel.find({$or:[{ten:{$regex:tukhoa}}, {duong:{$regex:tukhoa}}, {phuong:{$regex:tukhoa}}, {quan:{$regex:tukhoa}}, {tinh:{$regex:tukhoa}}]})
-          .limit(50)
-          .sort({timeedit: 'desc'}) 
+    let kq = await diadiemchitietModel.find({$or:[{ten:{$regex:tukhoa}}, {duong:{$regex:tukhoa}}, {phuong:{$regex:tukhoa}}, {quan:{$regex:tukhoa}}, {tinh:{$regex:tukhoa}}]})
+      .limit(50)
+      .populate('byuserID')
+      .sort({timeedit: 'desc'}) 
     return {
       kq
     }

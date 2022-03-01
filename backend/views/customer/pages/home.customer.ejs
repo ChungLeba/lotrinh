@@ -242,27 +242,11 @@
               .catch(err=>{
               console.log(err)
             })
-
-          
-
-            $("#bt_seach").click(function() {
-              let diadiem = $("#input_homeseach").val()
-              window.location.href = '/tim-kiem/dia-diem/?tukhoa='+encodeURI(diadiem)
-              /* $.ajax({
-              url:'/tim-kiem/dia-diem/?tukhoa='+encodeURI(diadiem),
-              type:'GET',
-              dataType: 'json'
-              })
-              .then(data=>{
-              console.log(data)
-              })
-              .catch(err=>{
-              console.log(err)
-              }) */
-            })
-            
-
         }
+      })
+      $("#bt_seach").click(function() {
+        let diadiem = $("#input_homeseach").val()
+        window.location.href = '/tim-kiem/dia-diem/?tukhoa='+encodeURI(diadiem)
       })
     })
   </script>
