@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NCC</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
+
+   
+</head>
+
+<body class="sidebar-mini sidebar-collapse">
+  <!-- Site wrapper -->
+  <div class="container">
+    <%- include('../1.topmenu.customer.ejs'); %>
+      <%- include('../2.seach.customer.ejs'); %>
+
+        <!-- Địa điểm -->
+        <div class="info-box bg-white ">
+          <div class="info-box-content" id="div_ncc">
+            <img src="../../admin/dist/img/lotrinh-AxA.png" width="80px" style="display: block;margin-left: auto;border-radius:15px; margin-right: auto;">
+            <h3 class="fw-light text-center text-lg-start mt-4 mb-0"><%- data.nccinfo[0].tenncc %></h3>
+            <p class="fw-light text-center text-lg-start mt-2 mb-0">
+              <span>
+                <i class="far fa-eye"></i>
+                1000
+              </span>
+              
+              <span>
+                <i class="far fa-comments mr-1"></i>
+                50
+              </span> 
+              <span>
+  
+                <i class="fas fa-heart"></i>
+                5
+              </span> 
+            </p>
+            <h5 class="fw-light text-center text-lg-start mt-2"><a href="#"><i class="fas fa-user-circle"></i><%- data.nccinfo[0].userID.hoten %></a></h5>
+
+
+            <div class="row">
+              <div class="col-md-9 text-left">
+                <span>
+                  <i class="fas fa-route"></i>
+                  <span class="badge bg-light"><%- data.cactuyen.length %></span>  tuyến khai thác.
+                </span>
+                <span>
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span class="badge bg-light"><%- data.soluongdiadiem %></span> địa điểm đi qua.
+                </span>   
+              </div>
+              <div class="col-md-3 text-right">
+                <button type="button" class="btn btn-block btn-outline-danger btn-sm" data-toggle="modal" data-target="#modal-danger">
+                  <i class="fas fa-phone-alt"></i> Liên hệ
+                </button>
+              </div>
+            </div>
+            
+            
+            <!-- Model -->
+            <div class="modal fade" id="modal-danger">
+              <div class="modal-dialog">
+              <div class="modal-content bg-danger">
+              <div class="modal-header">
+              <h4 class="modal-title">Danh sách liên hệ</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+              </button>
+              </div>
+              <div class="modal-body">
+                <% for( let index = 0; index < data.nccinfo[0].caclienhe.length; index++ ) { %>
+                  <ul>
+                    <li>
+                      <h5 style="text-transform: uppercase;"><%- data.nccinfo[0].caclienhe[index].bophan %></h5>
+                      <h6><i class="fas fa-phone-alt"></i> <%- data.nccinfo[0].caclienhe[index].dienthoai %></h6>
+                      <h6><i class="fas fa-map-marker-alt"></i> <%- data.nccinfo[0].caclienhe[index].diachi %></h6>
+                    </li>
+                  </ul>
+                <% } %>
+                
+              </div>
+              </div>
+              
+              </div>
+              
+            </div>           
+          </div>
+          
+        </div>
+        
+      <div class="col-md-12">
+        <h3 class="fw-light text-center text-lg-start mt-4 mb-0" style="font-weight: lighter;">Các lịch khởi hành</h3>
+      </div>
+    
+    </br>
+      <!-- Lịch khởi hành -->
+      <% if(data.cactuyen.length !== 0){ %> 
+      <div class="row">
+        <div class="col-md-12">
+          <% for( let index = 0; index < data.cactuyen.length; index++ ) { %>
+            <div class="card card-primary">
+              <div class="card-header">
+                <a href="#">
+                  <h4 class="card-title"><i class="nav-icon fas fa-road"></i> <%- data.cactuyen[index].ten %> </h4>
+                </a>
+                  <div class="card-tools">
+                    <% if (data.cactuyen[index].loai=="1"){ %> 
+                      <span class="badge bg-warning">Xe bus</span>
+                      <% } else if (data.cactuyen[index].loai=="2"){ %>
+                        <span class="badge bg-warning">Xe khách</span>
+                      <% } else if (data.cactuyen[index].loai=="3"){ %>
+                        <span class="badge bg-warning">Xe taxi</span>
+                      <% } else if (data.cactuyen[index].loai=="4"){ %>
+                        <span class="badge bg-warning">Xe moto</span>
+                        <% } else if (data.cactuyen[index].loai=="5"){ %>
+                          <span class="badge bg-warning">Thuyền, tàu biển</span>
+                          <% } else if (data.cactuyen[index].loai=="6"){ %>
+                            <span class="badge bg-warning">Phương tiện khác</span>
+                      <% } %>
+                    <span class="badge bg-danger"><%- data.cactuyen[index].matuyen %></span>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0" style="height: auto;">
+                  <table class="table table-head-fixed text-wrap">
+                      <thead>
+                        <tr>
+                          <div class="row ml-3 mr-3">
+                            <div class="col text-center">
+                              <p>Từ</p>
+                              <a href="#">
+                                <h5 style="font-weight: bold;"><%- data.cactuyen[index].chieudi[0].locationID.ten %></h5>
+                              </a>
+                              <p><%- data.cactuyen[index].chieudi[0].locationID.duong %>, <%- data.cactuyen[index].chieudi[0].locationID.phuong %>, <%- data.cactuyen[index].chieudi[0].locationID.quan %>, <%- data.cactuyen[index].chieudi[0].locationID.tinh %></p>
+                            </div>
+                            <div class="col text-center">
+                            </br>
+                              <i class="fas fa-angle-double-right"></i>
+                            </div>
+                            <div class="col text-center">
+                              <p>Đến</p>
+                              <a href="#">
+                                <h5 style="font-weight: bold;"><%- data.cactuyen[index].chieudi[data.cactuyen[index].chieudi.length - 1].locationID.ten %></h5>
+                              </a>
+                              <p><%- data.cactuyen[index].chieudi[data.cactuyen[index].chieudi.length - 1].locationID.duong %>, <%- data.cactuyen[index].chieudi[data.cactuyen[index].chieudi.length - 1].locationID.phuong %>, <%- data.cactuyen[index].chieudi[data.cactuyen[index].chieudi.length - 1].locationID.quan %>, <%- data.cactuyen[index].chieudi[data.cactuyen[index].chieudi.length - 1].locationID.tinh %></p>
+                            
+                            </div>
+                          </div>
+                        </tr>
+                    <% if (data.cactuyen[index].chieudi[0].time.length!==0) { %> 
+                      <tr>
+                          <th>#</th>
+                          <th>Mã chuyến</th>
+                          <th>Thời gian khởi hành</th>
+                          <th>Ngày khởi hành</th>
+                          <th><i class="fas fa-route"></i></th>
+                      </tr>
+                      </thead>
+                      <tbody id="tbody">
+                          
+                          <% for( let t= 0; t < data.cactuyen[index].chieudi[0].time.length; t++ ) { %>
+                            <tr>
+                              <td><%- t+1 %> </td>
+                              <td><span class="badge bg-light"><%- data.cactuyen[index].chieudi[0].time[t].tripCode %></span></td>
+                              <td><%- data.cactuyen[index].chieudi[0].time[t].time %></td>
+                              <% if(data.cactuyen[index].chieudi[0].time[t].frequency == "one"){ %> 
+                                <td>Hàng ngày</td>
+                              <% } else { %> 
+                                <td><%- data.cactuyen[index].chieudi[0].time[t].date %></td>
+                                <% } %>
+                              <td>
+                                <a href="/lo-trinh/lich-trinh/chieu-di/<%- data.cactuyen[index]._id %>/chuyen/<%- data.cactuyen[index].chieudi[0].time[t].tripCode %>">
+                                  <i class="fas fa-chevron-right"></i>
+                                </a>
+                              </td>
+                          </tr>
+                          <% } %> 
+                      <!-- Loader -->
+                      </tbody>
+                    <% } else { %>
+                      <p class="ml-3 text-center" style="font-style: italic;">Chưa có lịch khởi hành</p>
+                    <% } %> 
+                  </table>
+                  </div>
+                  <!-- /.card-body -->
+                  <div class="card-footer">
+              </div>
+            </div>
+          <% } %>
+
+              
+        </div>
+      </div>
+      
+      <% }%>
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="../../admin/plugins/jquery/jquery.min.js"></script>
+
+  <!-- Bootstrap 4 -->
+  <script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../../admin/dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../admin/dist/js/demo.js"></script>
+</body>
+
+</html>

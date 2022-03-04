@@ -7,7 +7,7 @@ date.setHours(hours, minutes);
 console.log(hours, minutes) */
 
 
-function slugify(string) {
+/* function slugify(string) {
     const a = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;"
     const b = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------"
     const p = new RegExp(a.split('').join('|'), 'g')
@@ -22,7 +22,7 @@ function slugify(string) {
       .replace(/-+$/, '') // Trim - from end of text
 }
 
-console.log(slugify('Điểm dừng tại 617 Nguyễn Tất Thành, Phường Xuân Hà, Quận Thanh Khê, Đà Nẵng'))
+console.log(slugify('Điểm dừng tại 617 Nguyễn Tất Thành, Phường Xuân Hà, Quận Thanh Khê, Đà Nẵng')) */
 /* ---------------- */
 /* var choose = 6
 var sl = [{1:"a"},{2:"b"},{3:"c"},{4:"d"},{5:"e"}, {6:"f"}]
@@ -44,7 +44,7 @@ for (const key in sl) {
 3. find(origin)/chieudi,chieuve > kq (điểm đi, điểm đến, đi qua)
  */
 
-/* var cactinh = 
+var cactinh = 
 [
   { no: 1, name: 'Hà Nội', name_slug: 'ha-noi' },
   { no: 2, name: 'Hà Giang', name_slug: 'ha-giang' },
@@ -110,14 +110,14 @@ for (const key in sl) {
   { no: 62, name: 'Bạc Liêu', name_slug: 'bac-lieu' },
   { no: 63, name: 'Cà Mau', name_slug: 'ca-mau' }
 ]
-let tinhcantim = 'ca-mau'
+/* let tinhcantim = 'ca-mau'
 function timtinh(kqtimtinh){
   return kqtimtinh.name_slug === tinhcantim
 }
 
 
-console.log(cactinh.find(timtinh))
- */
+console.log(cactinh.find(timtinh)) */
+
 /* var a = 
 [
   {
@@ -132,3 +132,4 @@ for (const key in a) {
   console.log('<option value="'+(a[key].id)+'" selected >'+a[key].tenncc+'</option>')
   
 } */
+console.log(cactinh.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) 

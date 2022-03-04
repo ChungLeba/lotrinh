@@ -64,12 +64,15 @@
                             <div class="row">
                               <div class="col">
                                 <% if(data.kq[index].nccID){ %>
-                                  <h5 style="text-align: left;"><i class="fab fa-servicestack"> </i> <%- data.kq[index].nccID.tenncc %></h5>
+                                  <a href="/p/<%- data.kq[index].nccID._id %>">
+                                    <h5 style="text-align: left;"><i class="fab fa-servicestack"> </i> <%- data.kq[index].nccID.tenncc %></h5>
+                                  </a>
+                                  
                                 <% } %>  
                               </div>
                               <div class="col">
                                 <a href="#">
-                                  <h6 class="widget-user-username" style="text-align: right;"><i class="fas fa-user"></i> <%- data.kq[index].partnerID.hoten %> 
+                                  <h6 class="widget-user-username" style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data.kq[index].partnerID.hoten %> 
                                   </h6>
                                 </a>
                               </div>

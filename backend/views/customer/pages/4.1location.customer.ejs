@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chi tiết địa điểm</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
+  <!-- Moment -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+   
+</head>
+
+<body class="sidebar-mini sidebar-collapse">
+  <!-- Site wrapper -->
+  <div class="container">
+    <%- include('../1.topmenu.customer.ejs'); %>
+      <%- include('../2.seach.customer.ejs'); %>
+
+        <!-- Phương tiện -->
+        <div class="row justify-content-center bg-white">
+        </div>
+        
+        <div class="row justify-content-center">
+          <div class="col-md-12">
+            <div class="row">
+                <!-- Địa điểm -->
+                <div class="info-box bg-white ">
+                  <div class="info-box-content" id="div_diadiem">
+                    <img src="../../admin/dist/img/lotrinh-AxA.png" width="80px" style="display: block;margin-left: auto;border-radius:15px; margin-right: auto;">
+                    <h3 class="fw-light text-center text-lg-start mt-4 mb-0"><%- data.ten %></h3>
+                    <h4 class="fw-light text-center text-lg-start mt-2 mb-0"><%- data.duong %>, <%- data.phuong %>, <%- data.quan %>, <%- data.tinh %></h4>
+                    <p class="text-center mt-2 mb-0"><a href="#"><i class="fas fa-user-circle"></i> <%- data.byuserID.hoten %></a>, <i class="fas fa-history"></i> <%-moment(data.timecreate).format("HH:MM, DD-MM-YYYY") %></p>
+                  </div>
+                  
+                </div>
+            </div>
+            <div class="row">
+              
+              <div class="col-md-9 text-left" style="font-style: italic;">
+                <span>
+                  <i class="fas fa-route"></i>
+                  <%- cactuyenkhoihanh.length + cactuyendiqua.length + cactuyenketthuc.length %> tuyến khai thác.
+                </span>
+                <span>
+                  <i class="far fa-eye"></i>
+                  1000 xem.
+                </span>
+                
+                <span>
+                  <i class="far fa-comments mr-1"></i>
+                  50 bình luận.
+                </span>    
+              </div>
+              <div class="col-md-3 text-center">
+                <button class="btn btn-outline-danger btn-block btn-sm">
+                  <i class="fas fa-heart"></i>
+                  5 yêu thích
+                </button>
+              </div>
+              
+            </div>
+          </br>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-primary card-outline card-outline-tabs">
+                  <div class="card-header p-0 border-bottom-0">
+                  <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                  <li class="nav-item">
+                  <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true"><span class="badge badge-primary right"><%- cactuyenkhoihanh.length%></span> Tuyến đi</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false"><span class="badge badge-warning right"><%- cactuyendiqua.length %></span> Tuyến đi qua</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false"><span class="badge badge-danger right"><%- cactuyenketthuc.length %></span> Tuyến đến</a>
+                  </li>
+                  </ul>
+                  </div>
+                  <div class="card-body">
+                  <div class="tab-content" id="custom-tabs-four-tabContent">
+                    <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                      <table class="table table-head-fixed text-wrap">
+                        <thead>
+                          <tr>
+                            <th class="align-middle">Loại</th>
+                            <th class="align-middle">Mã tuyến</th>
+                            <th class="align-middle">Tên tuyến</th>
+                            <th class="align-middle"><i class="fas fa-route"></i></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for( let index = 0; index < cactuyenkhoihanh.length; index++ ) { %>
+                            <tr>
+                              <td>
+                                <% if (cactuyenkhoihanh[index].loai=="1"){ %> 
+                                <span>Xe bus</span>
+                                <% } else if (cactuyenkhoihanh[index].loai=="2"){ %>
+                                <span>Xe khách</span>
+                                <% } else if (cactuyenkhoihanh[index].loai=="3"){ %>
+                                <span>Xe taxi</span>
+                                <% } else if (cactuyenkhoihanh[index].loai=="4"){ %>
+                                <span>Xe moto</span>
+                                <% } else if (cactuyenkhoihanh[index].loai=="5"){ %>
+                                <span>Thuyền, tàu biển</span>
+                                <% } else if (cactuyenkhoihanh[index].loai=="6"){ %>
+                                <span>Phương tiện khác</span>
+                                <% } %>
+                              </td>
+                              <td>
+                                <span><%- cactuyenkhoihanh[index].matuyen %></span>
+                              </td>
+                              <td>
+                                <a href="/lo-trinh/<%- cactuyenkhoihanh[index]._id %>"><h5><%- cactuyenkhoihanh[index].ten %></h5></a>
+                              </td>
+                              <td><a href="/lo-trinh/<%- cactuyenkhoihanh[index]._id %>"><i class="fas fa-chevron-right"></i></a></td>
+                            </tr>
+                          <% } %>
+                        </tbody>
+                      </table>
+                    </div>
+                  <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                    <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                      <table class="table table-head-fixed text-wrap">
+                        <thead>
+                          <tr>
+                            <th class="align-middle">Loại</th>
+                            <th class="align-middle">Mã tuyến</th>
+                            <th class="align-middle">Tên tuyến</th>
+                            <th class="align-middle"><i class="fas fa-route"></i></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for( let index = 0; index < cactuyendiqua.length; index++ ) { %>
+                            <tr>
+                              <td>
+                                <% if (cactuyendiqua[index].loai=="1"){ %> 
+                                <span>Xe bus</span>
+                                <% } else if (cactuyendiqua[index].loai=="2"){ %>
+                                <span>Xe khách</span>
+                                <% } else if (cactuyendiqua[index].loai=="3"){ %>
+                                <span>Xe taxi</span>
+                                <% } else if (cactuyendiqua[index].loai=="4"){ %>
+                                <span>Xe moto</span>
+                                <% } else if (cactuyendiqua[index].loai=="5"){ %>
+                                <span>Thuyền, tàu biển</span>
+                                <% } else if (cactuyendiqua[index].loai=="6"){ %>
+                                <span>Phương tiện khác</span>
+                                <% } %>                              </td>
+                              <td>
+                                <span><%- cactuyendiqua[index].matuyen %></span>
+                              </td>
+                              <td>
+                                <a href="/lo-trinh/<%- cactuyendiqua[index]._id %>"><h5><%- cactuyendiqua[index].ten %></h5></a>
+                              </td>
+                              <td><a href="/lo-trinh/<%- cactuyendiqua[index]._id %>"><i class="fas fa-chevron-right"></i></a></td>
+                            </tr>
+                          <% } %>
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
+                    <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                      <table class="table table-head-fixed text-wrap">
+                        <thead>
+                          <tr>
+                            <th class="align-middle">Loại</th>
+                            <th class="align-middle">Mã tuyến</th>
+                            <th class="align-middle">Tên tuyến</th>
+                            <th class="align-middle"><i class="fas fa-route"></i></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for( let index = 0; index < cactuyenketthuc.length; index++ ) { %>
+                            <tr>
+                              <td>
+                                <% if (cactuyenketthuc[index].loai=="1"){ %> 
+                                <span>Xe bus</span>
+                                <% } else if (cactuyenketthuc[index].loai=="2"){ %>
+                                <span>Xe khách</span>
+                                <% } else if (cactuyenketthuc[index].loai=="3"){ %>
+                                <span>Xe taxi</span>
+                                <% } else if (cactuyenketthuc[index].loai=="4"){ %>
+                                <span>Xe moto</span>
+                                <% } else if (cactuyenketthuc[index].loai=="5"){ %>
+                                <span>Thuyền, tàu biển</span>
+                                <% } else if (cactuyenketthuc[index].loai=="6"){ %>
+                                <span>Phương tiện khác</span>
+                                <% } %>
+                              </td>
+                              <td>
+                                <span><%- cactuyenketthuc[index].matuyen %></span>
+                              </td>
+                              <td>
+                                <a href="/lo-trinh/<%- cactuyenketthuc[index]._id %>"><h5><%- cactuyenketthuc[index].ten %></h5></a>
+                              </td>
+                              <td><a href="/lo-trinh/<%- cactuyenketthuc[index]._id %>"><i class="fas fa-chevron-right"></i></a></td>
+                            </tr>
+                          <% } %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
+                  </div>
+                  </div>
+                  
+                  </div>
+                    
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+        </div>
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="../../admin/plugins/jquery/jquery.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      /* Gợi ý từ khóa */
+      $("#input_homeseach").keyup(function(){
+        let kytuseach = $("#input_homeseach").val()
+        let last = kytuseach.charAt(kytuseach.length-1)
+        if(kytuseach.length>=2&&last==" "){
+          console.log("get..."+kytuseach)
+          $.ajax({
+              url:'/tim-kiem/?tukhoa='+kytuseach,
+              type:'GET',
+              dataType: 'json'
+              })
+              .then(data=>{
+              console.log(data)
+                $('#seach').empty()
+                for (let index = 0; index < data.kq.length; index++) {
+                  $('#seach').append(
+                    `<option id='`+data.kq[index]._id+`' value='`+data.kq[index].ten+', '+data.kq[index].duong+', '+data.kq[index].phuong+', '+data.kq[index].quan+', '+data.kq[index].tinh+`' label='`+data.kq[index].byuserID.hoten+`'></option>`
+                  )
+                }
+              })
+              .catch(err=>{
+              console.log(err)
+            })
+        }
+      })
+      $("#bt_seach").click(function() {
+        let diadiem = $("#input_homeseach").val()
+        window.location.href = '/tim-kiem/dia-diem/?tukhoa='+encodeURI(diadiem)
+      })
+    })
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../../admin/dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../admin/dist/js/demo.js"></script>
+</body>
+
+</html>

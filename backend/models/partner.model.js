@@ -13,6 +13,7 @@ mongoose.connect(process.env.DBSTRING);
 var partnerSchema = new mongoose.Schema({
     userID: {type:String, ref:"userModel"},
     tenncc: String,
+    urlrieng: String,
     caclienhe:
         [
             {tt:Number, bophan:String, dienthoai:String, diachi:String}

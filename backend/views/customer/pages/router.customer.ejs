@@ -62,7 +62,7 @@
 
                             </div>
                             <div class="col">
-                                <h6 style="text-align: right;"><i class="fas fa-user"></i> <%- data.partnerID.hoten %></h6>
+                                <h6 style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data.partnerID.hoten %></h6>
 
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                                     <p style="margin-bottom:2px"><%- data.chieudi[index].locationID.duong %>, <%- data.chieudi[index].locationID.phuong %>, <%- data.chieudi[index].locationID.quan %>, <%- data.chieudi[index].locationID.tinh %></p>
                                 </td>
                                 <td class="align-left">
-                                   <a href="#"><i class="fas fa-chevron-right"></i></a>
+                                   <a href="/dia-diem/<%- data.chieudi[index].locationID._id %>"><i class="fas fa-chevron-right"></i></a>
                                 </td>
                             </tr>
                             <% } %>
@@ -211,7 +211,7 @@
                                         <p style="margin-bottom:2px"><%- data.chieuve[index].locationID.duong %>, <%- data.chieuve[index].locationID.phuong %>, <%- data.chieuve[index].locationID.quan %>, <%- data.chieuve[index].locationID.tinh %></p>
                                     </td>
                                     <td class="align-left">
-                                        <a href="#"><i class="fas fa-chevron-right"></i></a>
+                                        <a href="/dia-diem/<%- data.chieuve[index].locationID._id %>"><i class="fas fa-chevron-right"></i></a>
                                     </td>
                                 </tr>
                                 <% } %>
