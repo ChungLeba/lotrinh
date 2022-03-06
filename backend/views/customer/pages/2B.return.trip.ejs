@@ -55,7 +55,9 @@
                     <div class="row">
                         <div class="col">
                             <% if(data[0].ncc){ %>
-                                <h5 style="text-align: left;"><i class="fab fa-servicestack"> </i> <%- data[0].ncc %></h5>
+                                <a href="/p/<%- data[0].nccID %>">
+                                    <h5 style="text-align: left;"><i class="fab fa-servicestack"> </i> <%- data[0].ncc %></h5>
+                                </a>
                             <% } %>
 
                         </div>

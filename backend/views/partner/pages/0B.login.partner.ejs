@@ -14,7 +14,11 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background: url('/images/chonloc/phu-quoc.jpg') no-repeat center center fixed;
+                                                -webkit-background-size: cover;
+                                                -moz-background-size: cover;
+                                                background-size: cover;
+                                                -o-background-size: cover;">
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
@@ -23,7 +27,8 @@
         <a href="https://satime.net"><p class="login-box-msg" style="margin-top: 5px;">Wellcome Satime Software Jsc !</p></a>
     </div>
     <div class="card-body">
-        <p class="login-box-msg"><%- hi %></p>
+        <p class="text-center">Vui lòng đăng nhập để sử dụng LOTRINH.VN</p>
+        <p class="login-box-msg mt-2">Chúc quý khách hành thành công !</p>
         <div class="input-group mb-3">
           <input type="email" class="form-control" placeholder="Email" id="email">
           <div class="input-group-append">
@@ -79,9 +84,9 @@
 <script src="../../admin/plugins/jquery/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
-        $('#login').click(function(){
-            //alert('ok')
-            if($('#email').val()==''||$('#pass').val()==''){
+      function login (){
+        //alert('ok')
+        if($('#email').val()==''||$('#pass').val()==''){
                 alert("Vui lòng nhập đầy đủ thông tin")
             } else{
                 $.ajax({
@@ -101,8 +106,16 @@
                 }
             })
             }
+      }
+        $('#login').click(function(){
+          login ()
             
         })
+        $(document).on('keypress',function(e) {
+          if(e.which == 13) {
+            login ()
+          }
+        });
     })
 </script>
 <!-- Bootstrap 4 -->

@@ -25,12 +25,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Blank Page</h1>
+            <h1>Tổng quan</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Blank Page</li>
+              <li class="breadcrumb-item active">Tổng quan</li>
             </ol>
           </div>
         </div>
@@ -39,49 +39,306 @@
 
     <!-- Main content -->
     <section class="content">
+      <!-- Thống kê Tuyến, địa điểm, chuyến -->
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box bg-info">
+            <span class="info-box-icon bg-info"><i class="fas fa-route"></i></span>
 
-      <!-- Default box -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Title</h3>
-          
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-              <i class="fas fa-times"></i>
-            </button>
+            <div class="info-box-content">
+              <span class="info-box-text">Tuyến đường vận tải</span>
+              <span class="info-box-number"><%- data.thongke[0] %> </span>
+
+            </div>
+            
+              <span class="info-box-icon bg-info"><a href="/partner/routers/"><i class="fas fa-chevron-right"></i></a></span>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box bg-success">
+            <span class="info-box-icon bg-success"><i class="fas fa-map-marker-alt"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Địa điểm</span>
+              <span class="info-box-number"><%- data.thongke[1] %></span>
+            </div>
+            
+              <span class="info-box-icon bg-success">
+                <a href="/partner/location"><i class="fas fa-chevron-right"></i></a></span>
+
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box bg-warning">
+            <span class="info-box-icon bg-warning"><i class="nav-icon fas fa-calendar-alt"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Chuyến/ngày</span>
+              <span class="info-box-number">####</span>
+            </div>
+            <!-- /.info-box-content -->
+            
+              <span class="info-box-icon bg-warning"><a href="/partner/timetables"><i class="fas fa-chevron-right"></i></a></span>
+
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+          <div class="info-box bg-danger">
+            <span class="info-box-icon bg-danger"><i class="nav-icon fas fa-building"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Nhà cung cấp</span>
+              <span class="info-box-number"><%- data.thongke[2] %></span>
+            </div>
+            
+              <span class="info-box-icon bg-danger"><a href="/partner/partner-info"><i class="fas fa-chevron-right"></i></a></span>
           </div>
         </div>
-        <div class="card-body">
-          <div class="row">
-            <label>Choose a browser from this list:
-              <input list="browsers" name="myBrowser" autocomplete="off"></label>
-              <datalist id="browsers">
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-              </datalist>
+        <!-- /.col -->
+      </div>
+            
+      <!-- Thống kê -->
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title"><i class="fas fa-route"></i> Các tuyến đường xem nhiều nhất</h5>
+              <div class="card-tools">
+                <button class="btn btn-block btn-outline-success btn-sm">
+                  <a href="/partner/routers/add">
+  
+                    + Thêm tuyến
+    
+                  </a>
+
+                </button>
+              </div>
+            </div>
+
+            <div class="card-body p-0">
+              <% if (data.bestview[0].length!==0) { %> 
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Loại</th>
+                      <th>Mã tuyến</th>
+                      <th>Tên tuyến</th>
+                      <th style="width: 40px">Lượt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for( let index = 0; index < data.bestview[0].length; index++ ) { %>
+                      <tr>
+                        <td><%- index+1 %> </td>
+                        <td> 
+                          <% var selects = [{1:"Xe bus"},{2:"Xe khách"},{3:"Xe taxis"},{4:"Xe moto"},{5:"Thuyền, tàu biển"},{6:"Phương tiện khác"}] %>
+                          <% for(const key in selects) { %>
+                              <% let k = parseInt(key) + 1 %> 
+                              <% if (k==data.bestview[0][index].loai){ %>
+                                  <%-Object.values(Object.values(selects)[key])[0]%>
+                              <% } %>    
+                          <% } %>
+  
+                        </td>
+                        <td>
+                          <span class="badge bg-success">
+                            <%- data.bestview[0][index].matuyen %>
+                          </span>
+                        </td>
+                        <td>
+                          <a href="#">
+                            <p style=" font-weight: bold;"><%- data.bestview[0][index].ten %></p>
+                          </a>
+                        </td>
+                        
+                        <td><span class="badge bg-light">######</span></td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+
+              <% } else {%>
+                <p class="ml-3 mt-2 text-center">Chưa có tuyến vận tải nào, vui lòng <a href="/partner/routers/add"> tạo tuyến</a></p>
+              <% }%>
+            </div>
           </div>
-          <div class="row">
-            <input name="myBrowser" /></label>
-            </br>
+          <div class="card">
+            <div class="card-header">
+              <h5 class="mb-2"><i class="fas fa-globe-asia"> </i> Khám phá các địa điểm xem nhiều nhất</h5>
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Tên địa điểm</th>
+                    <th>Tạo bởi</th>
+                    <th style="width: 40px">Lượt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for( let index = 0; index < data.bestview[1].length; index++ ) { %>
+                    <tr>
+                      <td><%- index+1 %> </td>
+                      <td> 
+                        <a href="/admin/location/#">
+                          <p style=" font-weight: bold;"><%- data.bestview[1][index].ten %> </p>
+                        </a>
+                        <p style=" font-weight: lighter;"><%- data.bestview[1][index].duong %>, <%- data.bestview[1][index].phuong %>, <%- data.bestview[1][index].quan %>, <%- data.bestview[1][index].tinh %></p>
+                      </td>
+                      <td>
+                        <a href="#">
+                          <%- data.bestview[1][index].byuserID.hoten %>
+                        </a>
+                      </td>
+                      <td><span class="badge bg-light">######</span></td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>    
+
+            
+        </div>
+
+        <div class="col-sm-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-danger"><i class="far fa-eye"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Xem</span>
+              <span class="info-box-number">######</span>
+            </div>
+            
+            <!-- /.info-box-content -->
+          </div>
+          <div class="info-box">
+            <span class="info-box-icon bg-info"><i class="far fa-comments mr-1"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Bình luận</span>
+              <span class="info-box-number">######</span>
+
+            </div>
+          <!-- /.info-box -->
+        </div>
+          <div class="info-box">
+            <span class="info-box-icon bg-success"><i class="fas fa-heart"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Yêu thích</span>
+              <span class="info-box-number">######</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <div class="info-box">
+            <span class="info-box-icon bg-warning"><i class="fas fa-thumbs-down"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Than phiền</span>
+              <span class="info-box-number">######</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+
+        <div class="card">
+          <div class="card-header">
+          <h3 class="card-title">Hướng dẫn sử dụng</h3>
+          </div>
+          
+          <div class="card-body">
+          
+          <div id="accordion">
+          <div class="card card-primary">
+          <div class="card-header">
+          <h4 class="card-title w-100">
+          <a class="d-block w-100" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
+          Định nghĩa
+          </a>
+          </h4>
+          </div>
+          <div id="collapseOne" class="collapse" data-parent="#accordion">
+          <div class="card-body">
             <ul>
-              <li>A</li>
+              <li>
+                <strong>Tuyến đường vận tải</strong> là bao gồm rất nhiều điểm đi qua (từ điểm đi tới điểm đến) mà nhà vận tải cung cấp dịch vụ. Ví dụ: Hồ Chí Minh - Đà Nẵng.
+              </li>
+              <li>
+                <strong>Địa điểm đón, trả, đi qua</strong> là địa điểm mà những tuyến đường vận tải đi qua nó (tập hợp các địa điểm này tạo ra lộ trình chuyến đi).
+              </li>
+              <li>
+                <strong>Lịch trình chuyến đi</strong> ở một tuyến đường vận tải sẽ có rất nhiều chuyến đi để phục vụ khách hàng.
+              </li>
             </ul>
           </div>
+          </div>
+          </div>
+          <div class="card card-danger">
+          <div class="card-header">
+          <h4 class="card-title w-100">
+          <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
+          Đăng tải tuyến đường lên Lộ trình
+          </a>
+          </h4>
+          </div>
+          <div id="collapseTwo" class="collapse show" data-parent="#accordion">
+          <div class="card-body">
+            <ul>
+              <li>
+                <strong>Bước 1</strong> Tạo nhà cung cấp vận tải
+              </li>
+              <li>
+                <strong>Bước 2</strong> Tạo tuyến đường vận tải
+              </li>
+              <li>
+                <strong>Bước 3</strong> Tạo lịch trình chuyến đi trong tuyến đường đó (bao gồm thời gian đi, đến và thời gian đi qua các địa điểm)
+              </li>
+              <li>
+                <strong>Bước 4</strong> Xuất bản (Publish)
+              </li>
+            </ul>
+          </div>
+          </div>
+          </div>
+          <div class="card card-success">
+          <div class="card-header">
+          <h4 class="card-title w-100">
+          <a class="d-block w-100" data-toggle="collapse" href="#collapseThree">
+          Các lưu ý
+          </a>
+          </h4>
+          </div>
+          <div id="collapseThree" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            <ul>
+              <li>
+                <strong>Các chuyến sẽ bị xóa</strong> khi lộ trình tuyến đường bị thay đổi. Do vậy bạn cần kiểm tra lại tuyến đường trước khi tạo lịch trình các chuyến đi
+              </li>
+              <li>
+                <strong>Bạn cần Xuất bản</strong> thì tuyến đường mới xuất hiện.
+              </li>
+            </ul>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
           
+          </div>
         </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          Footer
-        </div>
-        <!-- /.card-footer-->
-      </div>
-      <!-- /.card -->
 
+        
+        <!-- /.col -->
+      </div>
     </section>
     <!-- /.content -->
   </div>

@@ -130,7 +130,7 @@ router.post('/dang-ky',urlencodedParser,function(req , res, next){
 
 //DANG NHAP
 router.get('/dang-nhap',function(req , res, next){
-    res.render('partner/pages/0B.login.partner.ejs',{hi:"Vui lòng đăng nhập để sử dụng dịch vụ."});
+    res.render('partner/pages/0B.login.partner.ejs',{hi:"Vui lòng đăng nhập để sử dụng LOTRINH.VN. Chúc quý khách hành thành công !"});
 })
 router.post('/dang-nhap',urlencodedParser,function(req , res, next){
     //console.log(req.body)
@@ -189,7 +189,36 @@ router.get('/exit', function(req, res, next) {
 })
 //TONG QUAN
 router.get('/',checkloginpartner,function(req , res, next){
-    res.render('partner/pages/1.home.partner.ejs',{user:req.partnername});
+    async function tongquannguoidung(){
+        let thongke = []
+        let bestview = []
+        let sotuyenduong = await routerModel.count({partnerID:req.userID})
+        let sodiadiadiem = await diadiemchitietModel.count({byuserID:req.userID})
+        let soncc = await partnerModel.count({userID:req.userID})
+        //let sochuyen = routerModel.count()
+        thongke.push(sotuyenduong, sodiadiadiem, soncc)
+        let tuyenduongbestview = await routerModel.find({partnerID:req.userID})
+        .limit(5)
+        let diadiembestview = await diadiemchitietModel.find({})
+        .populate("byuserID")
+        .sort("totalviews")
+        .limit(5)
+        bestview.push(tuyenduongbestview, diadiembestview)
+        return {
+            thongke,
+            bestview
+        }
+    }
+    tongquannguoidung()
+    .then (data=>{
+        //console.log(data)
+        if(data.thongke[2]==0){
+            res.redirect("/partner/partner-info")
+        } else{
+            res.render('partner/pages/1.home.partner.ejs',{user:req.partnername, data:data});
+        }
+
+    })
     
 })
 
@@ -237,7 +266,11 @@ router.get('/routers/add',checkloginpartner,function(req , res, next){
                 cacncc.push(ncc)
             }
             //console.log(cacncc)
-            res.render('partner/pages/2A.addrouter.partner.ejs',{user:req.partnername,cacncc:cacncc,dsdiadiem:dsdiadiem});
+            if(cacncc.length>0){
+                res.render('partner/pages/2A.addrouter.partner.ejs',{user:req.partnername,cacncc:cacncc,dsdiadiem:dsdiadiem});
+            } else {
+                res.redirect("/partner/partner-info")
+            }
         })
     })
 

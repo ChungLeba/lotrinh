@@ -41,14 +41,21 @@
   <section class="content">
       <div class="container-fluid">
           <div class="row">
+              
               <div class="col-md-4">
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Thêm nhà cung cấp</h3>
+
+                        
                     </div>
                     <div class="card-body">
+                        
                         <div class="row">
                             <input class="form-control form-control-lg" type="text" placeholder="Lộ trình Việt" id="input_ten">
+                        </div>
+                        <div>
+                            <p style="margin-bottom:2px; font-style: italic;">(*) Sau khi tạo trang nhà cung cấp, bạn có thể <a href="/partner/routers/add"> thêm các tuyến đường vận tải</a> để tiếp cận với rất nhiều khách hàng</p>    
                         </div>
                     </br>
                         <div class="row" id="div_lienhe">
@@ -57,7 +64,7 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-headset"></i></span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Trụ sở, phòng vé, tổng đài..." id="input_bophan">
+                                <input class="form-control" type="text" placeholder="Ai hoặc bộ phận liên hệ" id="input_bophan">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -82,6 +89,19 @@
               </div>
   
               <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body col text-center">
+                        <a href="/partner/routers/add" class="btn btn-app bg-danger">
+                            <i class="fas fa-route"></i> Thêm tuyến đường
+                        </a>
+                        <a href="/partner" class="btn btn-app bg-warning">
+                            <i class="nav-icon fas fa-chart-line"></i> Trang tổng quan  
+                        </a>
+                        <a href="#" class="btn btn-app bg-primary">
+                            <i class="fas fa-user-circle"></i> Thông tin cá nhân
+                        </a>
+                    </div>
+                </div>
                   <div class="card card-success">
                       <div class="card-header">
                           <h3 class="card-title">Danh sách nhà cung cấp</h3>
@@ -94,6 +114,7 @@
                                       <th>Nhà cung cấp</th>
                                       <th>Tuyến đường quản lý</th>
                                       <th>Liên hệ</th>
+                                      <th>Trang riêng</th>
                                       
                                   </tr>
                                   </thead>
@@ -115,6 +136,11 @@
                                                     </li>
                                                 <% } %>
                                             </td>
+                                            <td>
+                                                <a href="/p/<%- data[index]._id %>">
+                                                    <button class="btn btn-block btn-outline-primary btn-sm">Xem</button>
+                                                </a>
+                                            </td>
                                         </tr>
                                        
                                       <% } %>
@@ -125,9 +151,6 @@
                               </div>
                               <!-- /.card-body -->
                               <div class="card-footer">
-                                  <div class="col text-right">
-                                      <p style="margin-bottom:2px; font-style: italic;">(*) Sau khi tạo trang nhà cung cấp, bạn có thể thêm các tuyến đường vận tải để tiếp cận với rất nhiều khách hàng</p>    
-                                  </div>
                                   <div class="col text-center">
                                       <button id="bt_more" type="button" class="btn btn-block btn-outline-success"> Xem thêm 10 nhà cung cấp khác</button>
                                   </div>                

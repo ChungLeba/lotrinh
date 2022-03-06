@@ -119,6 +119,7 @@ router.get('/lo-trinh/lich-trinh/chieu-di/:id/chuyen/:machuyen',function(req , r
           "_id": data._id,
           "ten": data.ten,
           "ncc": data.nccID.tenncc,
+          "nccID":data.nccID._id,
           "loai": data.loai,
           "matuyen": data.matuyen,
           "partnerID":data.partnerID
@@ -175,6 +176,7 @@ router.get('/lo-trinh/lich-trinh/chieu-ve/:id/chuyen/:machuyen',function(req , r
           "_id": data._id,
           "ten": data.ten,
           "ncc": data.nccID.tenncc,
+          "nccID":data.nccID._id,
           "matuyen": data.matuyen,
           "partnerID":data.partnerID
         })
