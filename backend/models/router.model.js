@@ -40,12 +40,19 @@ var routerSchema = new mongoose.Schema({
                                                                             }]}],
     partnerID: {type: String, ref:"userModel"},
     timecreate: Date,
-    timeedit: Date
+    timeedit: Date,
+    totalviews: Number,
+    impression: Number,
+    publish: Number //1:đã, 0: chưa
 },{collection : 'routers'})
     
 var routerModel = mongoose.model('routerModel',routerSchema)
 
-//CREATE DATA
+//UPDATE
+/* routerModel.updateMany({totalviews:1})
+.then(data=>{
+    console.log(data)
+}) */
 
 /* routerModel.create({
     ten: 'Ha Noi - Ho Chi Minh', 

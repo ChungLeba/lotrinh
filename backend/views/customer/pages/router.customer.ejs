@@ -1,10 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lộ trình tuyến</title>
+  <!-- SEO -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="canonical" href="http://new.lotrinh.vn/lo-trinh/<%- data._id %>" />
+    <% if (data.loai=="1"){ %> 
+        <title>Lộ trình tuyến xe bus <%- data.ten %></title>
+        <meta name='keywords' content='Xe bus <%- data.matuyen %> xe bus <%- data.ten %>, xe bus <%- data.nccID.tenncc %>'>
+        <meta name='description' content='Xe bus <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
+        
+        <% } else if (data.loai=="2"){ %> 
+            <title>Lộ trình tuyến xe khach <%- data.ten %></title>
+            <meta name='keywords' content='Xe khách <%- data.matuyen %> xe khách <%- data.ten %>, xe khách <%- data.nccID.tenncc %>'>
+            <meta name='description' content='Xe khách <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
+        
+            <% } else if (data.loai=="3"){ %> 
+                <title>Lộ trình tuyến xe taxi <%- data.ten %></title> 
+                <meta name='keywords' content='Xe taxi <%- data.matuyen %>, xe taxi <%- data.ten %>, xe taxi <%- data.nccID.tenncc %>'>
+                <meta name='description' content='Xe taxi <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
+            
+                <% } else if (data.loai=="4"){ %> 
+                    <title>Lộ trình tuyến xe mô tô <%- data.ten %></title> 
+                    <meta name='keywords' content='Moto <%- data.matuyen %>, xe moto <%- data.ten %>, xe moto <%- data.nccID.tenncc %>'>
+                    <meta name='description' content='Moto <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
+                
+                    <% } else if (data.loai=="5"){ %> 
+                        <title>Lộ trình tuyến thuyền, tàu biển <%- data.ten %></title> 
+                        <meta name='keywords' content='Thuyền, tàu biển <%- data.matuyen %>, thuyền, tàu biển <%- data.ten %>, thuyền, tàu biển <%- data.nccID.tenncc %>'>
+                        <meta name='description' content='Thuyền, tàu biển <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
+                    
+                        <% } else if (data.loai=="6"){ %>  
+                            <title>Lộ trình tuyến phương tiện khác <%- data.ten %></title>
+                            <meta name='keywords' content='Phương tiện khác <%- data.matuyen %>, phương tiện khác <%- data.ten %>, phương tiện khác <%- data.nccID.tenncc %>'>
+                            <meta name='description' content='Phương tiện khác <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
+                        
+
+        <% } %>
+    <meta name='subject' content='Lộ trình tuyến <%- data.ten %>'>
+    <meta name='copyright' content='<%- data.nccID.tenncc %>'>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Content-language" CONTENT="vi">
+    <meta name='robots' content='index,follow'>
+    <meta name='abstract' content='Lộ trình tuyến đường vận tải <%- data.ten %> của <%- data.nccID.tenncc %>'>
+    <meta name='Classification' content='Business'>
+    <meta name='author' content='<%- data.partnerID.hoten %>, admin@lotrinh.vn'>
+    <meta name='designer' content='<%- data.partnerID.hoten %>, admin@lotrinh.vn'>
+    <meta name='reply-to' content='admin@lotrinh.vn'>
+    <meta name='owner' content='<%- data.partnerID.hoten %>, admin@lotrinh.vn'>
+    <meta name='url' content='http://new.lotrinh.vn/lo-trinh/<%- data._id %>'>
+    <meta name='identifier-URL' content='http://new.lotrinh.vn/lo-trinh/<%- data._id %>'>
+    <meta name='directory' content='submission'>
+    <meta name='pagename' content='Tuyến đường vận tải <%- data.ten %> của <%- data.nccID.tenncc %>'>
+    <meta name='category' content='lộ trình tuyến đường'>
+    <meta name='coverage' content='Worldwide'>
+    <meta name='distribution' content='Global'>
+    <meta name='rating' content='General'>
+    <meta name='revisit-after' content='7 days'>
+    <meta name='subtitle' content='Tuyến đường vận tải <%- data.ten %>'>
+    <meta name='target' content='all'>
+    <meta name='MobileOptimized' content='320'>
+    <meta http-equiv='Expires' content='0'>
+    <meta http-equiv='Pragma' content='no-cache'>
+    <meta http-equiv='Cache-Control' content='no-cache'>
+    <meta http-equiv='imagetoolbar' content='no'>
+    <meta http-equiv='x-dns-prefetch-control' content='off'>
+    <!-- OpenGraph Meta Tags -->
+    <meta name="fb:page_id" content="410128599013063" />
+    <meta name="og:title" content="Lộ trình tuyến đường <%- data.ten %> của <%- data.nccID.tenncc %>"/>
+    <meta property="og:type" content="article">
+    <meta name="og:type" content="router"/>
+    <meta name="og:url" content="http://new.lotrinh.vn/lo-trinh/<%- data._id %>"/>
+    <meta name="og:image" content="http://new.lotrinh.vn/images/share/lotrinh-AxA.png"/>
+    <meta name="og:site_name" content="LOTRINH.VN"/>
+    <meta name="og:description" content="Lộ trình tuyến đường <%- data.ten %>. Đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>"/>
+    <meta name="og:locality" content="<%- data.chieudi[0].locationID.quan %>"/>
+    <meta name="og:region" content="<%- data.chieudi[0].locationID.tinh %>"/>
+    <meta name="og:country-name" content="VN"/>
+
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -25,10 +99,10 @@
             
         <div class="row">
             <div class="col">
-                <div class="card card-success card-outline">
+                <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-2 align-self-center">
                                 <h1 class="text-center"><%- data.matuyen %></h1>
                                 <% if (data.loai=="1"){ %> 
                                     <h6 class="text-center">Xe bus</h6>
@@ -45,11 +119,24 @@
         
                                     <% } %>
                             </div>  
-                            <div class="col-sm-10">
-                                <h3 class="text-center"><%- data.ten %></h3>
-                                
+                            <div class="col-sm-10 align-self-center">
+                                <h2 class="text-center"><%- data.ten %></h2>
+                                    <a href="#" class="link-black text-sm mr-2">
+                                        <i class="fas fa-eye"></i> <%- data.totalviews %>
+                                      </a>
+                                      <span class="float-right">
+                                        <a href="#" class="link-black text-sm mr-2">
+                                          <i class="fas fa-heart"></i> 50
+                                        </a>
+                                      </span>
+                                      <span class="float-right">
+                                        <a href="#" class="link-black text-sm mr-2">
+                                          <i class="far fa-comments mr-1"></i> 5
+                                        </a>
+                                      </span>
                             </div>
                         </div>
+                        
                         
 
                     </div>
@@ -58,13 +145,13 @@
                             <div class="col">
                                 <% if(data.nccID){ %>
                                     <a href="/p/<%- data.nccID._id %>">
-                                        <h5 style="text-align: left;"><i class="fab fa-servicestack"> </i> <%- data.nccID.tenncc %></h5>
+                                        <h3 style="text-align: left;"><i class="fab fa-servicestack"> </i> <%- data.nccID.tenncc %></h3>
                                     </a>
                                 <% } %> 
 
                             </div>
                             <div class="col">
-                                <h6 style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data.partnerID.hoten %></h6>
+                                <h4 style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data.partnerID.hoten %></h4>
 
                             </div>
                         </div>
@@ -78,7 +165,7 @@
             <div class="col-sm-7">
                 <div class="card card-warning card-outline">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-route"></i> Lộ trình chiều đi</h3>
+                        <h5 class="card-title"><i class="fas fa-route"></i> Lộ trình chiều đi</h5>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                 <i class="fas fa-expand"></i>
@@ -104,7 +191,9 @@
                             <tr id="tr_chieudi_<%- index +1 %>">
                                 <td><%- index +1 %></td>
                                 <td>
-                                    <p style="font-weight: bold;margin-bottom:2px"><%- data.chieudi[index].locationID.ten %></p>
+                                    <a href="/dia-diem/<%- data.chieudi[index].locationID._id %>">
+                                        <h6 style="font-weight: bold;margin-bottom:2px"><%- data.chieudi[index].locationID.ten %></h6>
+                                    </a>
                                     <p style="margin-bottom:2px"><%- data.chieudi[index].locationID.duong %>, <%- data.chieudi[index].locationID.phuong %>, <%- data.chieudi[index].locationID.quan %>, <%- data.chieudi[index].locationID.tinh %></p>
                                 </td>
                                 <td class="align-left">
@@ -120,7 +209,7 @@
             <div class="col-sm-5">
                 <div class="card card-warning card-outline">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Bảng thời gian chiều đi</h3>
+                        <h5 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Bảng thời gian chiều đi</h5>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                 <i class="fas fa-expand"></i>
@@ -145,7 +234,9 @@
                                     <tr>
                                         <td id="<%-data.chieudi[0].time[index]._id%>" class="text-center"><%- index +1 %></td>
                                         <td>
-                                                <span class="badge bg-primary"><%-data.chieudi[0].time[index].tripCode%></span>                                                    
+                                            <a href="/lo-trinh/lich-trinh/chieu-di/<%-data._id%>/chuyen/<%-data.chieudi[0].time[index].tripCode%>">
+                                                <span class="badge bg-primary"><%-data.chieudi[0].time[index].tripCode%></span>   
+                                            </a>                                                 
                                         </td>
                                         <td>
                                             <% if (data.chieudi[0].time[index].frequency=="many") { %>
@@ -183,7 +274,7 @@
             <div class="col-sm-7">
                 <div class="card card-danger card-outline">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-route"></i> Lộ trình chiều về</h3>
+                        <h5 class="card-title"><i class="fas fa-route"></i> Lộ trình chiều về</h5>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                 <i class="fas fa-expand"></i>
@@ -209,7 +300,9 @@
                                 <tr id="tr_chieuve_<%- index +1 %>">
                                     <td><%- index +1 %> </td>
                                     <td>
-                                        <p style="font-weight: bold;margin-bottom:2px"><%- data.chieuve[index].locationID.ten %></p>
+                                        <a href="/dia-diem/<%- data.chieuve[index].locationID._id %>">
+                                            <h6 style="font-weight: bold;margin-bottom:2px"><%- data.chieuve[index].locationID.ten %></h6>
+                                        </a>
                                         <p style="margin-bottom:2px"><%- data.chieuve[index].locationID.duong %>, <%- data.chieuve[index].locationID.phuong %>, <%- data.chieuve[index].locationID.quan %>, <%- data.chieuve[index].locationID.tinh %></p>
                                     </td>
                                     <td class="align-left">
@@ -227,7 +320,7 @@
             <div class="col-sm-5">
                 <div class="card card-danger card-outline">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Bảng thời gian chiều về</h3>
+                        <h5 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Bảng thời gian chiều về</h5>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                 <i class="fas fa-expand"></i>
@@ -253,7 +346,11 @@
                                         <tr>
                                             <td id="<%-data.chieuve[0].time[index]._id%>" class="text-center"><%- index +1 %></td>
                                             <td>
-                                                    <span class="badge bg-primary"><%-data.chieuve[0].time[index].tripCode%></span>                                                                                                </td>
+                                                <a href="/lo-trinh/lich-trinh/chieu-ve/<%-data._id%>/chuyen/<%-data.chieuve[0].time[index].tripCode%>">
+                                                    
+                                                    <span class="badge bg-primary"><%-data.chieuve[0].time[index].tripCode%></span>
+                                                </a>
+                                            </td>
                                             <td>
                                                 <% if (data.chieuve[0].time[index].frequency=="many") { %>
                                                     <a href="/lo-trinh/lich-trinh/chieu-ve/<%-data._id%>/chuyen/<%-data.chieuve[0].time[index].tripCode%>">
@@ -285,14 +382,10 @@
         <% } %>   
                 
         </div>
-        
-            
 
-            
-        
     </div>
 
-
+    <%- include('../3.footer.customer.ejs'); %>
         
   </div>
   <!-- ./wrapper -->

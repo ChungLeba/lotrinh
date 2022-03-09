@@ -51,7 +51,9 @@
                     <% for( let t = 0; t < data.length; t++ ) { %>
                         <div class="card card-success">
                             <div class="card-header">
+                              <a href="/partner/timetables/<%- data[t]._id %>">
                                 <h3 class="card-title"><i class="nav-icon fas fa-road"></i> Tuyến đường: <%- data[t].ten %></h3>
+                              </a>
                             </div>
                             <div class="card-body table-responsive p-0" style="height: auto;">
                                 <table class="table table-head-fixed text-wrap">

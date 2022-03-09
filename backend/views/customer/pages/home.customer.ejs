@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
+
+  <!-- SEO -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>HOME</title>
+  <title>Trang tìm kiếm tuyến đường, chuyến đi, địa điểm, nhà vận tải</title>
+  <link rel="canonical" href="http://lotrinh.vn" />
+  <meta name='keywords' content='Lộ trình, tuyến đường, chuyến đi, lịch trình, Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
+  <meta name='description' content='LOTRINH.VN là giải pháp kết nối khách hàng với các đơn vị vận chuyển, quảng bá hình ảnh và mang lại doanh thu cho doanh nghiệp. LOTRINH.VN là nơi tìm kiếm thông tin tuyến đường, chuyến đi, lịch trình, Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
+  <meta name='subject' content='LOTRINH.VN - HOME'>
+  <meta name='copyright' content='Công ty CP Phần Mềm Satime'>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+  <META HTTP-EQUIV="Content-language" CONTENT="vi">
+  <meta name='robots' content='index,follow'>
+  <meta name='abstract' content='Lộ trình Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
+  <meta name='Classification' content='Business'>
+  <meta name='author' content='CHUNG.LEBA, admin@lotrinh.vn'>
+  <meta name='designer' content='CHUNG.LEBA, admin@lotrinh.vn'>
+  <meta name='reply-to' content='admin@lotrinh.vn'>
+  <meta name='owner' content='CHUNG.LEBA, admin@lotrinh.vn'>
+  <meta name='url' content='http://lotrinh.vn'>
+  <meta name='identifier-URL' content='http://lotrinh.vn'>
+  <meta name='directory' content='submission'>
+  <meta name='pagename' content='Trang chủ tìm kiếm tuyến đường, chuyến đi của Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
+  <meta name='category' content='Trang chủ'>
+  <meta name='coverage' content='Worldwide'>
+  <meta name='distribution' content='Global'>
+  <meta name='rating' content='General'>
+  <meta name='revisit-after' content='7 days'>
+  <meta name='subtitle' content='Tìm kiếm tuyến đường, chuyến đi'>
+  <meta name='target' content='all'>
+  <meta name='MobileOptimized' content='320'>
+  <meta itemprop='name' content='jQTouch'>
+  <meta http-equiv='Expires' content='0'>
+  <meta http-equiv='Pragma' content='no-cache'>
+  <meta http-equiv='Cache-Control' content='no-cache'>
+  <meta http-equiv='imagetoolbar' content='no'>
+  <meta http-equiv='x-dns-prefetch-control' content='off'>
+    <!-- OpenGraph Meta Tags -->
+  <meta name="fb:page_id" content="410128599013063" />
+  <meta name="og:title" content="Lộ trình phương tiện Việt Nam"/>
+  <meta property="og:type" content="article">
+  <meta name="og:url" content="http://lotrinh.vn"/>
+  <meta name="og:image" content="http://lotrinh.vn/images/share/lotrinh-AxA.png"/>
+  <meta name="og:site_name" content="LOTRINH.VN"/>
+  <meta name="og:description" content="Lộ trình, tuyến đường, chuyến đi, lịch trình, Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển"/>
+
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -19,12 +62,13 @@
 
 <body class="sidebar-mini sidebar-collapse">
   <!-- Site wrapper -->
-  <div class="container">
+  <div class="container" itemscope itemtype ="http://lotrinh.vn">
     <%- include('../1.topmenu.customer.ejs'); %>
-      <%- include('../2.seach.customer.ejs'); %>
+    <%- include('../2.seach.customer.ejs'); %>
 
         <!-- Phương tiện -->
-        <div class="row justify-content-center bg-white">
+        <div class="row bg-white">
+          <h1 class="ml-2" style="font-size: large;">Có <%- data.kq.length %> tuyến đường phù hợp </h1>
         </div>
         
         <div class="row justify-content-center">
@@ -36,9 +80,9 @@
                         <!-- Tuyến đường -->
                         <div class="row">
                           <div class="col-md-2">
-                            <h1 class="text-center">
+                            <h2 class="text-center">
                               <%- data.kq[index].matuyen %>
-                            </h1>
+                            </h2>
                             <% if (data.kq[index].loai=="1"){ %> 
                             <h6 class="text-center">Xe bus</h6>
                             <% } else if (data.kq[index].loai=="2"){ %>
@@ -72,25 +116,13 @@
                               </div>
                               <div class="col">
                                 <a href="#">
-                                  <h6 class="widget-user-username" style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data.kq[index].partnerID.hoten %> 
-                                  </h6>
+                                  <h5 class="widget-user-username" style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data.kq[index].partnerID.hoten %> 
+                                  </h5>
                                 </a>
                               </div>
                             </div>
 
-                            <a href="#" class="link-black text-sm mr-2">
-                              <i class="fas fa-eye"></i> 5000
-                            </a>
-                            <span class="float-right">
-                              <a href="#" class="link-black text-sm mr-2">
-                                <i class="fas fa-heart"></i> 50
-                              </a>
-                            </span>
-                            <span class="float-right">
-                              <a href="#" class="link-black text-sm mr-2">
-                                <i class="far fa-comments mr-1"></i> 5
-                              </a>
-                            </span>
+                            
                           </div>
                           <div class="row">
                             
@@ -98,35 +130,39 @@
                         </div>
 
                         <div class="progress">
-                          <div class="progress-bar bg-green" style="width: 100%"></div>
+                          <div class="progress-bar bg-light" style="width: 100%"></div>
                           <br>
                         </div>
                         <div class="row">
-                          <div class="col-sm-5">
+                          <div class="col-sm-5 text-center">
                             <!-- Nơi đi -->
-                            <span class="info-box-text text-wrap"><i class="fas fa-map-marker-alt" style="color:rgb(1, 152, 253)"></i> <strong>
-                                <%- data.kq[index].chieudi[0].locationID.ten %>
-                              </strong>, <%- data.kq[index].chieudi[0].locationID.duong %>, <%-
-                                  data.kq[index].chieudi[0].locationID.phuong %>, <%-
-                                    data.kq[index].chieudi[0].locationID.quan %>, <%-
-                                      data.kq[index].chieudi[0].locationID.tinh %> </span>
+                            <h4><%- data.kq[index].chieudi[0].locationID.ten %></h4>
+                              <p>
+                                <%- data.kq[index].chieudi[0].locationID.duong %>, <%-
+                                data.kq[index].chieudi[0].locationID.phuong %>, <%-
+                                  data.kq[index].chieudi[0].locationID.quan %>, <%-
+                                    data.kq[index].chieudi[0].locationID.tinh %>
+                                    </p>
                           </div>
                           <div class="col-sm-2 text-center">
                             <i class="fas fa-angle-double-right"></i>
                           </div>
-                          <div class="col-sm-5">
+                          <div class="col-sm-5 text-center">
                             <!-- Nơi đến -->
-                            <span class="info-box-text text-wrap"><i class="fas fa-map-marker-alt" style="color:rgb(253, 1, 1)"></i> <strong>
-                                <%- data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.ten %>
-                              </strong>, <%- data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.duong %>, <%-
-                                  data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.phuong %>, <%-
-                                    data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.quan %>, <%-
-                                      data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.tinh %> </span>
+                            <h4>
+                              <%- data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.ten %>
+                            </h4>
+                            <p>
+                              <%- data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.duong %>, <%-
+                              data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.phuong %>, <%-
+                                data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.quan %>, <%-
+                                  data.kq[index].chieudi[data.kq[index].chieudi.length -1].locationID.tinh %>
+                            </p>
                           </div>
                         </div>
                         <!-- Lộ trình -->
                         <div class="row">
-                          <div class="col-md-6">
+                          <div class="col text-left">
                             <span class="info-box-text">
                               <i class="fas fa-route"></i> Đi qua: <strong>
                                 <%- data.kq[index].chieudi.length %>
@@ -134,7 +170,7 @@
                               địa điểm
                             </span>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col text-right">
                             <% if (data.kq[index].chieuve.length > 0) { %> 
                             <span class="info-box-text">
                               <i class="fas fa-sync"></i> Hai chiều
@@ -149,9 +185,9 @@
                         <% if (data.kq[index].chieudi[0].time[0]) { %> 
                           <!-- Thời gian -->
                           </br>
-                          <div class="card card-outline card-success">
+                          <div class="card card-outline card-primary">
                             <div class="card-header">
-                              <h3 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Lịch khởi hành chiều đi</h3>
+                              <h4 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Lịch khởi hành chiều đi</h4>
                               <div class="card-tools">
                                 <span class="info-box-text text-sm">
                                   <i class="fas fa-bullseye"></i>
@@ -159,41 +195,17 @@
                                 </span>
                               </div>
                             </div>
-                            <div class="card-body table-responsive p-0">
-                              <table class="table table-hover text-wrap">
-                                <thead>
-                                  <tr>
-                                    <th class="text-center">Chuyến</th>
-                                    <th>Mã</th>
-                                    <th>Thời gian đi</th>
-                                  </tr>
-                                </thead>
-                                <tbody id="tbody_chieudi">
-                                  <% for( let t=0; t < data.kq[index].chieudi[0].time.length; t++ ) { %>
-                                    <tr>
-                                      <td id="<%-data.kq[index].chieudi[0].time[t]._id%>" class="text-center">
-                                        <%- t +1 %>
-                                      </td>
-                                      <td>
-                                          <span class="badge bg-primary">
-                                            <%-data.kq[index].chieudi[0].time[t].tripCode%>
-                                          </span>
-                                      </td>
 
-                                      <td>
-                                        <% if (data.kq[index].chieudi[0].time[t].frequency=="many") { %> 
-                                          <%-data.kq[index].chieudi[0].time[t].time%>, <%-
-                                              moment(data.kq[index].chieudi[0].time[t].date).format("DD/MM/YYYY")%>
-                                        <% } %> 
-                                        <% if (data.kq[index].chieudi[0].time[t].frequency=="one") { %> 
-                                          <%-data.kq[index].chieudi[0].time[t].time%>, hàng ngày
-                                        <% } %> 
-                                      </td>
-                                    </tr>
-                                    <% } %>
-
-                                </tbody>
-                              </table>
+                          </div>
+                          <div class="card card-outline card-warning">
+                            <div class="card-header">
+                              <h4 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Lịch khởi hành chiều về</h4>
+                              <div class="card-tools">
+                                <span class="info-box-text text-sm">
+                                  <i class="fas fa-bullseye"></i>
+                                  <%- data.kq[index].chieuve[0].time.length%> chuyến
+                                </span>
+                              </div>
                             </div>
 
                           </div>
@@ -202,9 +214,6 @@
                       </div>
                     </div>
                   <% } %>
-
-<!--               </div>
-            </div> -->
           </div>
           <div class="col-md-3">
             <!-- Lọc dịch vụ -->
@@ -213,8 +222,8 @@
             <%- include('../4B.filter_provin.customer.ejs'); %>
           </div>
         </div>
-        <div class="row justify-content-center">
-        </div>
+        
+    <%- include('../3.footer.customer.ejs'); %>
   </div>
   <!-- ./wrapper -->
 

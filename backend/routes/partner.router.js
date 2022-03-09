@@ -195,18 +195,52 @@ router.get('/',checkloginpartner,function(req , res, next){
         let sotuyenduong = await routerModel.count({partnerID:req.userID})
         let sodiadiadiem = await diadiemchitietModel.count({byuserID:req.userID})
         let soncc = await partnerModel.count({userID:req.userID})
-        //let sochuyen = routerModel.count()
-        thongke.push(sotuyenduong, sodiadiadiem, soncc)
+        let tuyenduongcuauser = await routerModel.find({partnerID:req.userID})
+        let cacchuyen_chieudi = []
+        let cacchuyen_chieuve = []
+        for (let index = 0; index < tuyenduongcuauser.length; index++) {
+
+            if (tuyenduongcuauser[index].chieudi[0]){
+                for (let t = 0; t < tuyenduongcuauser[index].chieudi[0].time.length; t++) {
+                    cacchuyen_chieudi.push(tuyenduongcuauser[index].chieudi[0].time[t])
+                }
+                
+            } else if(tuyenduongcuauser[index].chieuve[0]){
+                for (let z = 0; z < tuyenduongcuauser[index].chieudi[0].time.length; z++) {
+                    cacchuyen_chieudi.push(tuyenduongcuauser[index].chieudi[0].time[z])
+                }
+            }
+
+        }
+        let tongsochuyen = cacchuyen_chieudi.length + cacchuyen_chieuve.length
+        //console.log(tongsochuyen)
+        thongke.push(sotuyenduong, sodiadiadiem, soncc, tongsochuyen)
+        
         let tuyenduongbestview = await routerModel.find({partnerID:req.userID})
         .limit(5)
+        .sort({totalviews:"desc"})
+        
         let diadiembestview = await diadiemchitietModel.find({})
         .populate("byuserID")
-        .sort("totalviews")
+        .sort({totalviews:"desc"})
         .limit(5)
         bestview.push(tuyenduongbestview, diadiembestview)
+        let tongluotxem = await userModel.findById({_id:req.userID},{
+            phanquyen: 0,
+            email:0,
+            hoten:0,
+            nickname:0,
+            sodienthoai:0,
+            diachi:0,
+            hash:0,
+            salt:0,
+            lasttoken:0,
+        })
+
         return {
             thongke,
-            bestview
+            bestview,
+            tongluotxem
         }
     }
     tongquannguoidung()
@@ -226,7 +260,7 @@ router.get('/',checkloginpartner,function(req , res, next){
 router.get('/routers',checkloginpartner,function(req , res, next){
     routerModel.find({
         partnerID:req.userID})
-    .sort({timecreate: 'asc'})
+    .sort({timecreate: 'desc'})
     .populate('chieudi.locationID')
     .populate('chieuve.locationID')
     .populate('partnerID')
@@ -237,6 +271,21 @@ router.get('/routers',checkloginpartner,function(req , res, next){
         } else {
             res.render('partner/pages/2.router.partner.ejs',{user:req.partnername, data:''});
         }
+    })
+})
+router.post('/routers',checkloginpartner,urlencodedParser,function(req , res, next){
+    console.log(req.body)
+    routerModel.findByIdAndUpdate({
+        _id:req.body.routerID,
+        partnerID: req.userID
+    },{
+        publish:req.body.publish
+    })
+    .then(data=>{
+        res.json({mes:"Đã thay đổi trạng thái xuất bản: "+req.body.status})
+    })
+    .catch(err=>{
+        console.log(err)
     })
 })
 
@@ -395,6 +444,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
             chieudi: data.chieudi,
             chieuve: data.chieuve,
             partnerID: req.userID,
+            publish: 0,
             timecreate: new Date()
         })
         .then(data=>{
@@ -877,7 +927,7 @@ router.get('/location',checkloginpartner,function(req , res, next){
         diadiemchitietModel.find({byuserID: req.userID})
         .skip(slboqua)
         .limit(PAGE_SIZE)
-        .sort({timecreate:'asc'})
+        .sort({totalviews:'desc',timecreate:'desc'})
         .then(data=>{
             //console.log(data)
             res.json(data)
@@ -887,7 +937,7 @@ router.get('/location',checkloginpartner,function(req , res, next){
             byuserID: req.userID
         })
         .limit(PAGE_SIZE)
-        .sort({timecreate:'desc'})
+        .sort({totalviews:'desc',timecreate:'desc'})
         .then(data=>{
             if(data){
                 res.render('partner/pages/3.location.partner.ejs',{user:req.partnername, data:data})
@@ -1010,7 +1060,10 @@ router.get('/partner-info/:id',checkloginpartner,function(req , res, next){
 router.get('/manager-router-of-partner',checkloginpartner,function(req , res, next){
     res.render('partner/pages/7B.router.partner.ejs',{user:req.partnername, userID:req.userID})
 })
-
+//8. Hỗ trợ NCC
+router.get('/ho-tro-dich-vu',checkloginpartner,function(req , res, next){
+    res.render('partner/pages/8.help.partner.ejs',{user:req.partnername, userID:req.userID})
+})
 
 module.exports = router;
 

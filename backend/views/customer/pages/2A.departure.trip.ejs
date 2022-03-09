@@ -1,10 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
+  <!-- SEO -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chiều đi| Lịch trình chuyến</title>
+  <link rel="canonical" href="http://new.lotrinh.vn/lo-trinh/lich-trinh/chieu-di/<%- data[0]._id %>/chuyen/<%- data[1][0].time.tripCode %>" />
+  <% if (data[0].loai=="1"){ %> 
+      <title>Lịch trình chuyến <%- data[1][0].time.tripCode %>, <%- data[0].matuyen %>, xe bus <%- data[0].ten %> - Chiều đi</title>
+      <meta name='keywords' content='Xe bus <%- data[0].matuyen %>, xe bus <%- data[0].ten %>, xe bus chuyến <%- data[1][0].time.tripCode %>, xe bus <%- data[0].ncc %>'>
+      <meta name='description' content='Lịch trình chi tiết xe bus <%- data[0].ten %>, mã <%- data[0].matuyen %> chuyến <%- data[1][0].time.tripCode %> - Chiều đi'>
+      
+      <% } else if (data[0].loai=="2"){ %> 
+          <title>Lịch trình chi tiết chuyến <%- data[1][0].time.tripCode %>, <%- data[0].matuyen %>, xe khach <%- data[0].ten %> - Chiều đi</title>
+          <meta name='keywords' content='Xe khách <%- data[0].matuyen %>, xe khách <%- data[0].ten %>, xe khách <%- data[0].ten %>, xe khách <%- data[0].ncc %>'>
+          <meta name='description' content='Lịch trình chi tiết xe khách <%- data[0].ten %>, mã <%- data[0].matuyen %> chuyến <%- data[1][0].time.tripCode %> - Chiều đi'>
+      
+          <% } else if (data[0].loai=="3"){ %> 
+              <title>Lịch trình chi tiết chuyến <%- data[1][0].time.tripCode %>, <%- data[0].matuyen %>, xe taxi <%- data[0].ten %> - Chiều đi</title> 
+              <meta name='keywords' content='Xe taxi <%- data[0].matuyen %>, xe taxi <%- data[0].ten %>, xe taxi <%- data[0].ten %>, xe taxi <%- data[0].ncc %>'>
+              <meta name='description' content='Lịch trình chi tiết taxi <%- data[0].ten %>, mã <%- data[0].matuyen %> chuyến <%- data[1][0].time.tripCode %> - Chiều đi'>
+          
+              <% } else if (data[0].loai=="4"){ %> 
+                  <title>Lịch trình chi tiết chuyến <%- data[1][0].time.tripCode %>, <%- data[0].matuyen %>, xe mô tô <%- data[0].ten %> - Chiều đi</title> 
+                  <meta name='keywords' content='Moto <%- data[0].matuyen %>, xe moto <%- data[0].ten %>, xe moto <%- data[0].ten %>, xe moto <%- data[0].ncc %>'>
+                  <meta name='description' content='Lịch trình chi tiết Moto <%- data[0].ten %>, mã <%- data[0].matuyen %> chuyến <%- data[1][0].time.tripCode %> - Chiều đi'>
+              
+                  <% } else if (data[0].loai=="5"){ %> 
+                      <title>Lịch trình chi tiết chuyến <%- data[1][0].time.tripCode %>, <%- data[0].matuyen %>, thuyền, tàu biển <%- data[0].ten %> - Chiều đi</title> 
+                      <meta name='keywords' content='Thuyền, tàu biển <%- data[0].matuyen %>, thuyền, tàu biển <%- data[0].ten %>, thuyền, tàu biển <%- data[0].ten %>, thuyền, tàu biển <%- data[0].ncc %>'>
+                      <meta name='description' content='Lịch trình chi tiết thuyền, tàu biển <%- data[0].ten %>, mã <%- data[0].matuyen %> chuyến <%- data[1][0].time.tripCode %> - Chiều đi'>
+                  
+                      <% } else if (data[0].loai=="6"){ %>  
+                          <title>Lịch trình chi tiết chuyến <%- data[1][0].time.tripCode %>, <%- data[0].matuyen %>, phương tiện khác <%- data[0].ten %> - Chiều đi</title>
+                          <meta name='keywords' content='Phương tiện khác <%- data[0].matuyen %>, phương tiện khác <%- data[0].ten %>, phương tiện khác <%- data[0].ten %>, phương tiện khác <%- data[0].ncc %>'>
+                          <meta name='description' content='Lịch trình chi tiết phương tiện khác <%- data[0].ten %>, mã <%- data[0].matuyen %> chuyến <%- data[1][0].time.tripCode %> - Chiều đi'>
+                      
+
+      <% } %>
+  <meta name='subject' content='Lịch trình chuyến đi <%- data[0].matuyen %> của tuyến đường <%- data[0].ten %> - Chiều đi'>
+  <meta name='copyright' content='<%- data[0].ncc %>'>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+  <META HTTP-EQUIV="Content-language" CONTENT="vi">
+  <meta name='robots' content='index,follow'>
+  <meta name='abstract' content='Lộ trình chi tiết chuyến <%- data[0].matuyen %>, tuyến đường vận tải <%- data[0].ten %> của <%- data[0].ncc %> - Chiều đi'>
+  <meta name='Classification' content='Business'>
+  <meta name='author' content='<%- data[0].partnerID.hoten %>, admin@lotrinh.vn'>
+  <meta name='designer' content='<%- data[0].partnerID.hoten %>, admin@lotrinh.vn'>
+  <meta name='reply-to' content='admin@lotrinh.vn'>
+  <meta name='owner' content='<%- data[0].partnerID.hoten %>, admin@lotrinh.vn'>
+  <meta name='url' content='http://new.lotrinh.vn/lo-trinh/lich-trinh/chieu-di/<%- data[0]._id %>/chuyen/<%- data[1][0].time.tripCode %>'>
+  <meta name='identifier-URL' content='http://new.lotrinh.vn/lo-trinh/lich-trinh/chieu-di/<%- data[0]._id %>/chuyen/<%- data[1][0].time.tripCode %>'>
+  <meta name='directory' content='submission'>
+  <meta name='pagename' content='Chuyến <%- data[1][0].time.tripCode %>. Tuyến đường vận tải <%- data[0].ten %> của <%- data[0].ncc %>'>
+  <meta name='category' content='lịch trình chuyến đi'>
+  <meta name='coverage' content='Worldwide'>
+  <meta name='distribution' content='Global'>
+  <meta name='rating' content='General'>
+  <meta name='revisit-after' content='7 days'>
+  <meta name='subtitle' content='Chuyến <%- data[0].matuyen %>, tuyến đường vận tải <%- data[0].ten %>'>
+  <meta name='target' content='all'>
+  <meta name='MobileOptimized' content='320'>
+  <meta http-equiv='Expires' content='0'>
+  <meta http-equiv='Pragma' content='no-cache'>
+  <meta http-equiv='Cache-Control' content='no-cache'>
+  <meta http-equiv='imagetoolbar' content='no'>
+  <meta http-equiv='x-dns-prefetch-control' content='off'>
+  <!-- OpenGraph Meta Tags -->
+  <meta name="fb:page_id" content="410128599013063" />
+  <meta name="og:title" content="Lộ trình chi tiết chuyến <%- data[0].matuyen %>, tuyến đường <%- data[0].ten %> của <%- data[0].ncc %>"/>
+  <meta property="og:type" content="article">
+  <meta name="og:type" content="router"/>
+  <meta name="og:url" content="http://new.lotrinh.vn/lo-trinh/lich-trinh/chieu-di/<%- data[0]._id %>/chuyen/<%- data[1][0].time.tripCode %>"/>
+  <meta name="og:image" content="http://new.lotrinh.vn/images/share/lotrinh-AxA.png"/>
+  <meta name="og:site_name" content="LOTRINH.VN"/>
+  <meta name="og:description" content="Lịch trình chi tiết xe bus <%- data[0].ten %>, mã <%- data[0].matuyen %>, chuyến <%- data[1][0].time.tripCode %>, của <%- data[0].ncc %> - Chiều đi"/>
+  <meta name="og:locality" content="<%- data[1][0].locationID.quan %>"/>
+  <meta name="og:region" content="<%- data[1][0].locationID.tinh %>"/>
+  <meta name="og:country-name" content="VN"/>
+
+    
+
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -112,7 +188,9 @@
                                         <% } %> 
                                     </td>
                                     <td>
+                                      <a href="/dia-diem/<%- data[1][index].locationID._id %>">
                                         <p style="font-weight: bold;margin-bottom:2px"><%- data[1][index].locationID.ten %></p>
+                                      </a>
                                         <p style="margin-bottom:2px"><%- data[1][index].locationID.duong %>, <%- data[1][index].locationID.phuong %>, <%- data[1][index].locationID.quan %>, <%- data[1][index].locationID.tinh %></p>
                                     </td>
                                     <td class="align-left">

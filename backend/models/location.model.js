@@ -27,12 +27,16 @@ var diadiemchitietSchema = new mongoose.Schema({
     by: String,
     byuserID: {type:String, ref:"userModel"},
     todayviews: Number,
-    totalviews: Number
+    totalviews: Number,
+    impression: Number
     },{collection : 'locations'})
     
 var diadiemchitietModel = mongoose.model('diadiemchitietModel',diadiemchitietSchema)
 
-
+/* diadiemchitietModel.updateMany({totalviews:0})
+.then(data=>{
+    console.log(data)
+}) */
 
 /* diadiemchitietModel.updateMany({},{$set: {todayviews: random}},{upsert:true,
     multi:true})

@@ -20,13 +20,17 @@ var userSchema = new mongoose.Schema({
     diachi: String,
     hash: String,
     salt: String,
-    lasttoken: String
+    lasttoken: String,
+    totalviews: Number
     },{collection : 'users'})
     
 var userModel = mongoose.model('userModel',userSchema)
 
 //CREATE DATA
-
+/* userModel.updateMany({totalviews:1})
+.then(data=>{
+    console.log(data)
+}) */
 /* userModel.create({
     phanquyen: 1, //1: admin, 2: nhanvien, 3: khach hang
     email: "lebachungtdh@gmail.com",

@@ -3,6 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+//CORS
+var cors = require('cors')
+var corsOptions = {
+  origin: 'http://new.lotrinh.vn',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+// Favicon
+var favicon = require('serve-favicon')
 
 //ROUTER
 var indexRouter = require('./routes/index');
@@ -10,12 +19,15 @@ var adminRouter = require('./routes/admin.router');
 var partnerRouter = require('./routes/partner.router');
 
 var app = express();
-
+//cors
+app.use(cors(corsOptions))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 // render time with moment
 app.locals.moment = require('moment');
+// Favicon
+app.use(favicon(path.join(__dirname, 'public/images/favicon_io/', 'favicon.ico')))
 
 app.use(logger('dev'));
 app.use(express.json());

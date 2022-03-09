@@ -26,7 +26,7 @@ var imglocationModel = mongoose.model('imglocationModel',imglocationSchema)
 
 
 
-imglocationModel.findById({
+/* imglocationModel.findById({
 _id: "61dcf8dce44f25731a9cf4d5"
 }) 
 .then(data=>{
@@ -35,7 +35,7 @@ _id: "61dcf8dce44f25731a9cf4d5"
 .catch(err=>{
     console.log(err)
 })
-
+ */
 
 
 

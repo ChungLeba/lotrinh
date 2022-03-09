@@ -79,8 +79,8 @@
             <span class="info-box-icon bg-warning"><i class="nav-icon fas fa-calendar-alt"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Chuyến/ngày</span>
-              <span class="info-box-number">####</span>
+              <span class="info-box-text">Tổng số chuyến</span>
+              <span class="info-box-number"><%- data.thongke[3] %></span>
             </div>
             <!-- /.info-box-content -->
             
@@ -132,7 +132,7 @@
                       <th>Loại</th>
                       <th>Mã tuyến</th>
                       <th>Tên tuyến</th>
-                      <th style="width: 40px">Lượt</th>
+                      <th style="width: 40px">Xem</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -155,12 +155,12 @@
                           </span>
                         </td>
                         <td>
-                          <a href="#">
+                          <a href="/lo-trinh/<%- data.bestview[0][index]._id %>">
                             <p style=" font-weight: bold;"><%- data.bestview[0][index].ten %></p>
                           </a>
                         </td>
                         
-                        <td><span class="badge bg-light">######</span></td>
+                        <td><span class="badge bg-light"><%- data.bestview[0][index].totalviews %></span></td>
                       </tr>
                     <% } %>
                   </tbody>
@@ -182,7 +182,7 @@
                     <th style="width: 10px">#</th>
                     <th>Tên địa điểm</th>
                     <th>Tạo bởi</th>
-                    <th style="width: 40px">Lượt</th>
+                    <th style="width: 40px">Xem</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -190,17 +190,17 @@
                     <tr>
                       <td><%- index+1 %> </td>
                       <td> 
-                        <a href="/admin/location/#">
-                          <p style=" font-weight: bold;"><%- data.bestview[1][index].ten %> </p>
+                        <a href="/dia-diem/<%- data.bestview[1][index]._id %>">
+                          <p class="mb-2" style=" font-weight: bold;"><%- data.bestview[1][index].ten %> </p>
                         </a>
-                        <p style=" font-weight: lighter;"><%- data.bestview[1][index].duong %>, <%- data.bestview[1][index].phuong %>, <%- data.bestview[1][index].quan %>, <%- data.bestview[1][index].tinh %></p>
+                        <p class="mb-0"><%- data.bestview[1][index].duong %>, <%- data.bestview[1][index].phuong %>, <%- data.bestview[1][index].quan %>, <%- data.bestview[1][index].tinh %></p>
                       </td>
                       <td>
                         <a href="#">
                           <%- data.bestview[1][index].byuserID.hoten %>
                         </a>
                       </td>
-                      <td><span class="badge bg-light">######</span></td>
+                      <td><span class="badge bg-light"><%- data.bestview[1][index].totalviews %></span></td>
                     </tr>
                   <% } %>
                 </tbody>
@@ -215,8 +215,8 @@
           <div class="info-box">
             <span class="info-box-icon bg-danger"><i class="far fa-eye"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Xem</span>
-              <span class="info-box-number">######</span>
+              <span class="info-box-text">Tổng lượt xem</span>
+              <span class="info-box-number"><%- data.tongluotxem.totalviews %></span>
             </div>
             
             <!-- /.info-box-content -->

@@ -57,8 +57,8 @@
                                       <th>Thời gian thêm</th>
                                       <th>Tên địa điểm</th>
                                       <th>Địa chỉ</th>
-                                      <th>Trend today</th>
-                                      <th>Public</th>
+                                      <th>Lượt xem</th>
+                                      <th>Lượt xuất hiện</th>
                                     </tr>
                                   </thead>
                                   <tbody id="tbody">
@@ -66,18 +66,13 @@
                                         <tr id="tr<%- index +1 %>">
                                             <td><%- index +1 %> </td>
                                             <td><%- moment(data[index].timecreate).format("HH:mm:ss, DD/MM/YYYY") %></td>
-                                            <td> <a href="#"> <p><%- data[index].ten %></p></a></td>
+                                            <td> <a href="/dia-diem/<%- data[index]._id %>"> <p><%- data[index].ten %></p></a></td>
                                             <td>
                                                 <p style="font-weight: bold;"><%- data[index].duong %></p>
                                                 <p><%- data[index].phuong %>, <%- data[index].quan %>, <%- data[index].tinh %>, <%- data[index].nuoc %></p>
                                             </td>
-                                            <td><i class="fas fa-poll"></i> <%-data[index].todayviews%></td>
-                                            <td>
-                                              <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch<%- index +1 %>">
-                                                <label class="custom-control-label" for="customSwitch<%- index +1 %>">Active</label>
-                                              </div>
-                                            </td>
+                                            <td><span class="badge bg-success"><i class="far fa-eye"></i> <%-data[index].totalviews%></span></td>
+                                            <td><span class="badge bg-danger"> ###</span></td>
                                           </tr>
                                     <% } %>
                                     <!-- Loader -->
@@ -157,12 +152,8 @@
                         <p style="font-weight: bold;">`+data[t].duong+`</p>
                         <p>`+data[t].phuong+", "+data[t].quan+", "+data[t].tinh+", "+data[t].nuoc+`</p>
                     </td>
-                    <td><i class="fas fa-poll"></i>`+data[t].todayviews+`</td>
-                    <td>
-                      <a href="/admin/location/update/`+data[t]._id+`">
-                        <button type="button" class="btn btn-outline-danger btn-block btn-sm"><i class="fas fa-edit"></i> Cập nhật</button>
-                      </a>
-                    </td>
+                    <td><span class="badge bg-success"><i class="far fa-eye"></i>`+data[t].totalviews+`</span></td>
+                    <td><span class="badge bg-danger">`+"###"+`</span></td>
                 </tr>
                 `
                 ); 
