@@ -107,7 +107,8 @@ router.post('/dang-ky',urlencodedParser,function(req , res, next){
                 email: req.body.email,
                 hoten: req.body.hoten,        
                 hash: hass_pass.toString('hex'),
-                salt: salt
+                salt: salt,
+                totalviews: 1
             })
             .then(data=>{
                 //Ký
