@@ -49,10 +49,10 @@ var routerSchema = new mongoose.Schema({
 var routerModel = mongoose.model('routerModel',routerSchema)
 
 //UPDATE
-routerModel.updateMany({publish:1})
+/* routerModel.updateMany({publish:1})
 .then(data=>{
     console.log(data)
-})
+}) */
 
 /* routerModel.create({
     ten: 'Ha Noi - Ho Chi Minh', 
