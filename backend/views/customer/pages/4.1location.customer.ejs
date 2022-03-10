@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chi tiết địa điểm</title>
+<!-- SEO -->
+  
+<title>Phương tiện đi qua <%- data.ten %> | Địa điểm</title>
+<meta name='keywords' content='Tuyến đường đi qua <%- data.ten %>, chuyến đi qua <%- data.ten %>, chuyến đến <%- data.ten %>, chuyến đi <%- data.ten %>'>
+<meta name='description' content='Các tuyến đường, phương tiện đi qua <%- data.ten %>, <%- data.duong %>, <%- data.phuong %>, <%- data.quan %>, <%- data.tinh %>. Những chuyến xe đi qua, những nhà cung cấp vận tải, các lịch trình'>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="http://new.lotrinh.vn/dia-diem/<%- data._id %>" />
+<meta name='subject' content='Những chuyến xe đi qua <%- data.ten %>'>
+<meta name='copyright' content='<%- data.byuserID.hoten %>'>
+<meta name='robots' content='index,follow'>
+<meta name='abstract' content='hi tiết các tuyến đi, đến, đi qua ở địa điểm <%- data.ten %> có địa chỉ <%- data.duong %>, <%- data.phuong %>, <%- data.quan %>, <%- data.tinh %>'>
+<meta name='Classification' content='Business'>
+<meta name='author' content='<%- data.byuserID.hoten %>, admin@lotrinh.vn'>
+<meta name='designer' content='<%- data.byuserID.hoten %>, admin@lotrinh.vn'>
+<meta name='reply-to' content='admin@lotrinh.vn'>
+<meta name='owner' content='<%- data.byuserID.hoten %>, admin@lotrinh.vn'>
+<meta name='url' content='http://new.lotrinh.vn/dia-diem/<%- data._id %>'>
+<meta name='identifier-URL' content='http://new.lotrinh.vn/dia-diem/<%- data._id %>'>
+<meta name='directory' content='submission'>
+<meta name='pagename' content='Chi tiết các tuyến đi, đến, đi qua ở địa điểm <%- data.ten %> có địa chỉ <%- data.duong %>, <%- data.phuong %>, <%- data.quan %>, <%- data.tinh %>'>
+<meta name='category' content='Địa điểm'>
+<meta name='coverage' content='Worldwide'>
+<meta name='distribution' content='Global'>
+<meta name='rating' content='General'>
+<meta name='revisit-after' content='7 days'>
+<meta name='subtitle' content='Chi tiết các tuyến đi, đến, đi qua ở địa điểm <%- data.ten %>'>
+<meta name='target' content='all'>
+<meta name='MobileOptimized' content='320'>
+<meta http-equiv='Expires' content='0'>
+<meta http-equiv='Pragma' content='no-cache'>
+<meta http-equiv='Cache-Control' content='no-cache'>
+<meta http-equiv='imagetoolbar' content='no'>
+<meta http-equiv='x-dns-prefetch-control' content='off'>
+<!-- OpenGraph Meta Tags -->
+<meta name="fb:page_id" content="410128599013063" />
+<meta name="og:title" content="Chi tiết các tuyến đi, đến, đi qua ở địa điểm <%- data.ten %>"/>
+<meta property="og:type" content="article">
+<meta name="og:type" content="router"/>
+<meta name="og:url" content="http://new.lotrinh.vn/dia-diem/<%- data._id %>"/>
+<meta name="og:image" content="http://new.lotrinh.vn/dia-diem/<%- data._id %>"/>
+<meta name="og:site_name" content="LOTRINH.VN"/>
+<meta name="og:description" content="Chi tiết các tuyến đi, đến, đi qua ở địa điểm <%- data.ten %> có địa chỉ <%- data.duong %>, <%- data.phuong %>, <%- data.quan %>, <%- data.tinh %>"/>
+<meta name="og:locality" content="<%- data.quan %>"/>
+<meta name="og:region" content="<%- data.tinh %>"/>
+<meta name="og:country-name" content="VN"/>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet"
@@ -34,10 +77,10 @@
                 <!-- Địa điểm -->
                 <div class="info-box bg-white ">
                   <div class="info-box-content" id="div_diadiem">
-                    <img src="../../admin/dist/img/lotrinh-AxA.png" width="80px" style="display: block;margin-left: auto;border-radius:15px; margin-right: auto;">
-                    <h3 class="fw-light text-center text-lg-start mt-4 mb-0"><%- data.ten %></h3>
-                    <h4 class="fw-light text-center text-lg-start mt-2 mb-0"><%- data.duong %>, <%- data.phuong %>, <%- data.quan %>, <%- data.tinh %></h4>
-                    <p class="text-center mt-2 mb-0"><a href="#"><i class="fas fa-user-circle"></i> <%- data.byuserID.hoten %></a>, <i class="fas fa-history"></i> <%-moment(data.timecreate).format("HH:MM, DD-MM-YYYY") %></p>
+                    <img alt="hình ảnh địa điểm <%- data.ten %>" src="../../admin/dist/img/lotrinh-AxA.png" width="80px" style="display: block;margin-left: auto;border-radius:15px; margin-right: auto;">
+                    <h1 class="fw-light text-center text-lg-start mt-4 mb-0"><%- data.ten %></h1>
+                    <h3 class="fw-light text-center text-lg-start mt-2 mb-0"><%- data.duong %>, <%- data.phuong %>, <%- data.quan %>, <%- data.tinh %></h3>
+                    <h6 class="text-center mt-2 mb-0"><a href="#"><i class="fas fa-user-circle"></i> <%- data.byuserID.hoten %></a>, <i class="fas fa-history"></i> <%-moment(data.timecreate).format("HH:MM, DD-MM-YYYY") %></h6>
                   </div>
                   
                 </div>
@@ -70,6 +113,8 @@
           </br>
             <div class="row">
               <div class="col-md-12">
+                <!-- Các tuyến -->
+                <h2 class="fw-light text-center text-lg-start mt-2 mb-4" style="font-weight: lighter;">Các tuyến vận tải đi, đến và đi qua</h2>
                 <div class="card card-primary card-outline card-outline-tabs">
                   <div class="card-header p-0 border-bottom-0">
                   <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
@@ -214,7 +259,9 @@
                   </div>
                   </div>
                   
-                  </div>
+                </div>
+                <!-- Lịch trình -->
+                <h2 class="fw-light text-center text-lg-start mt-2 mb-4" style="font-weight: lighter;">Lịch trình các chuyến đi, đến và đi qua </h2>
                     
               </div>
             </div>
