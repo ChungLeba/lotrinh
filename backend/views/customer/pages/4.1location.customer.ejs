@@ -85,6 +85,8 @@
                   
                 </div>
             </div>
+            <!-- Ads -->
+            <%- include('../4.ads-auto.customer.ejs'); %>
             <div class="row">
               
               <div class="col-md-9 text-left" style="font-style: italic;">
@@ -119,13 +121,13 @@
                   <div class="card-header p-0 border-bottom-0">
                   <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                   <li class="nav-item">
-                  <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true"><span class="badge badge-primary right"><%- cactuyenkhoihanh.length%></span> Tuyến đi</a>
+                  <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true"><span class="badge badge-primary right"><%- cactuyenkhoihanh.length%></span> Khởi hành</a>
                   </li>
                   <li class="nav-item">
-                  <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false"><span class="badge badge-warning right"><%- cactuyendiqua.length %></span> Tuyến đi qua</a>
+                  <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false"><span class="badge badge-warning right"><%- cactuyendiqua.length %></span> Đi qua</a>
                   </li>
                   <li class="nav-item">
-                  <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false"><span class="badge badge-danger right"><%- cactuyenketthuc.length %></span> Tuyến đến</a>
+                  <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false"><span class="badge badge-danger right"><%- cactuyenketthuc.length %></span> Kết thúc</a>
                   </li>
                   </ul>
                   </div>
@@ -163,7 +165,12 @@
                                 <span><%- cactuyenkhoihanh[index].matuyen %></span>
                               </td>
                               <td>
-                                <a href="/lo-trinh/<%- cactuyenkhoihanh[index]._id %>"><h5><%- cactuyenkhoihanh[index].ten %></h5></a>
+                                <a href="/lo-trinh/<%- cactuyenkhoihanh[index]._id %>">
+                                  <h5><%- cactuyenkhoihanh[index].ten %></h5>
+                                </a>
+                                <a href="/p/<%- cactuyenkhoihanh[index].nccID._id %>">
+                                  <p><i class="fab fa-servicestack"> </i> <%- cactuyenkhoihanh[index].nccID.tenncc %></p>
+                                </a>
                               </td>
                               <td><a href="/lo-trinh/<%- cactuyenkhoihanh[index]._id %>"><i class="fas fa-chevron-right"></i></a></td>
                             </tr>
@@ -204,6 +211,7 @@
                               </td>
                               <td>
                                 <a href="/lo-trinh/<%- cactuyendiqua[index]._id %>"><h5><%- cactuyendiqua[index].ten %></h5></a>
+                                <a href="/p/<%- cactuyendiqua[index].nccID._id %>"><i class="fab fa-servicestack"> </i> <%- cactuyendiqua[index].nccID.tenncc %></a>
                               </td>
                               <td><a href="/lo-trinh/<%- cactuyendiqua[index]._id %>"><i class="fas fa-chevron-right"></i></a></td>
                             </tr>
@@ -247,6 +255,7 @@
                               </td>
                               <td>
                                 <a href="/lo-trinh/<%- cactuyenketthuc[index]._id %>"><h5><%- cactuyenketthuc[index].ten %></h5></a>
+                                <a href="/p/<%- cactuyenketthuc[index].nccID._id%>"><i class="fab fa-servicestack"> </i> <%- cactuyenketthuc[index].nccID.tenncc%></a>
                               </td>
                               <td><a href="/lo-trinh/<%- cactuyenketthuc[index]._id %>"><i class="fas fa-chevron-right"></i></a></td>
                             </tr>
@@ -260,18 +269,18 @@
                   </div>
                   
                 </div>
-                <!-- Lịch trình -->
-                <h2 class="fw-light text-center text-lg-start mt-2 mb-4" style="font-weight: lighter;">Lịch trình các chuyến đi, đến và đi qua </h2>
+                <!-- Các đơn vị vận tải -->
+                <h2 class="fw-light text-center text-lg-start mt-2 mb-4" style="font-weight: lighter;">Quảng cáo</h2>
+
                     
               </div>
             </div>
           </div>
         </div>
-        <div class="row justify-content-center">
-        </div>
   </div>
   <!-- ./wrapper -->
-
+<!-- Ads -->
+<%- include('../3.ads.customer.ejs'); %>
   <!-- jQuery -->
   <script src="../../admin/plugins/jquery/jquery.min.js"></script>
   <script>

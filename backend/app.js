@@ -5,9 +5,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 //CORS
 var cors = require('cors')
-var corsOptions = {
-  origin: 'http://new.lotrinh.vn',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+var allowlist = ['http://new.lotrinh.vn', 'http://lotrinh.vn']
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (allowlist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
 }
 
 // Favicon
@@ -20,7 +26,7 @@ var partnerRouter = require('./routes/partner.router');
 
 var app = express();
 //cors
-app.use(cors(corsOptions))
+app.options('*', cors(corsOptionsDelegate))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

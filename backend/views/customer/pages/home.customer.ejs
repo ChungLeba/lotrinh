@@ -72,6 +72,9 @@
         
         <div class="row justify-content-center">
           <div class="col-md-9">
+            <!-- Ads -->
+            <%- include('../4.ads-auto.customer.ejs'); %>
+
                 <% for( let index=0; index < data.kq.length; index++ ) { %>
                   <!-- Tuyến đường phù hợp -->
                     <div class="info-box bg-light">
@@ -220,12 +223,13 @@
             <!-- Lọc dịch vụ kết hợp tỉnh -->
             <%- include('../4B.filter_provin.customer.ejs'); %>
           </div>
+          
         </div>
-        
     <%- include('../3.footer.customer.ejs'); %>
   </div>
   <!-- ./wrapper -->
-
+<!-- Ads -->
+<%- include('../3.ads.customer.ejs'); %>
   <!-- jQuery -->
   <script src="../../admin/plugins/jquery/jquery.min.js"></script>
   <script>

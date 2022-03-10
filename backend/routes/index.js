@@ -268,7 +268,9 @@ router.get('/dia-diem/:id',function(req , res, next){
 
   async function timcactuyen(){
     let cactuyenquadiem_chieudi = await routerModel.find({chieudi: {$elemMatch: {locationID:{$regex:req.params.id}}}})
+    .populate("nccID")
     let cactuyenquadiem_chieuve = await routerModel.find({chieuve: {$elemMatch: {locationID:{$regex:req.params.id}}}})
+    .populate("nccID")
     //console.log("chieudi: ",cactuyenquadiem_chieudi)
     //console.log("chieuve: ",cactuyenquadiem_chieuve)
     let cactuyenkhoihanh = []
@@ -337,7 +339,7 @@ router.get('/dia-diem/:id',function(req , res, next){
       }
       demluotview()
       .then(data=>{
-        console.log(data)
+        //console.log(data)
       })
       .catch(err=>{
         console.log(err)    
