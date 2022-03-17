@@ -8,12 +8,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trang tìm kiếm tuyến đường, chuyến đi, địa điểm, nhà vận tải</title>
   <link rel="canonical" href="http://lotrinh.vn" />
-  <meta name='keywords' content='Lộ trình, tuyến đường, chuyến đi, lịch trình, Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
-  <meta name='description' content='LOTRINH.VN là giải pháp kết nối khách hàng với các đơn vị vận chuyển, quảng bá hình ảnh và mang lại doanh thu cho doanh nghiệp. LOTRINH.VN là nơi tìm kiếm thông tin tuyến đường, chuyến đi, lịch trình, Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
+  <meta name='keywords' content='Lộ trình, tuyến đường, chuyến đi, lịch trình, Xe buýt, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
+  <meta name='description' content='LOTRINH.VN là giải pháp kết nối khách hàng với các đơn vị vận chuyển, quảng bá hình ảnh và mang lại doanh thu cho doanh nghiệp. LOTRINH.VN là nơi tìm kiếm thông tin tuyến đường, chuyến đi, lịch trình, Xe buýt, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
   <meta name='subject' content='LOTRINH.VN - HOME'>
   <meta name='copyright' content='Công ty CP Phần Mềm Satime'>
   <meta name='robots' content='index,follow'>
-  <meta name='abstract' content='Lộ trình Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
+  <meta name='abstract' content='Lộ trình Xe buýt, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
   <meta name='Classification' content='Business'>
   <meta name='author' content='CHUNG.LEBA, admin@lotrinh.vn'>
   <meta name='designer' content='CHUNG.LEBA, admin@lotrinh.vn'>
@@ -22,7 +22,7 @@
   <meta name='url' content='http://lotrinh.vn'>
   <meta name='identifier-URL' content='http://lotrinh.vn'>
   <meta name='directory' content='submission'>
-  <meta name='pagename' content='Trang chủ tìm kiếm tuyến đường, chuyến đi của Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
+  <meta name='pagename' content='Trang chủ tìm kiếm tuyến đường, chuyến đi của Xe buýt, Xe khách, Taxi, Moto, Thuyền, Tàu biển'>
   <meta name='category' content='Trang chủ'>
   <meta name='coverage' content='Worldwide'>
   <meta name='distribution' content='Global'>
@@ -45,7 +45,7 @@
   <meta name="og:image" content="http://new.lotrinh.vn/images/share/lotrinh-AxA.png"/>
   
   <meta name="og:site_name" content="LOTRINH.VN"/>
-  <meta name="og:description" content="Lộ trình, tuyến đường, chuyến đi, lịch trình, Xe bus, Xe khách, Taxi, Moto, Thuyền, Tàu biển"/>
+  <meta name="og:description" content="Lộ trình, tuyến đường, chuyến đi, lịch trình, Xe buýt, Xe khách, Taxi, Moto, Thuyền, Tàu biển"/>
 
 
   <!-- Google Font: Source Sans Pro -->
@@ -67,7 +67,7 @@
 
         <!-- Phương tiện -->
         <div class="row bg-white">
-          <h1 class="ml-2" style="font-size: large;">Có <%- data.kq.length %> tuyến đường phù hợp </h1>
+          <h1 class="ml-2" style="font-size: large;">Có <%- data.total[6] %> tuyến đường phù hợp </h1>
         </div>
         
         <div class="row justify-content-center">
@@ -77,8 +77,8 @@
 
                 <% for( let index=0; index < data.kq.length; index++ ) { %>
                   <!-- Tuyến đường phù hợp -->
-                    <div class="info-box bg-light">
-                      <div class="info-box-content">
+                    <div class="card card-outline card-success">
+                      <div class="card-body">
                         <!-- Tuyến đường -->
                         <div class="row">
                           <div class="col-md-2">
@@ -86,7 +86,7 @@
                               <%- data.kq[index].matuyen %>
                             </h2>
                             <% if (data.kq[index].loai=="1"){ %> 
-                            <h6 class="text-center">Xe bus</h6>
+                            <h6 class="text-center">Xe buýt</h6>
                             <% } else if (data.kq[index].loai=="2"){ %>
                               <h6 class="text-center">Xe khách</h6>
                             <% } else if (data.kq[index].loai=="3"){ %>
@@ -117,7 +117,7 @@
                                 <% } %>  
                               </div>
                               <div class="col">
-                                <a href="#">
+                                <a href="/user/<%- data.kq[index].partnerID._id %>">
                                   <h5 class="widget-user-username" style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data.kq[index].partnerID.hoten %> 
                                   </h5>
                                 </a>
@@ -131,10 +131,6 @@
                           </div>
                         </div>
 
-                        <div class="progress">
-                          <div class="progress-bar bg-light" style="width: 100%"></div>
-                          <br>
-                        </div>
                         <div class="row">
                           <div class="col-sm-5 text-center">
                             <!-- Nơi đi -->
@@ -185,33 +181,15 @@
                           </div>
                         </div>
                         <% if (data.kq[index].chieudi[0].time[0]) { %> 
-                          <!-- Thời gian -->
-                          </br>
-                          <div class="card card-outline card-primary">
-                            <div class="card-header">
-                              <h4 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Lịch khởi hành chiều đi</h4>
-                              <div class="card-tools">
-                                <span class="info-box-text text-sm">
-                                  <i class="fas fa-bullseye"></i>
-                                  <%- data.kq[index].chieudi[0].time.length%> chuyến
-                                </span>
-                              </div>
-                            </div>
+                        <div class="row mt-2">
+                          <div class="col text-left">
+                            <p><i class="nav-icon fas fa-calendar-alt"></i> Chiều đi: <strong><%- data.kq[index].chieudi[0].time.length%></strong> chuyến</p>
 
                           </div>
-                          <div class="card card-outline card-warning">
-                            <div class="card-header">
-                              <h4 class="card-title"><i class="nav-icon fas fa-calendar-alt"></i> Lịch khởi hành chiều về</h4>
-                              <div class="card-tools">
-                                <span class="info-box-text text-sm">
-                                  <i class="fas fa-bullseye"></i>
-                                  <%- data.kq[index].chieuve[0].time.length%> chuyến
-                                </span>
-                              </div>
-                            </div>
-
+                          <div class="col text-right">
+                            <p><i class="nav-icon fas fa-calendar-alt"></i> Chiều về: <strong><%- data.kq[index].chieuve[0].time.length%></strong> chuyến</p>
                           </div>
-                          <!-- Xem thêm -->
+                        </div>
                         <% } %>
                       </div>
                     </div>
@@ -228,8 +206,7 @@
     <%- include('../3.footer.customer.ejs'); %>
   </div>
   <!-- ./wrapper -->
-<!-- Ads -->
-<%- include('../3.ads.customer.ejs'); %>
+
   <!-- jQuery -->
   <script src="../../admin/plugins/jquery/jquery.min.js"></script>
   <script>

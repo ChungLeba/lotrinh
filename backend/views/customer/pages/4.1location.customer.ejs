@@ -80,38 +80,38 @@
                     <img alt="hình ảnh địa điểm <%- data.ten %>" src="../../admin/dist/img/lotrinh-AxA.png" width="80px" style="display: block;margin-left: auto;border-radius:15px; margin-right: auto;">
                     <h1 class="fw-light text-center text-lg-start mt-4 mb-0"><%- data.ten %></h1>
                     <h3 class="fw-light text-center text-lg-start mt-2 mb-0"><%- data.duong %>, <%- data.phuong %>, <%- data.quan %>, <%- data.tinh %></h3>
-                    <h6 class="text-center mt-2 mb-0"><a href="#"><i class="fas fa-user-circle"></i> <%- data.byuserID.hoten %></a>, <i class="fas fa-history"></i> <%-moment(data.timecreate).format("HH:MM, DD-MM-YYYY") %></h6>
+                    <h6 class="text-center mt-2 mb-0"><a href="/user/<%- data.byuserID._id %>"><i class="fas fa-user-circle"></i> <%- data.byuserID.hoten %></a>, <i class="fas fa-history"></i> <%-moment(data.timecreate).format("HH:MM, DD-MM-YYYY") %></h6>
+                    <div class="row mt-2">
+                      <div class="col-md-9 text-left" style="font-style: italic;">
+                        <span>
+                          <i class="fas fa-route"></i>
+                          <%- cactuyenkhoihanh.length + cactuyendiqua.length + cactuyenketthuc.length %> tuyến khai thác.
+                        </span>
+                        <span>
+                          <i class="far fa-eye"></i>
+                          <%- data.totalviews %> xem.
+                        </span>
+                        
+                        <span>
+                          <i class="far fa-comments mr-1"></i>
+                          ### bình luận.
+                        </span>    
+                      </div>
+                      <div class="col-md-3 text-center">
+                        <button class="btn btn-outline-danger btn-block btn-sm">
+                          <i class="fas fa-heart"></i>  
+                          ## yêu thích
+                        </button>
+                      </div>
+                      
+                    </div>
                   </div>
                   
                 </div>
             </div>
             <!-- Ads -->
             <%- include('../4.ads-auto.customer.ejs'); %>
-            <div class="row">
-              
-              <div class="col-md-9 text-left" style="font-style: italic;">
-                <span>
-                  <i class="fas fa-route"></i>
-                  <%- cactuyenkhoihanh.length + cactuyendiqua.length + cactuyenketthuc.length %> tuyến khai thác.
-                </span>
-                <span>
-                  <i class="far fa-eye"></i>
-                  <%- data.totalviews %> xem.
-                </span>
-                
-                <span>
-                  <i class="far fa-comments mr-1"></i>
-                  ### bình luận.
-                </span>    
-              </div>
-              <div class="col-md-3 text-center">
-                <button class="btn btn-outline-danger btn-block btn-sm">
-                  <i class="fas fa-heart"></i>  
-                  ## yêu thích
-                </button>
-              </div>
-              
-            </div>
+            
           </br>
             <div class="row">
               <div class="col-md-12">
@@ -148,7 +148,7 @@
                             <tr>
                               <td>
                                 <% if (cactuyenkhoihanh[index].loai=="1"){ %> 
-                                <span>Xe bus</span>
+                                <span>Xe buýt</span>
                                 <% } else if (cactuyenkhoihanh[index].loai=="2"){ %>
                                 <span>Xe khách</span>
                                 <% } else if (cactuyenkhoihanh[index].loai=="3"){ %>
@@ -194,7 +194,7 @@
                             <tr>
                               <td>
                                 <% if (cactuyendiqua[index].loai=="1"){ %> 
-                                <span>Xe bus</span>
+                                <span>Xe buýt</span>
                                 <% } else if (cactuyendiqua[index].loai=="2"){ %>
                                 <span>Xe khách</span>
                                 <% } else if (cactuyendiqua[index].loai=="3"){ %>
@@ -237,7 +237,7 @@
                             <tr>
                               <td>
                                 <% if (cactuyenketthuc[index].loai=="1"){ %> 
-                                <span>Xe bus</span>
+                                <span>Xe buýt</span>
                                 <% } else if (cactuyenketthuc[index].loai=="2"){ %>
                                 <span>Xe khách</span>
                                 <% } else if (cactuyenketthuc[index].loai=="3"){ %>
@@ -270,7 +270,6 @@
                   
                 </div>
                 <!-- Các đơn vị vận tải -->
-                <h2 class="fw-light text-center text-lg-start mt-2 mb-4" style="font-weight: lighter;">Quảng cáo</h2>
 
                     
               </div>
@@ -279,8 +278,7 @@
         </div>
   </div>
   <!-- ./wrapper -->
-<!-- Ads -->
-<%- include('../3.ads.customer.ejs'); %>
+
   <!-- jQuery -->
   <script src="../../admin/plugins/jquery/jquery.min.js"></script>
   <script>

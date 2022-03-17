@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="canonical" href="http://new.lotrinh.vn/lo-trinh/<%- data._id %>" />
     <% if (data.loai=="1"){ %> 
-        <title>Lộ trình tuyến xe bus <%- data.ten %></title>
-        <meta name='keywords' content='Xe bus <%- data.matuyen %> xe bus <%- data.ten %>, xe bus <%- data.nccID.tenncc %>'>
-        <meta name='description' content='Xe bus <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
+        <title>Lộ trình tuyến xe buýt <%- data.ten %></title>
+        <meta name='keywords' content='Xe buýt <%- data.matuyen %> xe buýt <%- data.ten %>, xe buýt <%- data.nccID.tenncc %>'>
+        <meta name='description' content='Xe buýt <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
         
         <% } else if (data.loai=="2"){ %> 
             <title>Lộ trình tuyến xe khach <%- data.ten %></title>
@@ -92,7 +92,10 @@
   <div class="container">
     <%- include('../1.topmenu.customer.ejs'); %>
     <%- include('../2.seach.customer.ejs'); %>
+  </div>
+  <div class="container-fluid">
     <div class="row">
+        <%- include('../4A.ads-l.customer.ejs'); %>
         <div class="col">
             
         <div class="row">
@@ -103,7 +106,7 @@
                             <div class="col-sm-2 align-self-center">
                                 <h1 class="text-center"><%- data.matuyen %></h1>
                                 <% if (data.loai=="1"){ %> 
-                                    <h6 class="text-center">Xe bus</h6>
+                                    <h6 class="text-center">Xe buýt</h6>
                                     <% } else if (data.loai=="2"){ %>
                                       <h6 class="text-center">Xe khách</h6>
                                     <% } else if (data.loai=="3"){ %>
@@ -149,8 +152,9 @@
 
                             </div>
                             <div class="col">
-                                <h4 style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data.partnerID.hoten %></h4>
-
+                                <a href="/user/<%- data.partnerID._id %>">
+                                    <h4 style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data.partnerID.hoten %></h4>    
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -382,7 +386,7 @@
         <% } %>   
                 
         </div>
-
+        <%- include('../4A.ads-r.customer.ejs'); %>
 
     </div>
 
@@ -390,8 +394,7 @@
     <%- include('../3.footer.customer.ejs'); %>
         
   </div>
-<!-- Ads -->
-<%- include('../3.ads.customer.ejs'); %>
+
   <!-- ./wrapper -->
 
   <!-- jQuery -->

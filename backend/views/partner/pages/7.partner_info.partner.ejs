@@ -74,6 +74,12 @@
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                </div>
+                                <input class="form-control" type="text" placeholder="abc@..." id="input_email">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
                                 </div>
                                 <input class="form-control" type="text" placeholder="Số 77, Lê Văn Thịnh, ..." id="input_diachi">
@@ -97,7 +103,7 @@
                         <a href="/partner" class="btn btn-app bg-warning">
                             <i class="nav-icon fas fa-chart-line"></i> Trang tổng quan  
                         </a>
-                        <a href="#" class="btn btn-app bg-primary">
+                        <a href="/partner/user-info" class="btn btn-app bg-primary">
                             <i class="fas fa-user-circle"></i> Thông tin cá nhân
                         </a>
                     </div>
@@ -114,7 +120,7 @@
                                       <th>Nhà cung cấp</th>
                                       <th>Tuyến đường quản lý</th>
                                       <th>Liên hệ</th>
-                                      <th>Trang riêng</th>
+                                      <th class="text-left">Trang riêng</th>
                                       
                                   </tr>
                                   </thead>
@@ -123,22 +129,26 @@
                                         <tr>
                                             <td><%- index + 1 %></td>
                                             <td>
-                                                <a href="/partner/partner-info/<%- data[index]._id %>">
-                                                    <%- data[index].tenncc %>
-                                                </a>
+                                                <strong>
+                                                    <a href="/partner/partner-info/<%- data[index]._id %>">
+                                                        <%- data[index].tenncc %>
+                                                    </a>
+
+                                                </strong>
+
                                                 
                                             </td>
                                             <td><%- data[index].cactuyenql.length %></td>
                                             <td>
                                                 <% for( let t = 0; t < data[index].caclienhe.length; t++ ) { %>
                                                     <li>
-                                                        <%- data[index].caclienhe[t].bophan %>, <%- data[index].caclienhe[t].dienthoai %>, <%- data[index].caclienhe[t].diachi %>
+                                                        <%- data[index].caclienhe[t].bophan %>, <%- data[index].caclienhe[t].dienthoai %>, <%- data[index].caclienhe[t].email %>, <%- data[index].caclienhe[t].diachi %>
                                                     </li>
                                                 <% } %>
                                             </td>
-                                            <td>
+                                            <td class="text-left">
                                                 <a href="/p/<%- data[index]._id %>">
-                                                    <button class="btn btn-block btn-outline-primary btn-sm">Xem</button>
+                                                    <i class="fas fa-globe-americas"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -197,6 +207,7 @@
                 lienhe.tt = 1
                 lienhe.bophan = $("#input_bophan").val()
                 lienhe.dienthoai = $("#input_dienthoai").val()
+                lienhe.email = $("#input_email").val()
                 lienhe.diachi = $("#input_diachi").val()
                 console.log(lienhe)
                 $.ajax({

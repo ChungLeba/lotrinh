@@ -11,6 +11,8 @@ var userModel = require('../models/user.model')
 var diadiemchitietModel = require('../models/location.model')
 var userModel = require('../models/user.model')
 var imglocationModel = require('../models/img.location.model');
+var routerModel = require('../models/router.model');
+
 const { json } = require('express');
 
 
@@ -302,14 +304,25 @@ router.put('/location/:locationId',urlencodedParser,checklogin, function(req, re
 //DELETE
 router.delete('/location/:locationId',urlencodedParser,checklogin, function(req, res, next) {
     console.log(req.params)
-    diadiemchitietModel.findByIdAndDelete({_id: req.params.locationId})
+    routerModel.findOne({$or:[{chieudi: {$elemMatch: {locationID:req.params.locationId}}},{chieuve: {$elemMatch: {locationID:req.params.locationId}}}]})
     .then(data=>{
         //console.log(data)
-        res.send(data)
+        if(data==null){
+            diadiemchitietModel.findByIdAndDelete({_id: req.params.locationId})
+            .then(data=>{
+                //console.log(data)
+                res.json({ok:"Đã xóa"})
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+            
+        } else if(data){
+            res.json({mes:"Có tuyến chứa địa điểm này. Không được phép xóa địa điểm !"})
+        }
+
     })
-    .catch(err=>{
-        console.log(err)
-    })
+    
 });
 
 

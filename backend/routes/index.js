@@ -385,6 +385,16 @@ router.get('/p/:id',function(req , res, next){
     res.render('customer/pages/5.ncc.customer.ejs',{data: datancc})
   })
 })
+//6. USER PROFILE
+router.get('/user/:id',function(req , res, next){
+  console.log(req.params)
+  userModel.findById(req.params.id)
+  .then(data=>{
+      //console.log(data)
+      res.render('customer/pages/6.user-profile.customer.ejs',{data:data,})
+  })
+  
+})
 
 /* 98 Thống kê */
 router.get('/thong-ke',function(req , res, next){
@@ -426,7 +436,8 @@ router.get('/tim-kiem',function(req , res, next){
     let total_moto = await routerModel.count({loai:4})
     let total_tauthuyen = await routerModel.count({loai:5})
     let total_khac = await routerModel.count({loai:6})
-    total.push(total_xebus,total_xekhach, total_taxi, total_moto, total_tauthuyen,total_khac)
+    let total_tong = total_xebus + total_xekhach + total_taxi + total_moto + total_tauthuyen + total_khac
+    total.push(total_xebus,total_xekhach, total_taxi, total_moto, total_tauthuyen,total_khac, total_tong)
     console.log(total)
     return total
   }
@@ -438,7 +449,6 @@ router.get('/tim-kiem',function(req , res, next){
     /* kq tim kiem tuyen da publish */
     let kq = await routerModel.find({loai:q, publish:1})
       .limit(10)
-      
       .populate('chieudi.locationID')
       .populate('chieuve.locationID')
       .populate('partnerID')

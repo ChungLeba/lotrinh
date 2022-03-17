@@ -1057,14 +1057,165 @@ router.get('/partner-info/:id',checkloginpartner,function(req , res, next){
     })
     
 })
-//7.2. ROUTER OF PARTNER
-router.get('/manager-router-of-partner',checkloginpartner,function(req , res, next){
-    res.render('partner/pages/7B.router.partner.ejs',{user:req.partnername, userID:req.userID})
+router.post('/partner-info/:id',checkloginpartner,function(req , res, next){
+    console.log(req.body)
+    if(req.body.bophan) {
+        partnerModel.updateOne({
+            _id: req.params.id,
+            userID: req.userID
+        },{
+            $push: {
+                "caclienhe":{
+                    "tt":req.body.tt,
+                    "bophan" : req.body.bophan,
+                    "dienthoai" : req.body.dienthoai,
+                    "email" : req.body.email,
+                    "diachi" : req.body.diachi
+                }
+            }
+
+        })
+        .then(data=>{
+            res.json({mes: "Thêm địa chỉ liên hệ thành công"})
+        })
+        
+    }
+    
+})
+//Sửa tên nhà cung cấp
+router.put('/partner-info/:id',checkloginpartner,function(req , res, next){
+    console.log(req.body)
+    if(req.body.tenncc){
+        partnerModel.findByIdAndUpdate({_id:req.params.id},
+            {
+                tenncc: req.body.tenncc
+            })
+        .then(data=>{
+            //console.log(data)
+            if(data){
+                res.json({mes: "Sửa tên nhà cung cấp thành công"})
+            }
+
+        })
+    }
+    
+})
+//Sửa liên hệ
+router.put('/partner-info/:id/:idlienhe',checkloginpartner,function(req , res, next){
+    console.log("a:",req.body)
+    console.log("a:",req.params)
+    if(req.body.idsua){
+        partnerModel.updateOne({
+            _id:req.params.id, "caclienhe._id":req.params.idlienhe
+        }, {
+            $set: {
+                "caclienhe.$.bophan":req.body.bophan,
+                "caclienhe.$.dienthoai":req.body.dienthoai,
+                "caclienhe.$.email":req.body.email,
+                "caclienhe.$.diachi":req.body.diachi,
+            }
+        }
+        )
+        .then(data=>{
+            console.log(data)
+            if(data.modifiedCount==1){
+                res.json({mes: "Sửa liên hệ thành công !"})
+            }
+        })
+        .catch(err=>{
+            console.log(err)
+
+        })
+    }
+    
+})
+//Xóa liên hệ
+router.delete('/partner-info/:id/:idlienhe',checkloginpartner,function(req , res, next){
+    console.log("del:",req.params)
+    partnerModel.updateOne({
+        _id:req.params.id,
+        userID: req.userID,
+        "caclienhe._id":req.params.idlienhe
+    }, {
+        $pull: {
+            caclienhe:{_id: req.params.idlienhe}
+        }
+    }
+    )
+    .then(data=>{
+        console.log(data)
+        if(data.modifiedCount==1){
+            res.json({mes: "Xóa liên hệ thành công !"})
+        }
+    })
+    .catch(err=>{
+        console.log(err)
+
+    })
+    
 })
 //8. Hỗ trợ NCC
 router.get('/ho-tro-dich-vu',checkloginpartner,function(req , res, next){
     res.render('partner/pages/8.help.partner.ejs',{user:req.partnername, userID:req.userID})
 })
+
+//9. USER INFO
+router.get('/user-info',checkloginpartner,function(req , res, next){
+    userModel.findById(req.userID)
+    .then(data=>{
+        //console.log(data)
+        res.render('partner/pages/9.user_info.partner.ejs',{data:data,user:req.partnername, userID:req.userID})
+    })
+    
+})
+router.post('/user-info',checkloginpartner,urlencodedParser,function(req , res, next){
+    //console.log(req.body)
+    if(req.body.pass0&&req.body.pass2){
+        //so sánh mật khẩu đang dùng
+        //console.log("thay dổi mk")
+        userModel.findById(req.userID)  
+        .then(data=>{
+            let hash_check = crypto.pbkdf2Sync(req.body.pass0, data.salt, 2000, 64,'sha512')
+            hash_check = hash_check.toString('hex')
+            if(hash_check!==data.hash){
+                res.json({mes:"Mật khẩu không chính xác"})
+            }
+            else if(hash_check==data.hash){
+                //Thực hiện thay đổi mật khẩu mới
+                let new_salt = crypto.randomBytes(32).toString('hex');
+                let new_hash_pass = crypto.pbkdf2Sync(req.body.pass2, new_salt, 2000, 64,'sha512')
+                userModel.updateOne({_id:req.userID},{
+                    hoten: req.body.name,
+                    sodienthoai: req.body.fone,
+                    hash: new_hash_pass.toString('hex'),
+                    salt: new_salt
+                })
+                .then(data=>{
+                    if(data.modifiedCount==1){
+                        res.json({ok:"Thay đổi mật khẩu thành công !"});
+                    }
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+            }
+        })
+    } else if(req.body.pass0==null&&req.body.pass1==null) {
+        userModel.updateOne({_id:req.userID},{
+            hoten: req.body.name,
+            sodienthoai: req.body.fone
+        })
+        .then(data=>{
+            console.log(data.modifiedCount)
+            if(data.modifiedCount==1){
+                res.json({ok:"Thông tin đã được cập nhật"})
+            } else {
+                res.json({mes:"Chưa có thay đổi gì !"})
+            }
+        })
+    }
+})
+
 
 module.exports = router;
 

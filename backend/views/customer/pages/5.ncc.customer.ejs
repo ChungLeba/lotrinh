@@ -45,8 +45,13 @@
   <meta name="og:image" content="http://new.lotrinh.vn/p/<%- data.nccinfo[0]._id %>"/>
   <meta name="og:site_name" content="LOTRINH.VN"/>
   <meta name="og:description" content="Trang thông tin chi tiết nhà cung cấp <%- data.nccinfo[0].tenncc %>, số điện thoại liên hệ <%- data.nccinfo[0].tenncc %>, lộ trình tuyến đường vận tải <%- data.nccinfo[0].tenncc %>, lịch trình chi tiết các chuyến của tuyến đường <%- data.nccinfo[0].tenncc %>"/>
-  <meta name="og:locality" content="<%- data.cactuyen[0].chieudi[0].locationID.quan %>"/>
-  <meta name="og:region" content="<%- data.cactuyen[0].chieudi[0].locationID.tinh %>"/>
+  <% if (data.cactuyen[0]){%>
+    
+    <meta name="og:locality" content="<%- data.cactuyen[0].chieudi[0].locationID.quan %>"/>
+    <meta name="og:region" content="<%- data.cactuyen[0].chieudi[0].locationID.tinh %>"/>
+
+  <%}%>
+  
   <meta name="og:country-name" content="VN"/>
 
   <!-- Google Font: Source Sans Pro -->
@@ -66,7 +71,7 @@
     <%- include('../1.topmenu.customer.ejs'); %>
       <%- include('../2.seach.customer.ejs'); %>
 
-        <!-- Địa điểm -->
+        <!-- Nhà cung cấp vận tải -->
         <div class="info-box bg-white ">
           <div class="info-box-content" id="div_ncc">
             <img alt="logo-<%- data.nccinfo[0].tenncc %>" src="../../admin/dist/img/lotrinh-AxA.png" width="80px" style="display: block;margin-left: auto;border-radius:15px; margin-right: auto;">
@@ -87,7 +92,7 @@
                 5
               </span> 
             </p>
-            <h5 class="fw-light text-center text-lg-start mt-2"><a href="#"><i class="fas fa-user-circle"></i><%- data.nccinfo[0].userID.hoten %></a></h5>
+            <h5 class="fw-light text-center text-lg-start mt-2"><a href="/user/<%- data.nccinfo[0].userID._id %>"><i class="fas fa-user-circle"></i><%- data.nccinfo[0].userID.hoten %></a></h5>
 
 
             <div class="row">
@@ -162,7 +167,7 @@
                       
                       <button type="button" class="btn" style="font-size: larger;" data-card-widget="collapse">
                         <% if (data.cactuyen[index].loai=="1"){ %> 
-                          <span class="badge bg-warning">Xe bus</span>
+                          <span class="badge bg-warning">Xe buýt</span>
                           <% } else if (data.cactuyen[index].loai=="2"){ %>
                             <span class="badge bg-warning">Xe khách</span>
                           <% } else if (data.cactuyen[index].loai=="3"){ %>
@@ -304,7 +309,7 @@
                               <td><%- data.cactuyen[index].chieuve[0].time[t].date %></td>
                               <% } %>
                             <td>
-                              <a href="/lo-trinh/lich-trinh/chieu-di/<%- data.cactuyen[index]._id %>/chuyen/<%- data.cactuyen[index].chieuve[0].time[t].tripCode %>">
+                              <a href="/lo-trinh/lich-trinh/chieu-ve/<%- data.cactuyen[index]._id %>/chuyen/<%- data.cactuyen[index].chieuve[0].time[t].tripCode %>">
                                 <i class="fas fa-chevron-right"></i>
                               </a>
                             </td>
@@ -331,8 +336,7 @@
       <% }%>
   </div>
   <!-- ./wrapper -->
-<!-- Ads -->
-<%- include('../3.ads.customer.ejs'); %>
+
   <!-- jQuery -->
   <script src="../../admin/plugins/jquery/jquery.min.js"></script>
 

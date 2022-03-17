@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="canonical" href="http://new.lotrinh.vn/lo-trinh/lich-trinh/chieu-di/<%- data[0]._id %>/chuyen/<%- data[1][0].time.tripCode %>" />
     <% if (data[0].loai=="1"){ %> 
-        <title>Lịch trình chuyến <%- data[1][0].time.tripCode %>, <%- data[0].matuyen %>, xe bus <%- data[0].ten %> - Chiều về</title>
-        <meta name='keywords' content='Xe bus <%- data[0].matuyen %>, xe bus <%- data[0].ten %>, xe bus chuyến <%- data[1][0].time.tripCode %>, xe bus <%- data[0].ncc %>'>
-        <meta name='description' content='Lịch trình chi tiết xe bus <%- data[0].ten %>, mã <%- data[0].matuyen %> chuyến <%- data[1][0].time.tripCode %>'>
+        <title>Lịch trình chuyến <%- data[1][0].time.tripCode %>, <%- data[0].matuyen %>, xe buýt <%- data[0].ten %> - Chiều về</title>
+        <meta name='keywords' content='Xe buýt <%- data[0].matuyen %>, xe buýt <%- data[0].ten %>, xe buýt chuyến <%- data[1][0].time.tripCode %>, xe buýt <%- data[0].ncc %>'>
+        <meta name='description' content='Lịch trình chi tiết xe buýt <%- data[0].ten %>, mã <%- data[0].matuyen %> chuyến <%- data[1][0].time.tripCode %>'>
         
         <% } else if (data[0].loai=="2"){ %> 
             <title>Lịch trình chi tiết chuyến <%- data[1][0].time.tripCode %>, <%- data[0].matuyen %>, xe khach <%- data[0].ten %> - Chiều về</title>
@@ -72,7 +72,7 @@
     <meta name="og:url" content="http://new.lotrinh.vn/lo-trinh/lich-trinh/chieu-di/<%- data[0]._id %>/chuyen/<%- data[1][0].time.tripCode %>"/>
     <meta name="og:image" content="http://new.lotrinh.vn/images/share/lotrinh-AxA.png"/>
     <meta name="og:site_name" content="LOTRINH.VN"/>
-    <meta name="og:description" content="Lịch trình chi tiết xe bus <%- data[0].ten %>, mã <%- data[0].matuyen %>, chuyến <%- data[1][0].time.tripCode %>, của <%- data[0].ncc %> - Chiều về"/>
+    <meta name="og:description" content="Lịch trình chi tiết xe buýt <%- data[0].ten %>, mã <%- data[0].matuyen %>, chuyến <%- data[1][0].time.tripCode %>, của <%- data[0].ncc %> - Chiều về"/>
     <meta name="og:locality" content="<%- data[1][0].locationID.quan %>"/>
     <meta name="og:region" content="<%- data[1][0].locationID.tinh %>"/>
     <meta name="og:country-name" content="VN"/>
@@ -101,7 +101,7 @@
                                 
                                 <h1 class="text-center"><%- data[0].matuyen %></h1>
                                 <% if (data[0].loai=="1"){ %> 
-                                    <h5 class="text-center">Xe bus</h5>
+                                    <h5 class="text-center">Xe buýt</h5>
                                     <% } else if (data[0].loai=="2"){ %>
                                     <h5 class="text-center">Xe khách</h5>
                                     <% } else if (data[0].loai=="3"){ %>
@@ -134,7 +134,9 @@
 
                         </div>
                         <div class="col">
-                            <h6 style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data[0].partnerID.hoten %></h6>
+                            <a href="/user/<%- data[0].partnerID._id %>">
+                                <h6 style="text-align: right;"><i class="fas fa-user-circle"></i> <%- data[0].partnerID.hoten %></h6>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -209,8 +211,7 @@
         
   </div>
   <!-- ./wrapper -->
-<!-- Ads -->
-<%- include('../3.ads.customer.ejs'); %>
+
   <!-- jQuery -->
   <script src="../../../../../admin/plugins/jquery/jquery.min.js"></script>
   <script>

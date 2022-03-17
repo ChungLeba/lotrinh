@@ -649,8 +649,13 @@
                           dataType: 'json'
                         })
                         .then(data=>{
-                          alert(data.ten + " Đã được xóa")
-                          window.location.href = "/admin/location"
+                          if(data.mes){
+                            alert(data.mes)
+                          } else if(data.ok){
+                            alert(data.ok)
+                            window.location.href = "/admin/location"
+                          }
+                          
                         })
                         .catch(err=>{
                           console.log(err)

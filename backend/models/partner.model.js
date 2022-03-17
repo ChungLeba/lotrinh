@@ -16,7 +16,13 @@ var partnerSchema = new mongoose.Schema({
     urlrieng: String,
     caclienhe:
         [
-            {tt:Number, bophan:String, dienthoai:String, diachi:String}
+            {
+                tt:Number,
+                bophan:String,
+                dienthoai:String,
+                email:String,
+                diachi:String
+                }
         ]
     },{collection : 'partner.info'})
     

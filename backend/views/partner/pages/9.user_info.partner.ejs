@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PARTNER | ROUTER</title>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="../../admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../admin/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page" style="background: url('/images/chonloc/pu-luong.jpg') no-repeat center center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+background-size: cover;
+-o-background-size: cover;" >
+<!-- Content Wrapper. Contains page content -->
+<div class="login-box">
+  <!-- /.login-logo -->
+  
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+        <img src="../../images/share/lotrinh-AxA.png" alt="satime software jsc" height="100px" style="align-items: center;">
+        <div class="form-group mt-2">
+          <h5 class="login-box-msg">Xin chào ! <%- data.hoten %></h5>
+          <p class="text-center">Bạn đã nhận được tổng <strong><%- data.totalviews %></strong> lượt xem</p>
+          <div class="custom-file">
+          <input type="file" class="custom-file-input" id="customFile">
+          <label class="custom-file-label" for="customFile">Thay đổi hình đại diện</label>
+          </div>
+          </div>
+        </div>
+    <div class="card-body">
+        <p class="login-box-msg">Cập nhật thông tin</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="<%- data.email %>" id="email" readonly>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Họ và tên" id="name" value="<%- data.hoten %>">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user-tag"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Số điện thoại cá nhân" id="fone" value="<%- data.sodienthoai %>">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-phone-alt"></span>
+            </div>
+          </div>
+        </div>
+        <div id="accordion">
+          <div class="card card-outline card-danger">
+          <div class="card-header">
+          <h4 class="card-title w-100">
+          <a class="d-block w-100" data-toggle="collapse" href="#collapseOne" aria-expanded="true">
+          Thay đổi mật khẩu
+          </a>
+          </h4>
+          </div>
+          <div id="collapseOne" class="collapse" data-parent="#accordion" style="">
+          <div class="card-body">
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="Nhập mật khẩu đang dùng" id="pass0">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="Nhập mật khẩu mới lần 1" id="pass1">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="Nhập mật khẩu mới lần 2" id="pass2">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          </div>
+
+          </div>
+        </br>
+        <div class="row">
+            <div class="col-7">
+              <button type="submit" class="btn btn-primary btn-block" id="change">Lưu thay đổi</button>
+            </div>
+            <!-- /.col -->
+            <div class="col-5 text-right">
+              <a href="/partner">
+                <button class="btn btn-secondary" id="back"><i class="nav-icon fas fa-chart-line"></i> Quay lại</button>
+              </a>
+              
+            </div>
+            <!-- /.col -->
+          </div>
+      <!-- /.social-auth-links -->
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../admin/plugins/jquery/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#change").click(function(){
+        if($("#pass0").val()==""){
+        console.log("Không thay đổi mk")
+        $.ajax({
+                url:'/partner/user-info',
+                type:'POST',
+                dataType:'json',
+                data:{
+                    name: $('#name').val(),
+                    fone: $('#fone').val()
+                },
+                success:function(res){
+                  if(res.mes) {
+                    alert(res.mes)
+                  } else if(res.ok) {
+                    alert(res.ok)
+                    //window.location.href="/partner/"
+                  }
+                }
+              })
+      } else if($("#pass0").val()){
+        console.log("Thay đổi mk và thay đổi thông tin")
+        if($("#pass1").val()==""||$("#pass2").val()==""){
+          alert("Chưa nhập mật khẩu mới")
+        } else if($("#pass1").val()!==$("#pass2").val()){
+          alert("Mật khẩu mới không trùng nhau. Vui lòng kiểm tra lại")
+        } else if ($("#pass1").val()==$("#pass2").val()) {
+          $.ajax({
+                url:'/partner/user-info',
+                type:'POST',
+                dataType:'json',
+                data:{
+                    name: $('#name').val(),
+                    fone: $('#fone').val(),
+                    pass0: $('#pass0').val(),
+                    pass2: $('#pass2').val()
+                },
+                success:function(res){
+                  if(res.mes) {
+                    alert(res.mes)
+                  } else if(res.ok) {
+                    alert(res.ok)
+                    //window.location.href="/partner/"
+                  }
+                }
+              })
+        }
+      }
+    })
+    
+  })
+</script>
+<!-- Bootstrap 4 -->
+<script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../admin/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../admin/dist/js/demo.js"></script>
+</body>
+</html>

@@ -25,12 +25,12 @@
       <div class="container-fluid">
       <div class="row mb-2">
           <div class="col-sm-6">
-          <h1>Quản lý nhà cung cấp</h1>
+          <h1>Cập nhật thông tin nhà cung cấp</h1>
           </div>
           <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Tất cả nhà cung cấp</li>
+              <li class="breadcrumb-item active">Thông tin nhà cung cấp</li>
           </ol>
           </div>
       </div>
@@ -48,11 +48,12 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <input class="form-control form-control-lg" type="text" placeholder="Lộ trình Việt" id="input_ten" value="<%- data.ncc.tenncc %> ">
+                            <input class="form-control form-control-lg" type="text" placeholder="Lộ trình Việt" id="input_ten" value="<%- data.ncc.tenncc %>">
+                            <button type="button" class="btn btn-block bg-gradient-warning mt-3" id="bt_save">Lưu</button>
                         </div>
                     </br>
                         <div class="row" id="div_lienhe">
-                            <label for="lien-he">Liên hệ</label>
+                            <label for="lien-he">Thêm liên hệ khác</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-headset"></i></span>
@@ -67,11 +68,37 @@
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                </div>
+                                <input class="form-control" type="text" placeholder="abc@..." id="input_email">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
                                 </div>
                                 <input class="form-control" type="text" placeholder="Số 77, Lê Văn Thịnh, ..." id="input_diachi">
                             </div>
-                            <button type="button" class="btn btn-block bg-gradient-primary" id="bt_save">Thêm liên hệ</button>
+                            <button type="button" class="btn btn-block bg-gradient-primary" id="bt_save_lienhe">Thêm liên hệ</button>
+                        </div>
+                        <div class="card card-outline card-danger" id="div_cactuyenquanly">
+                            <div class="card-header">
+                                
+                                <h4 class="card-title">Các tuyến vận tải quản lý</h4>
+                                
+
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <% for( let index = 0; index < data.cactuyenql.length; index++ ) { %>
+                                        <li>
+                                            <%- data.cactuyenql[index].ten %> 
+                                        </li>
+                                    </br>
+                                    <% } %>
+                                    
+                                </ol>
+                            </div>
+
                         </div>
                     </div>
                     <div class="card-footer">
@@ -86,35 +113,14 @@
                             </div>
                             <div class="card-body" style="height: auto;">
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="card card-outline card-danger">
-                                            <div class="card-header">
-                                                
-                                                <h4 class="card-title">Các tuyến vận tải quản lý</h4>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-block bg-gradient-danger btn-sm" id="bt_themtuyen">+ Thêm</button>
-                                                </div>
-
-                                            </div>
-                                            <div class="card-body">
-                                                <ol>
-                                                    <% for( let index = 0; index < data.cactuyenql.length; index++ ) { %>
-                                                        <li>
-                                                            <%- data.cactuyenql[index].ten %> 
-                                                        </li>
-                                                    </br>
-                                                    <% } %>
-                                                    
-                                                </ol>
-                                            </div>
-
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="col-sm-6">
+                                    
+                                    <div class="col">
                                         <div class="card card-outline card-warning">
                                             <div class="card-header">
                                                 <h4 class="card-title">Các địa chỉ liên hệ</h4>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-block bg-gradient-danger btn-sm" id="bt_lienhe">+ Thêm</button>
+                                                </div>
                                             </div>
                                             <div class="card-body">
                                                 <table class="table table-head-fixed text-wrap">
@@ -126,16 +132,14 @@
                                                     </thead>
                                                     <tbody>
                                                         <% for( let index = 0; index < data.ncc.caclienhe.length; index++ ) { %>
-                                                            <tr>
+                                                            <tr id="<%- data.ncc.caclienhe[index]._id %>">
                                                                 <td><%- index +1 %> </td>
-                                                                <td>
-                                                                    <%- data.ncc.caclienhe[index].bophan %>, <%- data.ncc.caclienhe[index].dienthoai %>, <%- data.ncc.caclienhe[index].diachi %> 
+                                                                <td id="td_lienhe_<%- index +1 %>"><i class="fas fa-headset"></i> <%- data.ncc.caclienhe[index].bophan %>,<i class="fas fa-phone"></i> <%- data.ncc.caclienhe[index].dienthoai %>,<i class="fas fa-at"></i> <%- data.ncc.caclienhe[index].email %>,<i class="fas fa-map-pin"></i> <%- data.ncc.caclienhe[index].diachi %></td>
+                                                                <td id="td_sua_<%- index +1 %>">
+                                                                    <button class="btn btn-block btn-outline-danger btn-sm" id="sua_<%- index +1 %>" data-toggle="modal" data-target="#exampleModal">Sửa</button>
                                                                 </td>
-                                                                <td>
-                                                                    <button class="btn btn-block btn-outline-danger btn-sm">Sửa</button>
-                                                                </td>
-                                                                <td>
-                                                                    <button class="btn btn-block btn-outline-warning btn-sm">Xóa</button>
+                                                                <td id="td_xoa_<%- index +1 %>">
+                                                                    <button class="btn btn-block btn-outline-warning btn-sm" id="xoa_<%- index +1 %>">Xóa</button>
                                                                 </td>
                                                             </tr>
                                                         <% } %>
@@ -150,7 +154,10 @@
                                 </div>
                             </div>
                   </div>
+                  <!-- Modal -->
+                
               </div>
+              <div id="div_thongtin"></div>
               
   
               
@@ -175,7 +182,175 @@
 
 <!-- jQuery -->
 <script src="../../admin/plugins/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
 
+        $("#div_lienhe").hide()
+        let urlid = '<%-data.ncc._id%>'
+        //Sửa tên
+        $('#bt_save').click(function(){
+            $.ajax({
+                url:'/partner/partner-info/'+urlid,
+                type:'PUT',
+                dataType: 'json',
+                data: 
+                {
+                    tenncc: $('#input_ten').val()
+                }
+            })
+            .then(data=>{
+            alert(data.mes)
+            location.reload()
+            })
+            .catch(err=>{
+            console.log(err)
+            })
+        })
+        //thêm liên hệ
+        $('#bt_lienhe').click(function(){
+            $("#div_lienhe").show()
+            $("#div_cactuyenquanly").hide()
+            $('#bt_save_lienhe').click(function(){
+                if($('#input_bophan').val()==''){
+                    alert('Vui lòng thêm bộ phận liên hệ')
+                } else {
+                    $.ajax({
+                        url:'/partner/partner-info/'+urlid,
+                        type:'POST',
+                        dataType: 'json',
+                        data: 
+                        {
+                            tt: parseInt('<%-data.ncc.caclienhe.length%>') + 1,
+                            bophan: $('#input_bophan').val(),
+                            dienthoai: $('#input_dienthoai').val(),
+                            email: $('#input_email').val(),
+                            diachi: $('#input_diachi').val()
+
+                        }
+                    })
+                    .then(data=>{
+                    alert(data.mes)
+                    location.reload()
+                    })
+                    .catch(err=>{
+                    console.log(err)
+                    })
+                }
+            
+        })
+        })
+        //sửa liên hệ
+        for (let index = 0; index <= parseInt('<%-data.ncc.caclienhe.length%>'); index++) {
+            i = index + 1
+            $("#sua_"+i).click(function(){
+                $('#div_thongtin').empty()
+                //console.log($(this).attr("id"))
+                //console.log($("#td_lienhe_"+$(this).attr("id").replace("sua_","")).text())
+                let lienhe = $("#td_lienhe_"+$(this).attr("id").replace("sua_","")).text().split(",")
+                lienhe.push($(this).closest('tr').attr('id'))
+                //console.log(lienhe)
+                $('#div_thongtin').append(
+                    `<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <a id="id_sualienhe" href="`+lienhe[4]+`">
+                                <h5 class="modal-title" id="exampleModalLabel">Sửa liên hệ</h5> 
+                            </a>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row" id="div_sualienhe">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-headset"></i></span>
+                                    </div>
+                                    <input class="form-control" type="text" placeholder="Trụ sở, phòng vé, tổng đài..." id="input_suabophan"  value="`+lienhe[0]+`">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    </div>
+                                    <input class="form-control" type="text" placeholder="09..." id="input_suadienthoai" value="`+lienhe[1]+`">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                    </div>
+                                    <input class="form-control" type="text" placeholder="abc@..." id="input_suaemail" value="`+lienhe[2]+`">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                                    </div>
+                                    <input class="form-control" type="text" placeholder="Số 77, Lê Văn Thịnh, ..." id="input_suadiachi" value="`+lienhe[3]+`">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="bt_save_sualienhe">Lưu dữ liệu</button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>`
+                )
+                //$(this).hide()
+                $("#bt_save_sualienhe").click(function(){
+                    let id_sualienhe = $("#id_sualienhe").attr("href")
+                    console.log(id_sualienhe)
+                    $.ajax({
+                        url:'/partner/partner-info/'+urlid+'/'+id_sualienhe,
+                        type:'PUT',
+                        dataType: 'json',
+                        data: 
+                        {
+                            idsua: id_sualienhe,
+                            bophan: $('#input_suabophan').val(),
+                            dienthoai: $('#input_suadienthoai').val(),
+                            email: $('#input_suaemail').val(),
+                            diachi: $('#input_suadiachi').val()
+                        }
+                    })
+                    .then(data=>{
+                    alert(data.mes)
+                    location.reload()
+                    })
+                    .catch(err=>{
+                    console.log(err)
+                    })
+                })
+                
+                
+            })
+            
+        }
+        //xóa liên hệ
+        for (let index = 0; index <= parseInt('<%-data.ncc.caclienhe.length%>'); index++) {
+            i = index + 1
+            $("#xoa_"+i).click(function(){
+                let id_xoalienhe = $(this).closest('tr').attr('id')
+                let ok = confirm("Bạn chắc chắn muốn xóa địa chỉ này?")
+                if(ok==true){
+                    $.ajax({
+                        url:'/partner/partner-info/'+urlid+'/'+id_xoalienhe,
+                        type:'DELETE',
+                        dataType: 'json'
+                    })
+                    .then(data=>{
+                    alert(data.mes)
+                    location.reload()
+                    })
+                    .catch(err=>{
+                    console.log(err)
+                    })
+                }
+                
+            })
+        }
+    })
+</script>
 <!-- Bootstrap 4 -->
 <script src="../../admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
