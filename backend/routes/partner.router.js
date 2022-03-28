@@ -66,21 +66,6 @@ var checkloginpartner = function(req,res,next){
         
     })
 }
-//Function Slug
-function slugify(string) {
-    const a = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;"
-    const b = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------"
-    const p = new RegExp(a.split('').join('|'), 'g')
-  
-    return string.toString().toLowerCase()
-      .replace(/\s+/g, '-') // Replace spaces with -
-      .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
-      .replace(/&/g, '-and-') // Replace & with 'and'
-      .replace(/[^\w\-]+/g, '') // Remove all non-word characters
-      .replace(/\-\-+/g, '-') // Replace multiple - with single -
-      .replace(/^-+/, '') // Trim - from start of text
-      .replace(/-+$/, '') // Trim - from end of text
-}
 
 //DANG KY
 router.get('/dang-ky',function(req , res, next){
@@ -330,7 +315,32 @@ router.get('/routers/add',checkloginpartner,function(req , res, next){
 })
 
 router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res, next){
-    //console.log(req.body)
+    /* Tạo url_friendly địa điểm */
+    let diadiem_url_friendly = function (ten,duong,phuong,quan,tinh){
+        //nhúng
+        var moment = require('moment');
+        const crypto = require("crypto");
+        function slugify(string) {
+        const a = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;"
+        const b = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------"
+        const p = new RegExp(a.split('').join('|'), 'g')
+    
+        return string.toString().toLowerCase()
+            .replace(/\s+/g, '-') // Replace spaces with -
+            .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+            .replace(/&/g, '-and-') // Replace & with 'and'
+            .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+            .replace(/\-\-+/g, '-') // Replace multiple - with single -
+            .replace(/^-+/, '') // Trim - from start of text
+            .replace(/-+$/, '') // Trim - from end of text
+        }
+        //chạy
+        let ran = crypto.randomInt(11111111,99999999)
+        let date = new Date();
+        let url_friendly = slugify(ten)+"-tai-"+slugify(duong)+"-"+slugify(phuong)+"-"+slugify(quan)+"-"+slugify(tinh)+"-"+moment(date).format('DD-MM-YYYY-hh-mm-ss')+"-"+ran
+        //kết quả
+        return url_friendly
+    }
     //Nap dia diem chieu di
     let cacdiadiemchieudi = JSON.parse(req.body.chieudi)
     let cacdiadiemchieudi_res = []
@@ -354,6 +364,8 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
             } else {
+                
+                /* Tạo địa điểm */
                 let diadiemchieudi = {}
                 let taodiadiem = await diadiemchitietModel.create({
                     ten: cacdiadiemchieudi[index][0],
@@ -364,11 +376,11 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                     by: req.nickname,
                     byuserID: req.userID,
                     timecreate: new Date(),
-                    totalviews:1
+                    totalviews:1,
+                    url_friendly: diadiem_url_friendly(cacdiadiemchieudi[index][0],cacdiadiemchieudi[index][1],cacdiadiemchieudi[index][2],cacdiadiemchieudi[index][3],cacdiadiemchieudi[index][4] )
                 })
                 console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieudi.locationID = taodiadiem._id
-                diadiemchieudi.location_slug = slugify(cacdiadiemchieudi[index][0]+', tại '+cacdiadiemchieudi[index][1]+', '+cacdiadiemchieudi[index][2]+', '+cacdiadiemchieudi[index][3]+', tinh '+cacdiadiemchieudi[index][4])
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
             }
@@ -411,11 +423,11 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                     by: req.nickname,
                     byuserID: req.userID,
                     timecreate: new Date(),
-                    totalviews:1
+                    totalviews:1,
+                    url_friendly:diadiem_url_friendly(cacdiadiemchieuve[index][0],cacdiadiemchieuve[index][1],cacdiadiemchieuve[index][2],cacdiadiemchieuve[index][3],cacdiadiemchieuve[index][4])
                 })
                 console.log("Tạo mới: ", taodiadiem._id)
                 diadiemchieuve.locationID = taodiadiem._id
-                diadiemchieuve.location_slug = slugify(cacdiadiemchieuve[index][0]+', tại '+cacdiadiemchieuve[index][1]+', '+cacdiadiemchieuve[index][2]+', '+cacdiadiemchieuve[index][3]+', tinh '+cacdiadiemchieuve[index][4])
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve) 
             }
@@ -437,6 +449,45 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
     taotuyenduong()
     .then(data=>{
         //console.log(data)
+        //tao url_friendly
+        let url_friendly = function (loai,matuyen,ten){
+            //nhúng
+            var moment = require('moment');
+            const crypto = require("crypto");
+            function slugify(string) {
+              const a = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;"
+              const b = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------"
+              const p = new RegExp(a.split('').join('|'), 'g')
+          
+              return string.toString().toLowerCase()
+                .replace(/\s+/g, '-') // Replace spaces with -
+                .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+                .replace(/&/g, '-and-') // Replace & with 'and'
+                .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+                .replace(/\-\-+/g, '-') // Replace multiple - with single -
+                .replace(/^-+/, '') // Trim - from start of text
+                .replace(/-+$/, '') // Trim - from end of text
+            }
+            //chạy
+            let ran = crypto.randomInt(11111111,99999999)
+            let date = new Date();
+            let url_friendly = slugify(loai)+"-"+slugify(matuyen)+"-"+slugify(ten)+"-"+moment(date).format('DD-MM-YYYY-hh-mm-ss')+"-"+ran
+            //kết quả
+            return url_friendly
+        }
+        if(req.body.loai==1){
+            var loaiphuongtien = "xe buýt"
+        } else if(req.body.loai==2){
+            var loaiphuongtien = "xe khách"
+        } else if(req.body.loai==3){
+            var loaiphuongtien = "xe taxi"
+        } else if(req.body.loai==4){
+            let loaiphuongtien = "xe mô tô"
+        } else if(req.body.loai==5){
+            var loaiphuongtien = "thuyền, tàu biển"
+        } else if(req.body.loai==6){
+            var loaiphuongtien = "phương tiện khác"
+        } 
         routerModel.create({
             ten: req.body.ten, 
             matuyen: req.body.code,
@@ -446,7 +497,8 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
             chieuve: data.chieuve,
             partnerID: req.userID,
             publish: 0,
-            timecreate: new Date()
+            timecreate: new Date(),
+            url_friendly: url_friendly(loaiphuongtien,req.body.code,req.body.ten)
         })
         .then(data=>{
             //console.log("kq them tuyen:", data)
@@ -455,6 +507,7 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
         .catch(err=>{
             console.log(err)
         })
+        
     })
     .catch(err=>{
         console.log(err)
@@ -508,14 +561,56 @@ router.get('/routers/:id',checkloginpartner,function(req , res, next){
 })
 //PUT
 router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res, next){
+    //slug_url
+    let url_friendly = function (loai,matuyen,ten){
+        //nhúng
+        var moment = require('moment');
+        const crypto = require("crypto");
+        function slugify(string) {
+          const a = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;"
+          const b = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------"
+          const p = new RegExp(a.split('').join('|'), 'g')
+      
+          return string.toString().toLowerCase()
+            .replace(/\s+/g, '-') // Replace spaces with -
+            .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+            .replace(/&/g, '-and-') // Replace & with 'and'
+            .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+            .replace(/\-\-+/g, '-') // Replace multiple - with single -
+            .replace(/^-+/, '') // Trim - from start of text
+            .replace(/-+$/, '') // Trim - from end of text
+        }
+        //chạy
+        let ran = crypto.randomInt(11111111,99999999)
+        let date = new Date();
+        let url_friendly = slugify(loai)+"-"+slugify(matuyen)+"-"+slugify(ten)+"-"+moment(date).format('DD-MM-YYYY-hh-mm-ss')+"-"+ran
+        //kết quả
+        return url_friendly
+    }
+    //
     if(req.body.chieudi==null&&req.body.chieuve==null){
+        //tao url_friendly
+        if(req.body.loai==1){
+            var loaiphuongtien = "xe buýt"
+        } else if(req.body.loai==2){
+            var loaiphuongtien = "xe khách"
+        } else if(req.body.loai==3){
+            var loaiphuongtien = "xe taxi"
+        } else if(req.body.loai==4){
+            let loaiphuongtien = "xe mô tô"
+        } else if(req.body.loai==5){
+            var loaiphuongtien = "thuyền, tàu biển"
+        } else if(req.body.loai==6){
+            var loaiphuongtien = "phương tiện khác"
+        }
         routerModel.findByIdAndUpdate({_id:req.params.id, partnerID:req.userID},{
             ten: req.body.ten, 
             matuyen: req.body.code,
             loai: req.body.loai,
             nccID: req.body.nccID,
             partnerID: req.userID,
-            timeedit: new Date()
+            timeedit: new Date(),
+            url_friendly: url_friendly(loaiphuongtien,req.body.code,req.body.ten)
         })
         .then(data=>{
             //console.log("kq them tuyen:", data)
@@ -622,6 +717,21 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
         taotuyenduong()
         .then(data=>{
             //console.log(data)
+            //tao url_friendly
+            if(req.body.loai==1){
+                var loaiphuongtien = "xe buýt"
+            } else if(req.body.loai==2){
+                var loaiphuongtien = "xe khách"
+            } else if(req.body.loai==3){
+                var loaiphuongtien = "xe taxi"
+            } else if(req.body.loai==4){
+                let loaiphuongtien = "xe mô tô"
+            } else if(req.body.loai==5){
+                var loaiphuongtien = "thuyền, tàu biển"
+            } else if(req.body.loai==6){
+                var loaiphuongtien = "phương tiện khác"
+            }
+
             routerModel.findByIdAndUpdate({_id:req.params.id, partnerID:req.userID},{
                 ten: req.body.ten, 
                 matuyen: req.body.code,
@@ -630,7 +740,8 @@ router.put('/routers/:id',checkloginpartner,urlencodedParser,function(req , res,
                 chieudi: data.chieudi,
                 chieuve: data.chieuve,
                 partnerID: req.userID,
-                timeedit: new Date()
+                timeedit: new Date(),
+                url_friendly: url_friendly(loaiphuongtien,req.body.code,req.body.ten)
             })
             .then(data=>{
                 //console.log("kq them tuyen:", data)
@@ -804,7 +915,12 @@ router.get('/timetables/return/:id',checkloginpartner,function(req , res, next){
     .populate("chieuve.locationID")
     .then(data=>{
         //console.log(data)
-        res.render('partner/pages/2E.return.partner.ejs',{user:req.partnername, data:data});
+        if(data.chieuve.length==0){
+            res.json("Chưa có dữ liệu tuyến đường chiều về")
+        } else {
+            res.render('partner/pages/2E.return.partner.ejs',{user:req.partnername, data:data});
+
+        }
     })
     .catch(err=>{
         console.log(err)

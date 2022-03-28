@@ -108,9 +108,9 @@ router.get('/', function(req, res, next) {
 });
 
 /* 2.Trang chi tiết tuyến đường */
-router.get('/lo-trinh/:id', function(req, res, next) {
+router.get('/lo-trinh/:url', function(req, res, next) {
   
-  routerModel.findById(req.params.id)
+  routerModel.findOne({url_friendly:req.params.url})
   .populate("chieudi.locationID")
   .populate("chieuve.locationID")
   .populate('partnerID')
@@ -119,7 +119,7 @@ router.get('/lo-trinh/:id', function(req, res, next) {
       //console.log(data)
       res.render('customer/pages/router.customer.ejs',{user:req.partnername, data:data});
       //Đếm views
-      demluotview_lotrinh(req.params.id,data.partnerID)
+      demluotview_lotrinh(data._id,data.partnerID)
       .then(data=>{
         //console.log(data)
       })
@@ -131,6 +131,7 @@ router.get('/lo-trinh/:id', function(req, res, next) {
       console.log(err)
   })
 })
+
 /* 3A.Trang chi tiết lịch trình chuyến chiều đi */
 router.get('/lo-trinh/lich-trinh/chieu-di/:id/chuyen/:machuyen',function(req , res, next){
   //console.log(req.params)
@@ -261,95 +262,92 @@ router.get('/lo-trinh/lich-trinh/chieu-ve/:id/chuyen/:machuyen',function(req , r
 })
 
 /* 4. Chi tiết địa điểm */
-router.get('/dia-diem/:id',function(req , res, next){
-  
+router.get('/dia-diem/:url',function(req , res, next){
+/* Tìm các tuyến đi, đi qua và đến */
 
-  /* Tìm các tuyến đi, đi qua và đến */
-
-  async function timcactuyen(){
-    let cactuyenquadiem_chieudi = await routerModel.find({chieudi: {$elemMatch: {locationID:{$regex:req.params.id}}}})
-    .populate("nccID")
-    let cactuyenquadiem_chieuve = await routerModel.find({chieuve: {$elemMatch: {locationID:{$regex:req.params.id}}}})
-    .populate("nccID")
-    //console.log("chieudi: ",cactuyenquadiem_chieudi)
-    //console.log("chieuve: ",cactuyenquadiem_chieuve)
-    let cactuyenkhoihanh = []
-    let cactuyenketthuc = []
-    let cactuyendiqua = []
-    /* Tìm ở chiều đi */
-    for (let index = 0; index < cactuyenquadiem_chieudi.length; index++) {
-      if(cactuyenquadiem_chieudi[index].chieudi[0].locationID==req.params.id){
-        cactuyenkhoihanh.push(cactuyenquadiem_chieudi[index])
-      } else if(cactuyenquadiem_chieudi[index].chieudi[cactuyenquadiem_chieudi[index].chieudi.length - 1].locationID==req.params.id){
-        cactuyenketthuc.push(cactuyenquadiem_chieudi[index])
-      } else if(cactuyenquadiem_chieudi[index].chieudi[0].locationID!==req.params.id&&cactuyenquadiem_chieudi[index].chieudi[cactuyenquadiem_chieudi[index].chieudi.length - 1].locationID!==req.params.id){
-        cactuyendiqua.push(cactuyenquadiem_chieudi[index])
-      }
-    }
-    /* Tìm ở chiều về */
-    for (let index = 0; index < cactuyenquadiem_chieuve.length; index++) {
-      if(cactuyenquadiem_chieuve[index].chieuve[0].locationID==req.params.id){
-        cactuyenkhoihanh.push(cactuyenquadiem_chieuve[index])
-      } else if(cactuyenquadiem_chieuve[index].chieuve[cactuyenquadiem_chieuve[index].chieuve.length - 1].locationID==req.params.id){
-        cactuyenketthuc.push(cactuyenquadiem_chieuve[index])
-      } else if(cactuyenquadiem_chieuve[index].chieuve[0].locationID!==req.params.id&&cactuyenquadiem_chieuve[index].chieuve[cactuyenquadiem_chieuve[index].chieuve.length - 1].locationID!==req.params.id){
-        cactuyendiqua.push(cactuyenquadiem_chieuve[index])
-      } 
-    } 
-    //console.log("cactuyen_khoihanh: ",cactuyenkhoihanh)
-    //console.log("cactuyen_ketthuc: ",cactuyenketthuc)
-    //console.log("cactuyen_diqua: ",cactuyendiqua)
-    return {
-      cactuyenkhoihanh, 
-      cactuyenketthuc,
-      cactuyendiqua
+async function timcactuyen(iddiadiem){
+  let cactuyenquadiem_chieudi = await routerModel.find({chieudi: {$elemMatch: {locationID:{$regex:iddiadiem}}}})
+  .populate("nccID")
+  let cactuyenquadiem_chieuve = await routerModel.find({chieuve: {$elemMatch: {locationID:{$regex:iddiadiem}}}})
+  .populate("nccID")
+  //console.log("chieudi: ",cactuyenquadiem_chieudi)
+  //console.log("chieuve: ",cactuyenquadiem_chieuve)
+  let cactuyenkhoihanh = []
+  let cactuyenketthuc = []
+  let cactuyendiqua = []
+  /* Tìm ở chiều đi */
+  for (let index = 0; index < cactuyenquadiem_chieudi.length; index++) {
+    if(cactuyenquadiem_chieudi[index].chieudi[0].locationID==iddiadiem){
+      cactuyenkhoihanh.push(cactuyenquadiem_chieudi[index])
+    } else if(cactuyenquadiem_chieudi[index].chieudi[cactuyenquadiem_chieudi[index].chieudi.length - 1].locationID==iddiadiem){
+      cactuyenketthuc.push(cactuyenquadiem_chieudi[index])
+    } else if(cactuyenquadiem_chieudi[index].chieudi[0].locationID!==iddiadiem&&cactuyenquadiem_chieudi[index].chieudi[cactuyenquadiem_chieudi[index].chieudi.length - 1].locationID!==iddiadiem){
+      cactuyendiqua.push(cactuyenquadiem_chieudi[index])
     }
   }
-
-  timcactuyen()
+  /* Tìm ở chiều về */
+  for (let index = 0; index < cactuyenquadiem_chieuve.length; index++) {
+    if(cactuyenquadiem_chieuve[index].chieuve[0].locationID==iddiadiem){
+      cactuyenkhoihanh.push(cactuyenquadiem_chieuve[index])
+    } else if(cactuyenquadiem_chieuve[index].chieuve[cactuyenquadiem_chieuve[index].chieuve.length - 1].locationID==iddiadiem){
+      cactuyenketthuc.push(cactuyenquadiem_chieuve[index])
+    } else if(cactuyenquadiem_chieuve[index].chieuve[0].locationID!==iddiadiem&&cactuyenquadiem_chieuve[index].chieuve[cactuyenquadiem_chieuve[index].chieuve.length - 1].locationID!==iddiadiem){
+      cactuyendiqua.push(cactuyenquadiem_chieuve[index])
+    } 
+  } 
+  //console.log("cactuyen_khoihanh: ",cactuyenkhoihanh)
+  //console.log("cactuyen_ketthuc: ",cactuyenketthuc)
+  //console.log("cactuyen_diqua: ",cactuyendiqua)
+  return {
+    cactuyenkhoihanh, 
+    cactuyenketthuc,
+    cactuyendiqua
+  }
+}
+/* Render */
+diadiemchitietModel.findOne({
+  url_friendly:req.params.url
+})
+.populate('byuserID')
+.then(data=>{
+  timcactuyen(data._id)
   .then(cactuyen=>{
     let cactuyenkhoihanh = cactuyen.cactuyenkhoihanh
     let cactuyenketthuc = cactuyen.cactuyenketthuc
     let cactuyendiqua = cactuyen.cactuyendiqua
-    diadiemchitietModel.findById({
-      _id:req.params.id
-    })
-    .populate('byuserID')
-    .then(data=>{
-      res.render('customer/pages/4.1location.customer.ejs',{data: data,cactuyenkhoihanh: cactuyenkhoihanh,cactuyenketthuc: cactuyenketthuc, cactuyendiqua: cactuyendiqua })
-      /* Đếm */
-      async function demluotview(){
-        /* Địa điểm */     
-        let demluotxem_diadiem = await diadiemchitietModel.updateOne({
-            _id: req.params.id
-          },{
-            $inc: {totalviews:1}
-          })
-        /* Tổng hợp vào user */
-        let tonghopluotxem = await userModel.updateOne({
-          _id: data.byuserID
-        },{
-          $inc: {totalviews:1}
-        })
-
-        return {
-          demluotxem_diadiem,
-          tonghopluotxem
-        }
-      }
-      demluotview()
-      .then(data=>{
-        //console.log(data)
-      })
-      .catch(err=>{
-        console.log(err)    
-      })
-    })
-    .catch(err=>{
-      console.log(err)
-    })
+    res.render('customer/pages/4.1location.customer.ejs',{data: data,cactuyenkhoihanh: cactuyenkhoihanh,cactuyenketthuc: cactuyenketthuc, cactuyendiqua: cactuyendiqua })
   })
-  
+  /* Đếm */
+  async function demluotview(){
+    /* Địa điểm */     
+    let demluotxem_diadiem = await diadiemchitietModel.updateOne({
+        _id: data._id
+      },{
+        $inc: {totalviews:1}
+      })
+    /* Tổng hợp vào user */
+    let tonghopluotxem = await userModel.updateOne({
+      _id: data.byuserID
+    },{
+      $inc: {totalviews:1}
+    })
+
+    return {
+      demluotxem_diadiem,
+      tonghopluotxem
+    }
+  }
+  demluotview()
+  .then(data=>{
+    //console.log(data)
+  })
+  .catch(err=>{
+    console.log(err)    
+  })
+})
+.catch(err=>{
+  console.log(err)
+})  
 
   
 })

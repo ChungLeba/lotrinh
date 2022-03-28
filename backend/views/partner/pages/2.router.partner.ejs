@@ -86,11 +86,11 @@
                                             <td><span class="badge bg-light"> <%- data[index].matuyen %></span></td>
                                             <td><a id="a_<%-index+1%>" href="/partner/routers/<%- data[index]._id %>"> <strong><%- data[index].ten %></strong></a></td>
                                             <td>
-                                                <p style="margin-bottom:2px"><a href="#"><%- data[index].chieudi[0].locationID.ten %></a></p>
+                                                <p style="margin-bottom:2px"><a href="/dia-diem/<%- data[index].chieudi[0].locationID.url_friendly %>"><%- data[index].chieudi[0].locationID.ten %></a></p>
                                                 <p style="margin-bottom:2px"><%- data[index].chieudi[0].locationID.duong %>, <%- data[index].chieudi[0].locationID.phuong %>,  <%- data[index].chieudi[0].locationID.quan %>, <%- data[index].chieudi[0].locationID.tinh %></p>
                                             </td>
                                             <td>
-                                                <p style="margin-bottom:2px"><a href="#"><%- data[index].chieudi[data[index].chieudi.length -1].locationID.ten %></a></p>
+                                                <p style="margin-bottom:2px"><a href="/dia-diem/<%- data[index].chieudi[data[index].chieudi.length -1].locationID.url_friendly %>"><%- data[index].chieudi[data[index].chieudi.length -1].locationID.ten %></a></p>
                                                 <p style="margin-bottom:2px"><%- data[index].chieudi[data[index].chieudi.length -1].locationID.duong %>, <%- data[index].chieudi[data[index].chieudi.length -1].locationID.phuong %>, <%- data[index].chieudi[data[index].chieudi.length -1].locationID.quan %>, <%- data[index].chieudi[data[index].chieudi.length -1].locationID.tinh %></p>
                                             </td>
                                             <td>

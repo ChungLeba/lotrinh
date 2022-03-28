@@ -84,21 +84,22 @@
                             </tr>
                           </thead>
                           <tbody id="tbody_chieuve">
-                            <% for( let index = 0; index < data.length; index++ ) { %>
-                            <tr id="tr_chieuve_<%- index +1 %>">
-                                <td><%- index +1 %></td>
-                                <td>
-                                    <p style="font-weight: bold;margin-bottom:2px"><%- data[index].locationID.ten %></p>
-                                    <p style="margin-bottom:2px"><%- data[index].locationID.duong %>, <%- data[index].locationID.phuong %>, <%- data[index].locationID.quan %>, <%- data[index].locationID.tinh %></p>
-                                </td>
-                                <td>
-                                    <input type="time" id="appt<%- index +1 %>" name="appt" value="<%- data[index].time.time %>" required>
-                                </td>
-                                <td>
-                                    <input type="date" id="start<%- index +1 %>" name="trip-start" value="<%- moment(data[index].time.date).format("YYYY-MM-DD") %>">
-                                </td>
-                            </tr>
-                            <% } %>
+
+                                <% for( let index = 0; index < data.length; index++ ) { %>
+                                    <tr id="tr_chieuve_<%- index +1 %>">
+                                        <td><%- index +1 %></td>
+                                        <td>
+                                            <p style="font-weight: bold;margin-bottom:2px"><%- data[index].locationID.ten %></p>
+                                            <p style="margin-bottom:2px"><%- data[index].locationID.duong %>, <%- data[index].locationID.phuong %>, <%- data[index].locationID.quan %>, <%- data[index].locationID.tinh %></p>
+                                        </td>
+                                        <td>
+                                            <input type="time" id="appt<%- index +1 %>" name="appt" value="<%- data[index].time.time %>" required>
+                                        </td>
+                                        <td>
+                                            <input type="date" id="start<%- index +1 %>" name="trip-start" value="<%- moment(data[index].time.date).format("YYYY-MM-DD") %>">
+                                        </td>
+                                    </tr>
+                                <% } %>
                           </tbody>
                         </table>
                     </div>

@@ -45,7 +45,6 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-
             <div class="col">
                 <div class="card card-success card-outline">
                     <div class="card-body">
@@ -64,10 +63,13 @@
                             </div>
                             
                         </div>
-                        <small><span class="badge bg-warning"><%- data.chieuve[0].time.length %></span> Chuyến đã có: </small>
-                        <% for( let index = 0; index < data.chieuve[0].time.length; index++ ) { %>
-                            <span class="badge bg-warning"><%- data.chieuve[0].time[index].tripCode %></span> 
-                        <% } %>
+
+                            <small><span class="badge bg-warning"><%- data.chieuve[0].time.length %></span> Chuyến đã có: </small>
+                            <% for( let index = 0; index < data.chieuve[0].time.length; index++ ) { %>
+                                <span class="badge bg-warning"><%- data.chieuve[0].time[index].tripCode %></span> 
+                            <% } %>
+
+                        
                     </div>
 
                 </div>
@@ -120,9 +122,7 @@
                         <button type="button" class="btn btn-block bg-gradient-success" id="bt_time_save_chieuve">Lưu lịch trình chuyến</button>
                     </div>
                 </div>
-                
             </div>
-            
         </div>
         
     </div>

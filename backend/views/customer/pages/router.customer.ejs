@@ -7,32 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="canonical" href="http://new.lotrinh.vn/lo-trinh/<%- data._id %>" />
     <% if (data.loai=="1"){ %> 
-        <title>Lộ trình tuyến xe buýt <%- data.ten %></title>
+        <title>Lộ trình tuyến xe buýt <%- data.matuyen %> <%- data.ten %></title>
         <meta name='keywords' content='Xe buýt <%- data.matuyen %> xe buýt <%- data.ten %>, xe buýt <%- data.nccID.tenncc %>'>
         <meta name='description' content='Xe buýt <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
         
         <% } else if (data.loai=="2"){ %> 
-            <title>Lộ trình tuyến xe khach <%- data.ten %></title>
+            <title>Lộ trình tuyến xe khách <%- data.matuyen %> <%- data.ten %></title>
             <meta name='keywords' content='Xe khách <%- data.matuyen %> xe khách <%- data.ten %>, xe khách <%- data.nccID.tenncc %>'>
             <meta name='description' content='Xe khách <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
         
             <% } else if (data.loai=="3"){ %> 
-                <title>Lộ trình tuyến xe taxi <%- data.ten %></title> 
+                <title>Lộ trình tuyến xe taxi <%- data.matuyen %> <%- data.ten %></title> 
                 <meta name='keywords' content='Xe taxi <%- data.matuyen %>, xe taxi <%- data.ten %>, xe taxi <%- data.nccID.tenncc %>'>
                 <meta name='description' content='Xe taxi <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
             
                 <% } else if (data.loai=="4"){ %> 
-                    <title>Lộ trình tuyến xe mô tô <%- data.ten %></title> 
+                    <title>Lộ trình tuyến xe mô tô <%- data.matuyen %> <%- data.ten %></title> 
                     <meta name='keywords' content='Moto <%- data.matuyen %>, xe moto <%- data.ten %>, xe moto <%- data.nccID.tenncc %>'>
                     <meta name='description' content='Moto <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
                 
                     <% } else if (data.loai=="5"){ %> 
-                        <title>Lộ trình tuyến thuyền, tàu biển <%- data.ten %></title> 
+                        <title>Lộ trình tuyến thuyền, tàu biển <%- data.matuyen %> <%- data.ten %></title> 
                         <meta name='keywords' content='Thuyền, tàu biển <%- data.matuyen %>, thuyền, tàu biển <%- data.ten %>, thuyền, tàu biển <%- data.nccID.tenncc %>'>
                         <meta name='description' content='Thuyền, tàu biển <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
                     
                         <% } else if (data.loai=="6"){ %>  
-                            <title>Lộ trình tuyến phương tiện khác <%- data.ten %></title>
+                            <title>Lộ trình tuyến phương tiện khác <%- data.matuyen %> <%- data.ten %></title>
                             <meta name='keywords' content='Phương tiện khác <%- data.matuyen %>, phương tiện khác <%- data.ten %>, phương tiện khác <%- data.nccID.tenncc %>'>
                             <meta name='description' content='Phương tiện khác <%- data.ten %>, đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>'>
                         
@@ -195,13 +195,13 @@
                             <tr id="tr_chieudi_<%- index +1 %>">
                                 <td><%- index +1 %></td>
                                 <td>
-                                    <a href="/dia-diem/<%- data.chieudi[index].locationID._id %>">
+                                    <a href="/dia-diem/<%- data.chieudi[index].locationID.url_friendly %>">
                                         <h6 style="font-weight: bold;margin-bottom:2px"><%- data.chieudi[index].locationID.ten %></h6>
                                     </a>
                                     <p style="margin-bottom:2px"><%- data.chieudi[index].locationID.duong %>, <%- data.chieudi[index].locationID.phuong %>, <%- data.chieudi[index].locationID.quan %>, <%- data.chieudi[index].locationID.tinh %></p>
                                 </td>
                                 <td class="align-left">
-                                   <a href="/dia-diem/<%- data.chieudi[index].locationID._id %>"><i class="fas fa-chevron-right"></i></a>
+                                   <a href="/dia-diem/<%- data.chieudi[index].locationID.url_friendly %>"><i class="fas fa-chevron-right"></i></a>
                                 </td>
                             </tr>
                             <% } %>
@@ -304,13 +304,13 @@
                                 <tr id="tr_chieuve_<%- index +1 %>">
                                     <td><%- index +1 %> </td>
                                     <td>
-                                        <a href="/dia-diem/<%- data.chieuve[index].locationID._id %>">
+                                        <a href="/dia-diem/<%- data.chieuve[index].locationID.url_friendly %>">
                                             <h6 style="font-weight: bold;margin-bottom:2px"><%- data.chieuve[index].locationID.ten %></h6>
                                         </a>
                                         <p style="margin-bottom:2px"><%- data.chieuve[index].locationID.duong %>, <%- data.chieuve[index].locationID.phuong %>, <%- data.chieuve[index].locationID.quan %>, <%- data.chieuve[index].locationID.tinh %></p>
                                     </td>
                                     <td class="align-left">
-                                        <a href="/dia-diem/<%- data.chieuve[index].locationID._id %>"><i class="fas fa-chevron-right"></i></a>
+                                        <a href="/dia-diem/<%- data.chieuve[index].locationID.url_friendly %>"><i class="fas fa-chevron-right"></i></a>
                                     </td>
                                 </tr>
                                 <% } %>

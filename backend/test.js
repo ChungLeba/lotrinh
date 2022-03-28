@@ -7,22 +7,9 @@ date.setHours(hours, minutes);
 console.log(hours, minutes) */
 
 
-/* function slugify(string) {
-    const a = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;"
-    const b = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------"
-    const p = new RegExp(a.split('').join('|'), 'g')
-  
-    return string.toString().toLowerCase()
-      .replace(/\s+/g, '-') // Replace spaces with -
-      .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
-      .replace(/&/g, '-and-') // Replace & with 'and'
-      .replace(/[^\w\-]+/g, '') // Remove all non-word characters
-      .replace(/\-\-+/g, '-') // Replace multiple - with single -
-      .replace(/^-+/, '') // Trim - from start of text
-      .replace(/-+$/, '') // Trim - from end of text
-}
 
-console.log(slugify('Điểm dừng tại 617 Nguyễn Tất Thành, Phường Xuân Hà, Quận Thanh Khê, Đà Nẵng')) */
+
+//console.log(slugify('Điểm dừng tại 617 Nguyễn Tất Thành, Phường Xuân Hà, Quận Thanh Khê, Đà Nẵng'))
 /* ---------------- */
 /* var choose = 6
 var sl = [{1:"a"},{2:"b"},{3:"c"},{4:"d"},{5:"e"}, {6:"f"}]
@@ -44,7 +31,7 @@ for (const key in sl) {
 3. find(origin)/chieudi,chieuve > kq (điểm đi, điểm đến, đi qua)
  */
 
-var cactinh = 
+/* var cactinh = 
 [
   { no: 1, name: 'Hà Nội', name_slug: 'ha-noi' },
   { no: 2, name: 'Hà Giang', name_slug: 'ha-giang' },
@@ -109,7 +96,7 @@ var cactinh =
   { no: 61, name: 'Sóc Trăng', name_slug: 'soc-trang' },
   { no: 62, name: 'Bạc Liêu', name_slug: 'bac-lieu' },
   { no: 63, name: 'Cà Mau', name_slug: 'ca-mau' }
-]
+] */
 /* let tinhcantim = 'ca-mau'
 function timtinh(kqtimtinh){
   return kqtimtinh.name_slug === tinhcantim
@@ -132,4 +119,34 @@ for (const key in a) {
   console.log('<option value="'+(a[key].id)+'" selected >'+a[key].tenncc+'</option>')
   
 } */
-console.log(cactinh.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) 
+//console.log(cactinh.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))) 
+
+let url_friendly = function (){
+  //nhúng
+  var moment = require('moment');
+  const crypto = require("crypto");
+  function slugify(string) {
+    const a = "àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ·/_,:;"
+    const b = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd------"
+    const p = new RegExp(a.split('').join('|'), 'g')
+
+    return string.toString().toLowerCase()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+      .replace(/&/g, '-and-') // Replace & with 'and'
+      .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, '') // Trim - from end of text
+  }
+  //chạy
+  let ran = crypto.randomInt(11111111,99999999)
+  let date = new Date();
+  let url_origin = 'Điểm dừng tại 617 Nguyễn Tất Thành, Phường Xuân Hà, Quận Thanh Khê, Đà Nẵng'
+  let url_friendly = slugify(url_origin)+"-"+moment(date).format('DD-MM-YYYY-hh-mm-ss')+"-"+ran
+  //kết quả
+  return url_friendly
+}
+console.log(url_friendly())
+
+

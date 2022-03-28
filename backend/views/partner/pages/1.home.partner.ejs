@@ -155,7 +155,7 @@
                           </span>
                         </td>
                         <td>
-                          <a href="/lo-trinh/<%- data.bestview[0][index]._id %>">
+                          <a href="/lo-trinh/<%- data.bestview[0][index].url_friendly %>">
                             <p style=" font-weight: bold;"><%- data.bestview[0][index].ten %></p>
                           </a>
                         </td>
@@ -190,7 +190,7 @@
                     <tr>
                       <td><%- index+1 %> </td>
                       <td> 
-                        <a href="/dia-diem/<%- data.bestview[1][index]._id %>">
+                        <a href="/dia-diem/<%- data.bestview[1][index].url_friendly %>">
                           <p class="mb-2" style=" font-weight: bold;"><%- data.bestview[1][index].ten %> </p>
                         </a>
                         <p class="mb-0"><%- data.bestview[1][index].duong %>, <%- data.bestview[1][index].phuong %>, <%- data.bestview[1][index].quan %>, <%- data.bestview[1][index].tinh %></p>
