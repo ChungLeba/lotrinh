@@ -5,7 +5,7 @@
   <!-- SEO -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="canonical" href="http://new.lotrinh.vn/lo-trinh/<%- data._id %>" />
+    <link rel="canonical" href="http://new.lotrinh.vn/lo-trinh/<%- data.url_friendly %>" />
     <% if (data.loai=="1"){ %> 
         <title>Lộ trình tuyến xe buýt <%- data.matuyen %> <%- data.ten %></title>
         <meta name='keywords' content='Xe buýt <%- data.matuyen %> xe buýt <%- data.ten %>, xe buýt <%- data.nccID.tenncc %>'>
@@ -47,8 +47,8 @@
     <meta name='designer' content='<%- data.partnerID.hoten %>, admin@lotrinh.vn'>
     <meta name='reply-to' content='admin@lotrinh.vn'>
     <meta name='owner' content='<%- data.partnerID.hoten %>, admin@lotrinh.vn'>
-    <meta name='url' content='http://new.lotrinh.vn/lo-trinh/<%- data._id %>'>
-    <meta name='identifier-URL' content='http://new.lotrinh.vn/lo-trinh/<%- data._id %>'>
+    <meta name='url' content='http://new.lotrinh.vn/lo-trinh/<%- data.url_friendly %>'>
+    <meta name='identifier-URL' content='http://new.lotrinh.vn/lo-trinh/<%- data.url_friendly %>'>
     <meta name='directory' content='submission'>
     <meta name='pagename' content='Tuyến đường vận tải <%- data.ten %> của <%- data.nccID.tenncc %>'>
     <meta name='category' content='lộ trình tuyến đường'>
@@ -69,7 +69,7 @@
     <meta name="og:title" content="Lộ trình tuyến đường <%- data.ten %> của <%- data.nccID.tenncc %>"/>
     <meta property="og:type" content="article">
     <meta name="og:type" content="router"/>
-    <meta name="og:url" content="http://new.lotrinh.vn/lo-trinh/<%- data._id %>"/>
+    <meta name="og:url" content="http://new.lotrinh.vn/lo-trinh/<%- data.url_friendly %>"/>
     <meta name="og:image" content="http://new.lotrinh.vn/images/share/lotrinh-AxA.png"/>
     <meta name="og:site_name" content="LOTRINH.VN"/>
     <meta name="og:description" content="Lộ trình tuyến đường <%- data.ten %>. Đi từ <%- data.chieudi[0].locationID.ten %>, <%- data.chieudi[0].locationID.duong %>, <%- data.chieudi[0].locationID.phuong %>, <%- data.chieudi[0].locationID.quan %>, <%- data.chieudi[0].locationID.tinh %>, đến <%- data.chieudi[data.chieudi.length - 1].locationID.ten %>, <%- data.chieudi[data.chieudi.length - 1].locationID.duong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.phuong %>, <%- data.chieudi[data.chieudi.length - 1].locationID.quan %>, <%- data.chieudi[data.chieudi.length - 1].locationID.tinh %>"/>
