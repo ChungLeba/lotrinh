@@ -591,8 +591,6 @@ router.get('/tim-kiem/dia-diem/',function(req , res, next){
       let kq = await routerModel.find({$or:[{chieudi: {$elemMatch: {locationID:locationID._id}}},{chieuve: {$elemMatch: {locationID:locationID._id}}}]})
       .limit(10)
       .sort({timeedit: 'desc'})
-      .populate('chieudi.locationID')
-      .populate('chieuve.locationID')
       .populate('partnerID')
       .populate('nccID')
       
@@ -629,7 +627,7 @@ router.get('/tim-kiem/dia-diem/',function(req , res, next){
     }
     timkiemtuyentheodiadiem()
     .then(data=>{
-      //console.log(data)
+      //console.log(data.kq[0])
       res.render('customer/pages/3A.location-seach.customer.ejs', { data: data });
       
     })
