@@ -359,8 +359,6 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                 let diadiemchieudi = {}
                 console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieudi.locationID = timdiadiem._id
-                diadiemchieudi.location_slug = slugify(timdiadiem.ten+', tại '+timdiadiem.duong+', '+timdiadiem.phuong+', '+timdiadiem.quan+', tinh '+timdiadiem.tinh)
-                //console.log(diadiemchieudi.location_slug)
                 diadiemchieudi.time = []
                 cacdiadiemchieudi_res.push(diadiemchieudi)
             } else {
@@ -409,7 +407,6 @@ router.post('/routers/add',checkloginpartner,urlencodedParser,function(req , res
                 let diadiemchieuve = {}
                 console.log("Tìm thấy: ", timdiadiem._id)
                 diadiemchieuve.locationID = timdiadiem._id
-                diadiemchieuve.location_slug = slugify(timdiadiem.ten+', tại '+timdiadiem.duong+', '+timdiadiem.phuong+', '+timdiadiem.quan+', tinh '+timdiadiem.tinh)
                 diadiemchieuve.time = []
                 cacdiadiemchieuve_res.push(diadiemchieuve)
             } else {
